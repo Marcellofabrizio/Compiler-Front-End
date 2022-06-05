@@ -84,3 +84,18 @@ typedef struct
     const char *value;
     TokenType types;
 } Token;
+
+Token keywords[] = {
+    {"NULL", Null},
+    {"printf", Identifier},
+    {"scanf", Identifier},
+    {"if", If},
+    {"else if", ElseIf},
+    {"else", Else},
+    {"while", While},
+    {"for", For},
+    {"break", Break},
+    {"continue", Continue},
+    {"return", Return},
+    {"try", Try},
+    {"except", Except}};

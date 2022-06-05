@@ -10,7 +10,10 @@ class Parser
 {
 
 public:
+    int column = 0;
+    char currentChar;
     string line;
+    string buffer;
     ifstream infile;
     Token currentToken;
 
@@ -29,11 +32,24 @@ public:
         }
     }
 
+    void readCharacter()
+    {
+
+        if (line.empty() || column >= line.size())
+        {
+            readLine();
+        }
+
+        currentChar = line[column];
+        column++;
+    }
+
     void readLine()
     {
         if (!getline(infile, line))
         {
-            cout << "Error reading line" << endl;
+            cout << "EOF" << endl;
+            column = -1;
         }
     }
 
