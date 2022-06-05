@@ -18,16 +18,17 @@ class Parser
 
 public:
     int column = 0;
+    int line = 0;
     int state = Start;
     char currentChar;
-    string line;
-    string buffer;
+    string lineBuffer;
+    string buffer = "";
     ifstream infile;
     Token currentToken;
+    Token result;
 
     Parser(string filename)
     {
-
         infile = ifstream(filename);
 
         if (infile.bad())
@@ -43,26 +44,28 @@ public:
     void readCharacter()
     {
 
-        if (line.empty() || column >= line.size())
+        if (lineBuffer.empty() || column >= lineBuffer.size())
         {
             readLine();
         }
 
-        cout << "Lido char" << endl;
-
-        currentChar = line[column];
-
-        cout << currentChar << endl;
-
+        cout << "Buffer antes de ler:" << buffer << endl;
+        cout << "Lê char" << endl;
+        currentChar = lineBuffer[column];
+        buffer += currentChar;
+        cout << "Buffer depois de ler:" << buffer << endl;
         column++;
     }
 
     void readLine()
     {
-        if (!getline(infile, line))
+        if (!getline(infile, lineBuffer))
         {
             column = -1;
-            cout << column << endl;
+        }
+        else
+        {
+            line++;
         }
     }
 
@@ -74,23 +77,21 @@ public:
     void analyze()
     {
         readCharacter();
-        cout << currentChar << endl;
-
         while (!eofReached())
         {
-            buffer += currentChar;
             switch (state)
             {
             case Start:
                 analyzeStartState();
+                break;
 
             case String:
-
                 analyzeStringState();
+                break;
 
             case Digit:
-
                 analyzeDigitState();
+                break;
             }
         }
     }
@@ -101,31 +102,34 @@ public:
         if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n')
         {
             buffer = "";
-            cout << "Vazio" << endl;
             readCharacter();
+            return;
         }
 
         if (isalpha(currentChar) || currentChar == '_')
         {
             readCharacter();
             state = String;
-            cout << currentChar << endl;
-            cout << "Token de string" << endl;
+            cout << "State change to string" << endl;
+            return;
         }
         else if (isdigit(currentChar))
         {
             readCharacter();
             state = Digit;
-            cout << "Token de digito" << endl;
+            cout << "State change to digit" << endl;
+            return;
         }
         else if (currentChar == '=')
         {
             readCharacter();
             if (currentChar == '=')
             {
-                setToken({"Igual", Assign});
-                cout << "Token de igual" << endl;
+                setToken({"Igual", Equals});
+                return;
             }
+            setToken({"Igual", Assign});
+            return;
         }
         else if (currentChar == '+')
         {
@@ -133,42 +137,87 @@ public:
             if (currentChar == '+')
             {
                 setToken({"Incremento", Increment});
-                cout << "incremento" << endl;
+                return;
             }
             else if (currentChar == '=')
             {
                 setToken({"PlusAssign", PlusAssign});
-                cout << "mais igual" << endl;
+                return;
             }
             else
             {
                 setToken({"Soma", Plus});
-                cout << "soma" << endl;
+                return;
             }
         }
         else if (currentChar == '*')
         {
             readCharacter();
-
             if (isalpha(currentChar))
             {
                 state = String;
+                return;
             }
 
             else
             {
                 setToken({"Multiplicação", Product});
+                return;
             }
         }
         else if (currentChar == '[')
         {
             readCharacter();
-            setToken({"Abre colchetes", BracketOpen});
+            setToken({"Operador", BracketOpen});
+            return;
         }
         else if (currentChar == ']')
         {
             readCharacter();
-            setToken({"Fecha colchetes", BracketClose});
+            setToken({"Operador", BracketClose});
+            return;
+        }
+        else if (currentChar == '(')
+        {
+            readCharacter();
+            setToken({"Operador", ParenthesisOpen});
+            return;
+        }
+        else if (currentChar == ')')
+        {
+            readCharacter();
+            setToken({"Operador", ParenthesisClose});
+            return;
+        }
+        else if (currentChar == '{')
+        {
+            readCharacter();
+            setToken({"Operador", ParenthesisOpen});
+            return;
+        }
+        else if (currentChar == '}')
+        {
+            readCharacter();
+            setToken({"Operador", ParenthesisClose});
+            return;
+        }
+        else if (currentChar == ',')
+        {
+            readCharacter();
+            setToken({"Operador", Comma});
+            return;
+        }
+        else if (currentChar == '.')
+        {
+            readCharacter();
+            setToken({"Operador", Dot});
+            return;
+        }
+        else if (currentChar == ':')
+        {
+            readCharacter();
+            setToken({"Operador", Collon});
+            return;
         }
     }
 
@@ -183,7 +232,9 @@ public:
 
         buffer.pop_back();
         currentToken = getKeyword();
+        setToken(currentToken);
         state = Start;
+        cout << "State change to start" << endl;
     }
 
     void analyzeDigitState()
@@ -202,24 +253,36 @@ public:
 
     void setToken(Token token)
     {
-        currentToken = token;
+        result = {
+            buffer,
+            token.types};
         registerToken();
+        buffer = "";
     }
 
     void registerToken()
     {
-        cout << currentToken.value << endl;
+        cout << "Token encontraddo: " << buffer << endl;
+        cout << "Token tipo: " << currentToken.types << endl;
+        cout << "Token na linha " << line << " coluna " << column << endl;
     }
 
     Token getKeyword()
     {
 
+        Token foundKeyword = {
+            "Identifier",
+            Identifier
+        };
+
         for (const Token &keyword : keywords)
         {
             if (keyword.value == buffer)
             {
-                return keyword;
+                foundKeyword = keyword;
             }
         }
+
+        return foundKeyword;
     }
 };

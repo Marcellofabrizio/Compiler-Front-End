@@ -3,7 +3,7 @@
 typedef enum
 {
     LexicalError = -1,
-    EndOfFile,
+    EndOfFile = 0,
     ReservedWord,
     Identifier,
     IntegerConstant,
@@ -63,6 +63,7 @@ typedef enum
     Struct, // struct
     Void,   // void
     Null,   // null
+    Const,  // const
 
     Accessor, // ->
 
@@ -81,7 +82,7 @@ typedef enum
 
 typedef struct
 {
-    const char *value;
+    std::string value;
     TokenType types;
 } Token;
 
@@ -98,4 +99,10 @@ Token keywords[] = {
     {"continue", Continue},
     {"return", Return},
     {"try", Try},
-    {"except", Except}};
+    {"except", Except},
+    {"int", Int},
+    {"float", Float},
+    {"void", Void},
+    {"char", Char},
+    {"const", Const}
+};
