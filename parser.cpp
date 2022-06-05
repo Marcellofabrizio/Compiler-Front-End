@@ -14,14 +14,28 @@ public:
     ifstream infile;
     Token currentToken;
 
-    Parser(ifstream infile)
+    Parser(string filename)
     {
+
+        infile = ifstream(filename);
+
         if (infile.bad())
         {
             throw invalid_argument("Error opening file stream");
         }
+        else
+        {
+            cout << "Só sucesso" << endl;
+        }
     }
 
-    void readLine();
+    void readLine()
+    {
+        if (!getline(infile, line))
+        {
+            cout << "Error reading line" << endl;
+        }
+    }
+
     void analyze();
 };
