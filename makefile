@@ -1,8 +1,8 @@
 main: main.o
-	g++ -o main main.cpp parser.o
+	g++ -o main main.o
 
-parser.o: parser.o
-	g++ -o parser parser.hpp token.o
+main.o: main.cpp
+	g++ -c main.cpp
 
-token.o: token.o
-	g++ -o token token.hpp
+parser.o: parser.cpp
+	g++ -c parser.cpp
