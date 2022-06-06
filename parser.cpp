@@ -57,6 +57,13 @@ public:
         column++;
     }
 
+    void unreadCharacter()
+    {
+        column--;
+        currentChar = lineBuffer[column];
+        lineBuffer.pop_back();
+    }
+
     void readLine()
     {
         cout << "Lê linha" << endl;
@@ -65,12 +72,13 @@ public:
             column = -1;
             return;
         }
-        else if(lineBuffer.length() == 0) {
+        else if (lineBuffer.length() == 0)
+        {
             readLine();
         }
         else
         {
-            cout << lineBuffer.length()  << endl;
+            cout << lineBuffer.length() << endl;
             column = 0;
             line++;
             return;
@@ -136,6 +144,7 @@ public:
                 setToken({"Igual", Equals});
                 return;
             }
+            unreadCharacter();
             setToken({"Igual", Assign});
             return;
         }
@@ -154,6 +163,7 @@ public:
             }
             else
             {
+                unreadCharacter();
                 setToken({"Soma", Plus});
                 return;
             }
@@ -169,61 +179,53 @@ public:
 
             else
             {
+                unreadCharacter();
                 setToken({"Multiplicação", Product});
                 return;
             }
         }
         else if (currentChar == '[')
         {
-            readCharacter();
             setToken({"Operador", BracketOpen});
             return;
         }
         else if (currentChar == ']')
         {
-            readCharacter();
             setToken({"Operador", BracketClose});
             return;
         }
         else if (currentChar == '(')
         {
-            readCharacter();
             setToken({"Operador", ParenthesisOpen});
             return;
         }
         else if (currentChar == ')')
         {
-            readCharacter();
             setToken({"Operador", ParenthesisClose});
             return;
         }
         else if (currentChar == '{')
         {
-            readCharacter();
             setToken({"Operador", ParenthesisOpen});
             return;
         }
         else if (currentChar == '}')
         {
-            readCharacter();
             setToken({"Operador", ParenthesisClose});
             return;
         }
         else if (currentChar == ',')
         {
-            readCharacter();
             setToken({"Operador", Comma});
             return;
         }
         else if (currentChar == '.')
         {
-            readCharacter();
             setToken({"Operador", Dot});
             return;
         }
         else if (currentChar == ':')
         {
-            readCharacter();
             setToken({"Operador", Collon});
             return;
         }
@@ -281,6 +283,7 @@ public:
             token.types};
         registerToken();
         buffer = "";
+        readCharacter();
     }
 
     void registerToken()
