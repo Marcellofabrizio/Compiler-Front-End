@@ -65,6 +65,7 @@ typedef enum
     Null,   // null
     Const,  // const
 
+    Pointer,  // pointer
     Accessor, // ->
 
     Underscore,       // _

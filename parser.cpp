@@ -49,23 +49,31 @@ public:
             readLine();
         }
 
-        cout << "Buffer antes de ler:" << buffer << endl;
-        cout << "Lê char" << endl;
+        // cout << "Buffer antes de ler:" << buffer << endl;
+        // cout << "Lê char" << endl;
         currentChar = lineBuffer[column];
         buffer += currentChar;
-        cout << "Buffer depois de ler:" << buffer << endl;
+        // cout << "Buffer depois de ler:" << buffer << endl;
         column++;
     }
 
     void readLine()
     {
+        cout << "Lê linha" << endl;
         if (!getline(infile, lineBuffer))
         {
             column = -1;
+            return;
+        }
+        else if(lineBuffer.length() == 0) {
+            readLine();
         }
         else
         {
+            cout << lineBuffer.length()  << endl;
+            column = 0;
             line++;
+            return;
         }
     }
 
@@ -231,7 +239,22 @@ public:
         }
 
         buffer.pop_back();
-        currentToken = getKeyword();
+
+        cout << buffer << endl;
+
+        if (buffer[0] == '*')
+        {
+            cout << "Pointer" << endl;
+            currentToken = {
+                "Pointer",
+                Pointer};
+            cout << buffer << endl;
+        }
+        else
+        {
+            currentToken = getKeyword();
+        }
+
         setToken(currentToken);
         state = Start;
         cout << "State change to start" << endl;
@@ -263,7 +286,7 @@ public:
     void registerToken()
     {
         cout << "Token encontraddo: " << buffer << endl;
-        cout << "Token tipo: " << currentToken.types << endl;
+        cout << "Token tipo: " << result.types << endl;
         cout << "Token na linha " << line << " coluna " << column << endl;
     }
 
@@ -272,8 +295,7 @@ public:
 
         Token foundKeyword = {
             "Identifier",
-            Identifier
-        };
+            Identifier};
 
         for (const Token &keyword : keywords)
         {
