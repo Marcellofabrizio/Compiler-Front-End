@@ -6,3 +6,6 @@ main.o: main.cpp
 
 parser.o: parser.cpp
 	g++ -c parser.cpp
+
+clean:
+	rm ./main && rm ./main.o

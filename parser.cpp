@@ -4,13 +4,17 @@
 #include <stdexcept>
 #include "./token.hpp"
 
+#define RED "\033[31m"      /* Red */
+
 using namespace std;
 
 typedef enum
 {
     Start = 0,
     Digit,
-    String
+    String,
+    FloatingPoint,
+    Error,
 } State;
 
 class Parser
@@ -49,11 +53,8 @@ public:
             readLine();
         }
 
-        // cout << "Buffer antes de ler:" << buffer << endl;
-        // cout << "Lê char" << endl;
         currentChar = lineBuffer[column];
         buffer += currentChar;
-        // cout << "Buffer depois de ler:" << buffer << endl;
         column++;
     }
 
@@ -108,6 +109,10 @@ public:
             case Digit:
                 analyzeDigitState();
                 break;
+            
+            case Error:
+                handleError();
+                return;
             }
         }
     }
@@ -117,7 +122,7 @@ public:
 
         if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n')
         {
-            buffer = "";
+            cleanBuffer();
             readCharacter();
             return;
         }
@@ -168,6 +173,26 @@ public:
                 return;
             }
         }
+        else if (currentChar == '-')
+        {
+            readCharacter();
+            if (currentChar == '-')
+            {
+                setToken({"Decremento", Decrement});
+                return;
+            }
+            else if (currentChar == '=')
+            {
+                setToken({"MinusAssign", MinusAssign});
+                return;
+            }
+            else
+            {
+                unreadCharacter();
+                setToken({"Substração", Minus});
+                return;
+            }
+        }
         else if (currentChar == '*')
         {
             readCharacter();
@@ -181,6 +206,36 @@ public:
             {
                 unreadCharacter();
                 setToken({"Multiplicação", Product});
+                return;
+            }
+        }
+        else if (currentChar == '/')
+        {
+            readCharacter();
+            if (currentChar == '=')
+            {
+                setToken({"DivisionAssign", DivisionAssign});
+                return;
+            }
+            else
+            {
+                unreadCharacter();
+                setToken({"Division", Division});
+                return;
+            }
+        }
+        else if (currentChar == '%')
+        {
+            readCharacter();
+            if (currentChar == '=')
+            {
+                setToken({"ModuleAssign", ModuleAssign});
+                return;
+            }
+            else
+            {
+                unreadCharacter();
+                setToken({"Modulo", Module});
                 return;
             }
         }
@@ -229,6 +284,34 @@ public:
             setToken({"Operador", Collon});
             return;
         }
+        else if (currentChar == '&')
+        {
+            readCharacter();
+            if (currentChar == '&')
+            {
+                setToken({"LogicalAnd", LogicalAnd});
+                return;
+            }
+            else
+            {
+                unreadCharacter();
+                setToken({"And", And});
+            }
+        }
+        else if (currentChar == '|')
+        {
+            readCharacter();
+            if (currentChar == '|')
+            {
+                setToken({"LogicalOr", LogicalOr});
+                return;
+            }
+            else
+            {
+                unreadCharacter();
+                setToken({"Or", Or});
+            }
+        }
     }
 
     void analyzeStringState()
@@ -262,18 +345,36 @@ public:
         cout << "State change to start" << endl;
     }
 
+    void handleError() 
+    {
+        cout << "Erro léxico na linha " << line << " coluna " << column << endl;
+        return; 
+    }
+
     void analyzeDigitState()
     {
-        bool isFloat = false;
 
-        while (isdigit(currentChar))
+        if(isdigit(currentChar))
         {
             readCharacter();
-            if (isFloat)
-            {
-                setToken({"Double point float", LexicalError});
-            }
+            return;
         }
+
+        else if(currentChar == '.')
+        {
+            readCharacter();
+            state = FloatingPoint;
+            return;
+        }
+
+        else if(isalpha(peakNextChar()))
+        {
+            state = Error;
+            return;
+        }
+
+        state = Start;
+        return;
     }
 
     void setToken(Token token)
@@ -282,7 +383,7 @@ public:
             buffer,
             token.types};
         registerToken();
-        buffer = "";
+        cleanBuffer();
         readCharacter();
     }
 
@@ -309,5 +410,18 @@ public:
         }
 
         return foundKeyword;
+    }
+
+    char peakNextChar()
+    {
+        readCharacter();
+        char nextChar = currentChar;
+        unreadCharacter();
+        return nextChar;
+    }
+
+    void cleanBuffer()
+    {
+        buffer = "";
     }
 };
