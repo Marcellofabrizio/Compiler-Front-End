@@ -4,10 +4,16 @@
 #include <stdexcept>
 #include "./token.hpp"
 
-#define RED "\033[31m"      /* Red */
+#define RED "\033[31m" /* Red */
 
 using namespace std;
-
+/*
+Todo:
+    - Estado para floats
+    - Estado de string vira estado identificador
+    - Estado de string somente para strings
+    - Estado de comentario (se tiver tempo)
+*/
 typedef enum
 {
     Start = 0,
@@ -62,12 +68,11 @@ public:
     {
         column--;
         currentChar = lineBuffer[column];
-        lineBuffer.pop_back();
+        buffer.pop_back();
     }
 
     void readLine()
     {
-        cout << "Lê linha" << endl;
         if (!getline(infile, lineBuffer))
         {
             column = -1;
@@ -79,7 +84,6 @@ public:
         }
         else
         {
-            cout << lineBuffer.length() << endl;
             column = 0;
             line++;
             return;
@@ -94,7 +98,7 @@ public:
     void analyze()
     {
         readCharacter();
-        while (!eofReached())
+        while (!infile.eof())
         {
             switch (state)
             {
@@ -109,7 +113,7 @@ public:
             case Digit:
                 analyzeDigitState();
                 break;
-            
+
             case Error:
                 handleError();
                 return;
@@ -136,7 +140,6 @@ public:
         }
         else if (isdigit(currentChar))
         {
-            readCharacter();
             state = Digit;
             cout << "State change to digit" << endl;
             return;
@@ -325,15 +328,11 @@ public:
 
         buffer.pop_back();
 
-        cout << buffer << endl;
-
         if (buffer[0] == '*')
         {
-            cout << "Pointer" << endl;
             currentToken = {
                 "Pointer",
                 Pointer};
-            cout << buffer << endl;
         }
         else
         {
@@ -345,36 +344,44 @@ public:
         cout << "State change to start" << endl;
     }
 
-    void handleError() 
+    void handleError()
     {
         cout << "Erro léxico na linha " << line << " coluna " << column << endl;
-        return; 
+        return;
     }
 
     void analyzeDigitState()
     {
 
-        if(isdigit(currentChar))
+        cout << "Char atual: " << currentChar << endl;
+        cout << "Buffer: " << buffer << endl;
+
+        if (isdigit(currentChar) > 0)
         {
             readCharacter();
             return;
         }
 
-        else if(currentChar == '.')
+        else if (currentChar == '.')
         {
             readCharacter();
             state = FloatingPoint;
             return;
         }
 
-        else if(isalpha(peakNextChar()))
+        else if (isalpha(peakNextChar()))
         {
             state = Error;
             return;
         }
 
+        unreadCharacter();
+        currentToken = {
+            "IntegerConstant",
+            IntegerConstant};
+        setToken(currentToken);
         state = Start;
-        return;
+        cout << "State change to start" << endl;
     }
 
     void setToken(Token token)
