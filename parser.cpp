@@ -104,14 +104,17 @@ public:
             {
             case Start:
                 analyzeStartState();
+                readCharacter();
                 break;
 
             case String:
                 analyzeStringState();
+                readCharacter();
                 break;
 
             case Digit:
                 analyzeDigitState();
+                readCharacter();
                 break;
 
             case Error:
@@ -123,7 +126,7 @@ public:
 
     void analyzeStartState()
     {
-
+        char nextChar = peakNextChar();
         if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n')
         {
             cleanBuffer();
@@ -142,6 +145,7 @@ public:
         {
             state = Digit;
             cout << "State change to digit" << endl;
+            cout << currentChar << endl;
             return;
         }
         else if (currentChar == '=')
@@ -198,16 +202,14 @@ public:
         }
         else if (currentChar == '*')
         {
-            readCharacter();
-            if (isalpha(currentChar))
+            if (isalpha(peakNextChar()))
             {
-                state = String;
+                setToken({"Pointer", Pointer});
                 return;
             }
 
             else
             {
-                unreadCharacter();
                 setToken({"Multiplicação", Product});
                 return;
             }
@@ -277,11 +279,11 @@ public:
             setToken({"Operador", Comma});
             return;
         }
-        else if (currentChar == '.')
-        {
-            setToken({"Operador", Dot});
-            return;
-        }
+        // else if (currentChar == '.')
+        // {
+        //     setToken({"Operador", Dot});
+        //     return;
+        // }
         else if (currentChar == ':')
         {
             setToken({"Operador", Collon});
@@ -319,44 +321,25 @@ public:
 
     void analyzeStringState()
     {
-
         if (isalpha(currentChar) || currentChar == '_' || isdigit(currentChar))
         {
-            readCharacter();
             return;
         }
 
-        buffer.pop_back();
-
-        if (buffer[0] == '*')
-        {
-            currentToken = {
-                "Pointer",
-                Pointer};
-        }
-        else
-        {
-            currentToken = getKeyword();
-        }
-
+        unreadCharacter();
+        currentToken = getKeyword();
         setToken(currentToken);
         state = Start;
         cout << "State change to start" << endl;
-    }
-
-    void handleError()
-    {
-        cout << "Erro léxico na linha " << line << " coluna " << column << endl;
+        cout << buffer << endl;
+        cout << currentChar << endl;
         return;
     }
 
     void analyzeDigitState()
     {
 
-        cout << "Char atual: " << currentChar << endl;
-        cout << "Buffer: " << buffer << endl;
-
-        if (isdigit(currentChar) > 0)
+        if (isdigit(currentChar))
         {
             readCharacter();
             return;
@@ -366,6 +349,7 @@ public:
         {
             readCharacter();
             state = FloatingPoint;
+            cout << "State change to floating point" << endl;
             return;
         }
 
@@ -384,14 +368,37 @@ public:
         cout << "State change to start" << endl;
     }
 
-    void setToken(Token token)
+    void analyzeFloatingPointState()
+    {
+
+        if (isdigit(currentChar) > 0)
+        {
+            readCharacter();
+            return;
+        }
+
+        else if (currentChar == '.')
+        {
+            state = Error;
+            return;
+        }
+
+        unreadCharacter();
+        currentToken = {
+            "FloatingPointConstant",
+            FloatingPointConstant};
+        setToken(currentToken);
+        state = Start;
+        cout << "State change to start" << endl;
+    }
+
+    void setToken(Token token, string value = "")
     {
         result = {
             buffer,
             token.types};
         registerToken();
         cleanBuffer();
-        readCharacter();
     }
 
     void registerToken()
@@ -399,6 +406,12 @@ public:
         cout << "Token encontraddo: " << buffer << endl;
         cout << "Token tipo: " << result.types << endl;
         cout << "Token na linha " << line << " coluna " << column << endl;
+    }
+
+    void handleError()
+    {
+        cout << "Erro léxico na linha " << line << " coluna " << column << endl;
+        return;
     }
 
     Token getKeyword()
@@ -429,6 +442,8 @@ public:
 
     void cleanBuffer()
     {
+        cout << "Buffer antes de limpar : " << buffer << endl;
         buffer = "";
+        cout << "Buffer depois de limpar : " << buffer << endl;
     }
 };

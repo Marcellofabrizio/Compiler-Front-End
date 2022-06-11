@@ -1,6 +1,6 @@
 int main(int argc, char const *argv[])
 {
     int a;
-    int b;
+    float b = 0.1;
     return 0;
 }
