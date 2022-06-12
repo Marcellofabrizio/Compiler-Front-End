@@ -60,6 +60,7 @@ public:
         }
 
         currentChar = lineBuffer[column];
+        cout << currentChar << endl;
         buffer += currentChar;
         column++;
     }
@@ -104,17 +105,14 @@ public:
             {
             case Start:
                 analyzeStartState();
-                readCharacter();
                 break;
 
             case String:
                 analyzeStringState();
-                readCharacter();
                 break;
 
             case Digit:
                 analyzeDigitState();
-                readCharacter();
                 break;
 
             case Error:
@@ -145,7 +143,6 @@ public:
         {
             state = Digit;
             cout << "State change to digit" << endl;
-            cout << currentChar << endl;
             return;
         }
         else if (currentChar == '=')
@@ -323,6 +320,7 @@ public:
     {
         if (isalpha(currentChar) || currentChar == '_' || isdigit(currentChar))
         {
+            readCharacter();
             return;
         }
 
@@ -331,8 +329,6 @@ public:
         setToken(currentToken);
         state = Start;
         cout << "State change to start" << endl;
-        cout << buffer << endl;
-        cout << currentChar << endl;
         return;
     }
 
@@ -399,6 +395,7 @@ public:
             token.types};
         registerToken();
         cleanBuffer();
+        readCharacter();
     }
 
     void registerToken()
