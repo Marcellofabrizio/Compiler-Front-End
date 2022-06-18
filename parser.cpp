@@ -60,8 +60,6 @@ public:
             return;
         }
 
-        // cout << "Read line" << endl;
-
         lineBuffer += '\n';
         column = 0;
         line++;
@@ -70,27 +68,18 @@ public:
 
     void readCharacter()
     {
-        // cout << "Is currentChar Break? " << boolalpha << (currentChar == '\n') << endl;
-        // cout << "Is lineBuffer Empty? " << boolalpha << (lineBuffer.empty()) << endl;
-
         if (currentChar == '\n' || lineBuffer.empty())
         {
             readLine();
         }
 
-        // cout << column << endl;
         currentChar = lineBuffer[column++];
-        // cout << "Reading char: " << currentChar << " at column " << column << endl;
     }
 
     void unreadCharacter()
     {
-        // cout << "Before unreadCharacter " << lineBuffer[column] << endl;
-        // cout << "column before unreadCharacter " << column << endl;
         column--;
         currentChar = lineBuffer[column];
-        // cout << "After unreadCharacter " << lineBuffer[column] << endl;
-        // cout << "column after unreadCharacter " << column << endl;
     }
 
     void addToLexeme()
@@ -113,9 +102,6 @@ public:
         readCharacter();
         while (!infile.eof())
         {
-            // cout << state << endl;
-            // cout << "Current Char: " << currentChar << endl;
-            // usleep(80000);
             switch (state)
             {
             case Deffault:
@@ -147,7 +133,6 @@ public:
             addToLexeme();
             readCharacter();
             state = KeywordState;
-            // cout << "State changed to keyword" << endl;
             return;
         }
         else if (isdigit(currentChar))
@@ -399,10 +384,8 @@ public:
     void analyzeStringState()
     {
 
-        // cout << "Analyzing strings" << endl;
         if (isalpha(currentChar) || isdigit(currentChar) || currentChar == '_')
         {
-            // cout << "Adding " << currentChar << " to the lexeme..." << endl;
             addToLexeme();
             readCharacter();
             return;
@@ -411,14 +394,12 @@ public:
         unreadCharacter();
         currentToken = getKeyword();
         setToken(currentToken);
-        // cout << "Setting state to deffault state..." << endl;
         state = Deffault;
         return;
     }
 
     void analyzeDigitState()
     {
-        cout << "Analyzing Digits" << endl;
         if (isdigit(currentChar) || (currentChar == '.'))
         {
             addToLexeme();
