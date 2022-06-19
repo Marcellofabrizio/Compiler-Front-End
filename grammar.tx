@@ -242,4 +242,70 @@ directAbstractDeclarator
     | directAbstractDeclarator ParenthesisOpen ParenthesisClose
     | directAbstractDeclarator ParenthesisOpen parameterTypeList ParenthesisClose
     ;
-    
+
+initializer
+    : assignmentExpression
+    | BraceOpen initializerList BraceClose
+    | BraceOpen initializerList Comma BraceClose
+    ;
+
+initializerList
+    : initializer
+    | initializerList Comma initializer
+    ;
+
+statement
+    : labeledStatement
+    | compoundStatement
+    | expressionStatement
+    | selectionsStatement
+    | iterationStatement
+    | jumpStatement
+    ;
+
+labeledStatement
+    : Identifier Collon statement
+    | Case constantExrpression Collon statement
+    | Default Collon statement
+    ;
+
+compoundStatement
+    : BraceOpen BraceClose
+    | BraceOpen statementList BraceClose
+    | BraceOpen declarationList BraceClose
+    | BraceOpen statementList BraceClose
+
+declarationList
+    : declaration
+    | declarationList declaration
+    ;
+
+statementList
+    : statement
+    | statementList statement
+    ;
+
+expressionStatement
+    : SemiCollon
+    | expression SemiCollon
+    ;
+
+selectionsStatement
+    : If ParenthesisOpen expression ParenthesisClose statement
+    | If ParenthesisOpen expression ParenthesisClose statement Else statement
+    | Switch ParenthesisOpen expression ParenthesisClose statement
+    ;
+
+iterationStatement
+    : While ParenthesisOpen expression ParenthesisClose statement
+    | Do statement While ParenthesisOpen expression ParenthesisClose SemiCollon
+    | For ParenthesisOpen expressionStatement expressionStatement ParenthesisClose statement
+    | For ParenthesisOpen expressionStatement expressionStatement expression ParenthesisClose statement
+    ;
+
+jumpStatement
+    : Continue SemiCollon
+    | Break SemiCollon
+    | Return SemiCollon
+    | Return expression semiCollon
+    ;
