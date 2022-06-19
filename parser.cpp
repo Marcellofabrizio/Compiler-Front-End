@@ -1,3 +1,4 @@
+#include <list>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -37,6 +38,9 @@ public:
     ifstream infile;
     Token currentToken;
     Token result;
+
+    // lista de resultados, vai adicionando p depois passar p sintático
+    list<Token> results;
 
     Parser(string filename)
     {

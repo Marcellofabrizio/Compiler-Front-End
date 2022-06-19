@@ -1,3 +1,15 @@
+externalDeclaration
+    : functionDefinition
+    | declaration
+    ;
+
+functionDefinition
+    : declarationSpecifiers declarator declarationList compoundStatement
+    | declarationSpecifiers declarator compoundStatement
+    | declarator declarationList compoundStatement
+    | declarator compoundStatement
+    ;
+
 primaryExpression 
     : Identifier
     | Constant
