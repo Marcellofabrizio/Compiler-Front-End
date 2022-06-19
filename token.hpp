@@ -72,7 +72,11 @@ typedef enum
     BracketOpen,      // [
     BracketClose,     // ]
     BraceOpen,        // {
-    BraceClose
+    BraceClose,       // }
+    QuestionMark,     // ?
+    Colon,            // :
+    Ellipsis,         // ...
+
 } TokenType;
 
 typedef struct

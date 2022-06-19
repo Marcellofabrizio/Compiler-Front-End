@@ -1,0 +1,245 @@
+primaryExpression 
+    : Identifier
+    | Constant
+    | ParenthesisOpen expression ParenthesisClose
+    ;
+
+postFixExpression
+    : primaryExpression
+    | postFixExpression BracketOpen expression BracketClose
+    | postFixExpression ParenthesisOpen ParenthesisClose
+    | postFixExpression ParenthesisOpen argumentExpressionList ParenthesisClose 
+    | postFixExpression Dot Identifier
+    | postFixExpression Accessor Identifier
+    | postFixExpression IncOp
+    | postFixExpression DecOp
+    ;
+
+argumentExpressionList 
+    : assignmentExpression
+    | argumentExpressionList Comma assignmentExpression
+    ;
+
+unaryExpression
+    : postFixExpression
+    | IncOp unaryExpression
+    | DecOp unaryExpression
+    | unaryOperator castExpression
+    ;
+
+unaryOperator
+    : AndOp
+    | Product
+    | Plus
+    | Minus
+    | Negate
+    | LogicalNot
+    ;
+
+castExpression
+    : unaryExpression
+    ;
+
+multiplicativeExpression
+    : unaryExpression
+    | multiplicativeExpression Product unaryExpression
+    | multiplicativeExpression Division unaryExpression
+    | multiplicativeExpression Module unaryExpression
+    ;
+
+additiveExpression
+    : multiplicativeExpression
+    | additiveExpression Plus multiplicativeExpression
+    | additiveExpression Minus multiplicativeExpression
+    ;
+
+shiftExpression
+    : additiveExpression
+    | shiftExpression LeftOp additiveExpression
+    | shiftExpression RightOp additiveExpression
+    ;
+
+relationalExpression
+    : shiftExpression
+    | relationalExpression Less shiftExpression
+    | relationalExpression Greater shiftExpression
+    | relationalExpression LEOp shiftExpression
+    | relationalExpression GEOP shiftExpression
+    ;
+
+equalityExpression
+    : relationalExpression
+    | equalityExpression EQOp relationalExpression
+    | equalityExpression NEOp relationalExpression
+    ;
+
+andExpression
+    : equalityExpression
+    | andExpression AndOp equalityExpression
+    ;
+
+exclusiveOrExpression
+    : andExpression
+    | exclusiveOrExpression Power andExpression
+    ;
+
+inclusiveOrExpression
+    : exclusiveOrExpression
+    | inclusiveOrExpression OrOp exclusiveOrExpression
+    ;
+
+logialAndExpression
+    : inclusiveOrExpression
+    | logialAndExpression AndOp inclusiveOrExpression
+    ;
+
+logicalOrExpression
+    : logicalAndExpression
+    | logicalOrExpression OrOp logicalAndExpression
+
+conditionExpression
+    : logicalOrExpression
+    | logicalOrExpression QuestionMark expression Colon conditionExpression
+    ;
+
+assignmentExpression
+    : conditionExpression
+    | unaryExpression assignmentOperator assignmentExpression
+    ;
+
+assignmentOperator
+    : Assign
+    | MulAssign
+    | DivAssign
+    | ModAssign
+    | AddAssign
+    | LessAssign
+    | LeftAssign
+    | RightAssign
+    ;
+
+expression
+    : assignmentExpression
+    | expression Comma assignmentExpression
+
+constantExrpression
+    : conditionExpression
+    ;
+
+declaration
+    : declarationSpecifiers SemiCollon
+    | declarationSpecifiers initDeclaratorList SemiCollon
+    ;
+
+declarationSpecifiers
+    : typeSpecifier
+    | typeSpecifier declarationSpecifiers
+    ;
+
+initDeclaratorList
+    : initDeclarator
+    | initDeclaratorList Comma initDeclarator
+    ;
+
+initDeclarator
+    : declarator
+    | declarator Assign initializer
+    ;
+
+typeSpecifier
+    : Void
+    | Char
+    | Short
+    | Int
+    | Long
+    | Float
+    | Double
+    | Signed
+    | Unsigned
+    | structSprecifier
+    ;
+
+structSprecifier
+    : struct Identifier BraceOpen structDeclarationList BraceClose
+    | struct BraceOpen structDeclarationList BraceClose
+    | struct Identifier
+    ;
+
+struct
+    : Struct
+    ;
+
+structDeclarationList
+    : structDeclarator
+    | structDeclarationList Comma structDeclarator
+    ;
+
+structDeclarator
+    : declarator
+    | Collon constantExrpression
+    | declarator Collon constantExrpression
+    ;
+
+declarator
+    : pointer directDeclarator
+    | directDeclarator
+    ;
+
+directDeclarator
+    : Identifier
+    | ParenthesisOpen declarator ParenthesisClose
+    | directDeclarator BracketOpen constantExrpression BracketClose
+    | directDeclarator BracketOpen BracketClose
+    | directDeclarator ParenthesisOpen parameterTypeList ParenthesisClose
+    | directDeclarator ParenthesisOpen ParenthesisClose
+    ;
+
+pointer 
+    : Product
+    | Product pointer
+    ;
+
+parameterTypeList
+    : parameterList
+    | parameterList Comma Ellipsis
+    ;
+
+parameterList
+    : paramaeterDeclaration
+    | parameterList Comma paramaeterDeclaration
+    ;
+
+paramaeterDeclaration
+    : declarationSpecifiers declarator
+    | declarationSpecifiers abstractDeclarator
+    | declarationSpecifiers
+    ;
+
+identifierList
+    : Identifier
+    | identifierList Comma Identifier
+    ;
+
+typeName
+    : specifierList
+    | specifierList abstractDeclarator
+    ;
+
+abstractDeclarator
+    : pointer
+    | directAbstractDeclarator
+    | pointer directAbstractDeclarator
+    ;
+
+directAbstractDeclarator
+    : ParenthesisOpen abstractDeclarator ParenthesisClose
+    | BracketClose BracketClose
+    | BracketOpen constantExrpression BracketOpen
+    | directAbstractDeclarator BracketOpen BracketClose
+    | directAbstractDeclarator BracketOpen conditionExpression BracketClose
+    | ParenthesisOpen ParenthesisClose
+    | ParenthesisOpen parameterTypeList ParenthesisClose
+    | directAbstractDeclarator ParenthesisOpen ParenthesisClose
+    | directAbstractDeclarator ParenthesisOpen parameterTypeList ParenthesisClose
+    ;
+    
