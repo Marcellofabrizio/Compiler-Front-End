@@ -450,6 +450,11 @@ public:
         cout << "Token na linha " << line << " coluna " << column << endl
              << endl;
 
+        results.push_back({
+            lexeme,
+            token.types
+        });
+
         clearLexeme();
         readCharacter();
     }
