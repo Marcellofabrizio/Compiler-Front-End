@@ -38,6 +38,8 @@ typedef enum
     MulAssign,        // *=
     DivAssign,        // /=
     ModAssign,        // %=
+    LeftAssign,       // >>=
+    RightAssign,      // <<=
     For,              // for
     Do,               // do
     While,            // while
@@ -53,8 +55,12 @@ typedef enum
     Case,             // case
     Default,          // default
     Int,              // int
+    Signed,           // signed
+    Unsigned,         // unsigned
     Char,             // char
     Double,           // double
+    Short,            // short
+    Long,             // long
     Float,            // float
     Struct,           // struct
     Void,             // void
@@ -102,6 +108,10 @@ Token keywords[] = {
     {"except", Except},
     {"int", Int},
     {"float", Float},
+    {"short", Short},
+    {"long", Long},
+    {"signed", Signed},
+    {"unsigned", Unsigned},
     {"void", Void},
     {"char", Char},
     {"const", Const},
