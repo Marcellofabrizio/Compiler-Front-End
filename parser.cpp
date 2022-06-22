@@ -1,4 +1,4 @@
-#include <list>
+#include <vector>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -39,8 +39,8 @@ public:
     Token currentToken;
     Token result;
 
-    // lista de resultados, vai adicionando p depois passar p sintático
-    list<Token> results;
+    // vectora de resultados, vai adicionando p depois passar p sintático
+    vector<Token> results;
 
     Parser(string filename)
     {

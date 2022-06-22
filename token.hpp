@@ -1,3 +1,6 @@
+#ifndef TOKEN
+#define TOKEN
+
 #include <string>
 
 typedef enum
@@ -120,3 +123,5 @@ Token keywords[] = {
     {"switch", Switch},
     {"case", Case},
     {"default", Default}};
+
+#endif

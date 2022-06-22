@@ -7,5 +7,8 @@ main.o: main.cpp
 parser.o: parser.cpp
 	g++ -c parser.cpp
 
+syntatic.o: syntatic.cpp
+	g++ -c syntatic.cpp
+
 clean:
 	rm ./main && rm ./main.o
