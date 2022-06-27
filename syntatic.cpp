@@ -221,7 +221,7 @@ public:
         }
         if(tk==Dot){
             getToken();
-            if(Identifier()==1){
+            if(tk==Identifier){
                 getToken();
                 if(postFixExpressionR()==1){
                     return 1;
@@ -236,7 +236,7 @@ public:
         }
         if(tk==Accessor){
             getToken();
-            if(Identifier()==1){
+            if(tk==Identifier){
                 getToken();
                 if(postFixExpressionR()==1){
                     return 1;
@@ -825,7 +825,7 @@ public:
                     return 1;
                 }
                 else{
-                    return 0
+                    return 0;
                 }
             }
             else{
@@ -1260,6 +1260,26 @@ public:
         }
     }
 
+    int specifierList() 
+    {
+        if (typeSpecifier() == 1)
+        {
+            getToken();
+            if(specifierList() == 1) 
+            {
+                return 1;
+            }
+
+            else 
+            {
+                return 1;
+            }
+        } else 
+        {
+            return 0;
+        }
+    }
+
     // structSprecifier
     int structSprecifier()
     {
@@ -1680,7 +1700,7 @@ public:
     int identifierListR(){
         if(tk==Comma){
             getToken();
-            if(Identifier()==1){
+            if(tk==Identifier){
                 getToken();
                 if(identifierListR()==1){
                     return 1;
@@ -1697,6 +1717,8 @@ public:
             return 1;
         }
     }
+
+
 
     // typeName    SPECIFIERLIST NÃƒO DECLARADO NA GRAMATICA
     int typeName()
@@ -2104,7 +2126,7 @@ public:
                 return 1;
             }
             else{
-                return 0
+                return 0;
             }
         }
         else{
@@ -2135,7 +2157,7 @@ public:
                 return 1;
             }
             else{
-                return 0
+                return 0;
             }
         }
         else{

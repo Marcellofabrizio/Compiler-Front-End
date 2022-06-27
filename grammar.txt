@@ -171,6 +171,11 @@ typeSpecifier
     | structSprecifier
     ;
 
+specifierList
+	: typeSpecifier specifierList
+	| typeSpecifier
+	;
+
 structSprecifier
     : struct Identifier BraceOpen structDeclarationList BraceClose
     | struct BraceOpen structDeclarationList BraceClose

@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     parser->analyze();
 
     Syntatic *syntatic = new Syntatic(parser->results);
-    syntatic->externalDeclaration();
+    cout << syntatic->externalDeclaration() << endl;
 
     return 0;
 }
