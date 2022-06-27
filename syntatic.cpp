@@ -154,89 +154,11 @@ public:
     {
         if (primaryExpression() == 1)
         {
-            return 1;
-        }
-        if (postFixExpression() == 1)
-        {
             getToken();
-            if (tk == BracketOpen)
-            {
-                getToken();
-                if (expression() == 1)
-                {
-                    getToken();
-                    if (tk == BracketClose)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == ParenthesisOpen)
-            {
-                getToken();
-                if (tk == ParenthesisClose)
-                {
-                    return 1;
-                }
-                if (argumentExpressionList() == 1)
-                {
-                    getToken();
-                    if (tk == ParenthesisClose)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == Dot)
-            {
-                getToken();
-                if (tk == Identifier)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == Accessor)
-            {
-                getToken();
-                if (tk == Identifier)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == IncOp)
-            {
+            if(postFixExpressionR()==1){
                 return 1;
             }
-            if (tk == DecOp)
-            {
-                return 1;
-            }
-            else
-            {
+            else{
                 return 0;
             }
         }
@@ -245,37 +167,147 @@ public:
             return 0;
         }
     }
+    int postFixExpressionR(){
+        if(tk==BracketOpen){
+            getToken();
+            if(expression()==1){
+                getToken();
+                if(tk==BracketClose){
+                    getToken();
+                    if(postFixExpressionR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==ParenthesisOpen){
+            getToken();
+            if(tk==ParenthesisClose){
+                getToken();
+                if(postFixExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            if(argumentExpressionList()==1){
+                getToken();
+                if(tk==ParenthesisClose){
+                    getToken();
+                    if(postFixExpressionR()==1){
+                        return 1;
+                    }
+                    else{
+                      return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==Dot){
+            getToken();
+            if(Identifier()==1){
+                getToken();
+                if(postFixExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==Accessor){
+            getToken();
+            if(Identifier()==1){
+                getToken();
+                if(postFixExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==IncOp){
+            getToken();
+            if(postFixExpressionR()==1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==DecOp){
+            getToken();
+            if(postFixExpressionR()==1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
 
     // argumentExpressionList
     int argumentExpressionList()
     {
         if (assignmentExpression() == 1)
         {
-            return 1;
-        }
-        if (argumentExpressionList() == 1)
-        {
             getToken();
-            if (tk == Comma)
-            {
-                getToken();
-                if (assignmentExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(argumentExpressionListR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int argumentExpressionListR(){
+        if(tk==Comma){
+            getToken();
+            if(assignmentExpression()==1){
+                getToken();
+                if(argumentExpressionListR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -379,55 +411,67 @@ public:
     {
         if (unaryExpression() == 1)
         {
-            return 1;
-        }
-        if (multiplicativeExpression() == 1)
-        {
             getToken();
-            if (tk == Product)
-            {
-                getToken();
-                if (unaryExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(multiplicativeExpressionR()==1){
+                return 1;
             }
-            if (tk == Division)
-            {
-                getToken();
-                if (unaryExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == Module)
-            {
-                getToken();
-                if (unaryExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int multiplicativeExpressionR(){
+        if(tk==Product){
+            getToken();
+            if(unaryExpression()==1){
+                getToken();
+                if(multiplicativeExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==Division){
+            getToken();
+            if(unaryExpression()==1){
+                getToken();
+                if(multiplicativeExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==Module){
+            getToken();
+            if(unaryExpression()==1){
+                getToken();
+                if(multiplicativeExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -436,43 +480,52 @@ public:
     {
         if (multiplicativeExpression() == 1)
         {
-            return 1;
-        }
-        if (additiveExpression() == 1)
-        {
             getToken();
-            if (tk == Plus)
-            {
-                getToken();
-                if (multiplicativeExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(additiveExpressionR()==1){
+                return 1;
             }
-            if (tk == Minus)
-            {
-                getToken();
-                if (multiplicativeExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int additiveExpressionR(){
+        if(tk==Plus){
+            getToken();
+            if(multiplicativeExpression()==1){
+                getToken();
+                if(additiveExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==Minus){
+            getToken();
+            if(multiplicativeExpression()==1){
+                getToken();
+                if(additiveExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -481,43 +534,52 @@ public:
     {
         if (additiveExpression() == 1)
         {
-            return 1;
-        }
-        if (shiftExpression() == 1)
-        {
             getToken();
-            if (tk == LeftOp)
-            {
-                getToken();
-                if (additiveExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(shiftExpressionR()==1){
+                return 1;
             }
-            if (tk == RightOp)
-            {
-                getToken();
-                if (additiveExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int shiftExpressionR(){
+        if(tk==LeftOp){
+            getToken();
+            if(additiveExpression()==1){
+                getToken();
+                if(shiftExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }  
+            else{
+                return 0;
+            }
+        }
+        if(tk==RightOp){
+            getToken();
+            if(additiveExpression()==1){
+                getToken();
+                if(shiftExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }  
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -526,61 +588,11 @@ public:
     {
         if (shiftExpression() == 1)
         {
-            return 1;
-        }
-        if (relationalExpression() == 1)
-        {
             getToken();
-            if (tk == Less)
-            {
-                getToken();
-                if (shiftExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(relationalExpressionR()==1){
+                return 1;
             }
-            if (tk == Greater)
-            {
-                getToken();
-                if (shiftExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == LEOp)
-            {
-                getToken();
-                if (shiftExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == GEOp)
-            {
-                getToken();
-                if (shiftExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
+            else{
                 return 0;
             }
         }
@@ -589,43 +601,81 @@ public:
             return 0;
         }
     }
-
+    int relationalExpressionR(){
+        if(tk==Less){
+            getToken();
+            if(shiftExpression()==1){
+                getToken();
+                if(relationalExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==Greater){
+            getToken();
+            if(shiftExpression()==1){
+                getToken();
+                if(relationalExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==LEOp){
+            getToken();
+            if(shiftExpression()==1){
+                getToken();
+                if(relationalExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==GEOp){
+            getToken();
+            if(shiftExpression()==1){
+                getToken();
+                if(relationalExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
     // equalityExpression
     int equalityExpression()
     {
         if (relationalExpression() == 1)
         {
-            return 1;
-        }
-        if (equalityExpression() == 1)
-        {
             getToken();
-            if (tk == EQOp)
-            {
-                getToken();
-                if (relationalExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(equalityExpressionR()==1){
+                return 1;
             }
-            if (tk == NEOp)
-            {
-                getToken();
-                if (relationalExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
+            else{
                 return 0;
             }
         }
@@ -633,6 +683,41 @@ public:
         {
             return 0;
         }
+    }
+    int equalityExpressionR(){
+        if(tk==EQOp){
+            getToken();
+            if(relationalExpression()==1){
+                getToken();
+                if(equalityExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }   
+        if(tk==NEOp){
+            getToken();
+            if(relationalExpression()==1){
+                getToken();
+                if(equalityExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
+        } 
     }
 
     // andExpression
@@ -640,31 +725,37 @@ public:
     {
         if (equalityExpression() == 1)
         {
-            return 1;
-        }
-        if (andExpression() == 1)
-        {
             getToken();
-            if (tk == AndOp)
-            {
-                getToken();
-                if (equalityExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(andExpressionR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int andExpressionR(){
+        if(tk==AndOp){
+            getToken();
+            if(equalityExpression()==1){
+                getToken();
+                if(andExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -673,31 +764,37 @@ public:
     {
         if (andExpression() == 1)
         {
-            return 1;
-        }
-        if (exclusiveOrExpression() == 1)
-        {
             getToken();
-            if (tk == Power)
-            {
-                getToken();
-                if (andExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(exclusiveOrExpressionR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int exclusiveOrExpressionR(){
+        if(tk==Power){
+            getToken();
+            if(andExpression()==1){
+                getToken();
+                if(exclusiveOrExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -706,31 +803,37 @@ public:
     {
         if (exclusiveOrExpression() == 1)
         {
-            return 1;
-        }
-        if (inclusiveOrExpression() == 1)
-        {
             getToken();
-            if (tk == OrOp)
-            {
-                getToken();
-                if (exclusiveOrExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(inclusiveOrExpressionR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int inclusiveOrExpressionR(){
+        if(tk==OrOp){
+            getToken();
+            if(exclusiveOrExpression()==1){
+                getToken();
+                if(inclusiveOrExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -739,25 +842,11 @@ public:
     {
         if (inclusiveOrExpression() == 1)
         {
-            return 1;
-        }
-        if (logicalAndExpression() == 1)
-        {
             getToken();
-            if (tk == AndOp)
-            {
-                getToken();
-                if (inclusiveOrExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(inclusiveAndExpressionR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
@@ -766,37 +855,62 @@ public:
             return 0;
         }
     }
-
+    int inclusiveAndExpressionR(){
+        if(tk==AndOp){
+            getToken();
+            if(inclusiveOrExpression()==1){
+                getToken();
+                if(inclusiveAndExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
     // logicalOrExpression
     int logicalOrExpression()
     {
         if (logicalAndExpression() == 1)
         {
-            return 1;
-        }
-        if (logicalOrExpression() == 1)
-        {
             getToken();
-            if (tk == OrOp)
-            {
-                getToken();
-                if (logicalAndExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(logicalOrExpressionR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int logicalOrExpressionR(){
+        if(tk==OrOp){
+            getToken();
+            if(logicalAndExpression()==1){
+                getToken();
+                if(logicalOrExpressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -924,31 +1038,37 @@ public:
     {
         if (assignmentExpression() == 1)
         {
-            return 1;
-        }
-        if (expression() == 1)
-        {
             getToken();
-            if (tk == Comma)
-            {
-                getToken();
-                if (assignmentExpression() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(expressionR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int expressionR(){
+        if(tk==Comma){
+            getToken();
+            if(assignmentExpression()==1){
+                getToken();
+                if(expressionR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -1024,25 +1144,11 @@ public:
     {
         if (initDeclarator() == 1)
         {
-            return 1;
-        }
-        if (initDeclaratorList() == 1)
-        {
             getToken();
-            if (tk == Comma)
-            {
-                getToken();
-                if (initDeclarator() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(initDeclaratorListR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
@@ -1051,7 +1157,26 @@ public:
             return 0;
         }
     }
-
+    int initDeclaratorListR(){
+        if(tk==Comma){
+            getToken();
+            if(initDeclarator()==1){
+                getToken();
+                if(initDeclaratorListR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
     // initDeclarator
     int initDeclarator()
     {
@@ -1085,7 +1210,7 @@ public:
     int typeSpecifier()
     {
         
-        cout << "Func: " << "typeSpecifier" << endl;
+        cout << "FunÃ§Ã£o: " << "typeSpecifier" << endl;
         cout << "Token: " << tk << endl;
         cout << "Index: " << currentTokenIndex << endl;
 
@@ -1218,31 +1343,37 @@ public:
     {
         if (structDeclarator() == 1)
         {
-            return 1;
-        }
-        if (structDeclarationList() == 1)
-        {
             getToken();
-            if (tk == Comma)
-            {
-                getToken();
-                if (structDeclarator() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+            if(structDeclarationListR()==1){
+                return 1;
             }
-            else
-            {
+            else{
                 return 0;
             }
         }
         else
         {
             return 0;
+        }
+    }
+    int structDeclarationListR(){
+        if(tk==Comma){
+            getToken();
+            if(structDeclarator()==1){
+                getToken();
+                if(structDeclarationListR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -1317,7 +1448,13 @@ public:
     {
         if (tk == Identifier)
         {
-            return 1;
+            getToken();
+            if(directDeclaratorR()==1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
         }
         if (tk == ParenthesisOpen)
         {
@@ -1327,63 +1464,13 @@ public:
                 getToken();
                 if (tk == ParenthesisClose)
                 {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        if (directDeclarator() == 1)
-        {
-            getToken();
-            if (tk == BracketOpen)
-            {
-                getToken();
-                if (constantExrpression() == 1)
-                {
                     getToken();
-                    if (tk == BracketClose)
-                    {
+                    if(directDeclaratorR()==1){
                         return 1;
                     }
-                    else
-                    {
+                    else{
                         return 0;
                     }
-                }
-                if (tk == BracketClose)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (tk == ParenthesisOpen)
-            {
-                getToken();
-                if (parameterTypeList() == 1)
-                {
-                    getToken();
-                    if (tk == ParenthesisClose)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                if (tk == ParenthesisClose)
-                {
-                    return 1;
                 }
                 else
                 {
@@ -1398,6 +1485,71 @@ public:
         else
         {
             return 0;
+        }
+    }
+    int directDeclaratorR(){
+        if(tk==ParenthesisOpen){
+            getToken();
+            if(tk==ParenthesisClose){
+                getToken();
+                if(directDeclaratorR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            if(parameterTypeList()==1){
+                getToken();
+                if(tk==ParenthesisClose){
+                    getToken();
+                    if(directDeclaratorR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==BracketOpen){
+            getToken();
+            if(tk==BracketClose){
+                getToken();
+                if(directDeclaratorR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            if(constantExrpression()==1){
+                getToken();
+                if(tk==BracketClose){
+                    getToken();
+                    if(directDeclaratorR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -1455,13 +1607,25 @@ public:
     int parameterList()
     {
         if(paramaeterDeclaration()==1){
-            return 1;
-        }
-        if(parameterList()==1){
             getToken();
-            if(tk==Comma){
+            if(parameterListR()==1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 0;            
+        }
+
+    }
+    int parameterListR(){
+        if(tk==Comma){
+            getToken();
+            if(paramaeterDeclaration()==1){
                 getToken();
-                if(paramaeterDeclaration()==1){
+                if(parameterListR()==1){
                     return 1;
                 }
                 else{
@@ -1473,9 +1637,8 @@ public:
             }
         }
         else{
-            return 0;            
+            return 1;
         }
-
     }
 
     // paramaeterDeclaration
@@ -1501,27 +1664,38 @@ public:
     // identifierList
     int identifierList()
     {
-       if(tk==Identifier){
-        return 1;
-       }
-       if(identifierList()==1){
+        if(tk==Identifier){
             getToken();
-            if(tk==Comma){
+            if(identifierListR()==1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 0;
+        }
+    }
+    int identifierListR(){
+        if(tk==Comma){
+            getToken();
+            if(Identifier()==1){
                 getToken();
-                if(tk==Identifier){
+                if(identifierListR()==1){
                     return 1;
                 }
                 else{
                     return 0;
                 }
-            }
+            }  
             else{
                 return 0;
             }
-       }
-       else{
-        return 0;
-       }
+        }
+        else{
+            return 1;
+        }
     }
 
     // typeName    SPECIFIERLIST NÃƒO DECLARADO NA GRAMATICA
@@ -1567,12 +1741,24 @@ public:
         if(tk==ParenthesisOpen){
             getToken();
             if(tk==ParenthesisClose){
-                return 1;
+                getToken();
+                if(directAbstractDeclaratorR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
             }
             if(parameterTypeList()==1){
                 getToken();
                 if(tk==ParenthesisClose){
-                    return 1;
+                    getToken();
+                    if(directAbstractDeclaratorR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
                 }
                 else{
                     return 0;
@@ -1581,7 +1767,13 @@ public:
             if(abstractDeclarator()==1){
                 getToken();
                 if(tk==ParenthesisClose){
-                    return 1;
+                    getToken();
+                    if(directAbstractDeclaratorR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
                 }
                 else{
                     return 0;
@@ -1594,7 +1786,13 @@ public:
         if(tk==BracketClose){
             getToken();
             if(tk==BracketClose){
-                return 1;
+                getToken();
+                if(directAbstractDeclaratorR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
             }
             else{
                 return 0;
@@ -1605,44 +1803,8 @@ public:
             if(constantExrpression()==1){
                 getToken();
                 if(tk==BracketOpen){
-                    return 1;
-                }
-                else{
-                    return 0;
-                }
-            }
-            else{
-                return 0;
-            }
-        }
-        if(directAbstractDeclarator()==1){
-            getToken();
-            if(tk==BracketOpen){
-                getToken();
-                if(tk==BracketClose){
-                    return 1;
-                }
-                if(conditionExpression()==1){
                     getToken();
-                    if(tk==BracketClose){
-                        return 1;
-                    }
-                    else{
-                        return 0;
-                    }
-                }
-                else{
-                    return 0;
-                }
-            }
-            if(tk==ParenthesisOpen){
-                getToken();
-                if(tk==ParenthesisClose){
-                    return 1;
-                }
-                if(parameterTypeList()==1){
-                    getToken();
-                    if(tk==ParenthesisClose){
+                    if(directAbstractDeclaratorR()==1){
                         return 1;
                     }
                     else{
@@ -1659,6 +1821,71 @@ public:
         }
         else{
             return 0;
+        }
+    }
+    int directAbstractDeclaratorR(){
+        if(tk==BracketOpen){
+            getToken();
+            if(tk==BracketClose){
+                getToken();
+                if(directAbstractDeclaratorR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            if(conditionExpression()==1){
+                getToken();
+                if(tk==BracketClose){
+                    getToken();
+                    if(directAbstractDeclaratorR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        if(tk==ParenthesisOpen){
+            getToken();
+            if(tk==ParenthesisClose){
+                getToken();
+                if(directAbstractDeclaratorR()==1){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+            if(parameterTypeList()==1){
+                getToken();
+                if(tk==ParenthesisClose){
+                    getToken();
+                    if(directAbstractDeclaratorR()==1){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -1701,13 +1928,24 @@ public:
     int initializerList()
     {
         if(initializer()==1){
-            return 1;
-        }
-        if(initializerList()==1){
             getToken();
-            if(tk==Comma){
+            if(initializerListR()==1){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 0;
+        }
+    }
+    int initializerListR(){
+        if(tk==Comma){
+            getToken();
+            if(initializer()==1){
                 getToken();
-                if(initializer()==1){
+                if(initializerListR()==1){
                     return 1;
                 }
                 else{
@@ -1717,9 +1955,9 @@ public:
             else{
                 return 0;
             }
-        }
+        }   
         else{
-            return 0;
+            return 1;
         }
     }
 
@@ -1847,11 +2085,8 @@ public:
     int declarationList()
     {
         if(declaration()==1){
-            return 1;
-        }
-        if(declarationList()==1){
             getToken();
-            if(declaration()==1){
+            if(declarationListR()==1){
                 return 1;
             }
             else{
@@ -1862,16 +2097,27 @@ public:
             return 0;
         }
     }
+    int declarationListR(){
+        if(declaration()==1){
+            getToken();
+            if(declarationListR()==1){
+                return 1;
+            }
+            else{
+                return 0
+            }
+        }
+        else{
+            return 1;
+        }
+    }
 
     // statementList
     int statementList()
     {
         if(statement()==1){
-            return 1;
-        }
-        if(statementList()==1){
             getToken();
-            if(statement()==1){
+            if(statementListR()==1){
                 return 1;
             }
             else{
@@ -1880,6 +2126,20 @@ public:
         }
         else{
             return 0;
+        }
+    }
+    int statementListR(){
+        if(statement()==1){
+            getToken();
+            if(statementListR()==1){
+                return 1;
+            }
+            else{
+                return 0
+            }
+        }
+        else{
+            return 1;
         }
     }
 
@@ -2143,3 +2403,5 @@ public:
         }
     }
 };
+
+// parabÃ©ns por chegar ao final do cÃ³digo

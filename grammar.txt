@@ -16,7 +16,7 @@ primaryExpression
     | ParenthesisOpen expression ParenthesisClose
     ;
 
-postFixExpression
+postFixExpression  #RECURSIVE OK
     : primaryExpression
     | postFixExpression BracketOpen expression BracketClose
     | postFixExpression ParenthesisOpen ParenthesisClose
@@ -27,7 +27,7 @@ postFixExpression
     | postFixExpression DecOp
     ;
 
-argumentExpressionList 
+argumentExpressionList #RECURSIVE OK
     : assignmentExpression
     | argumentExpressionList Comma assignmentExpression
     ;
@@ -52,26 +52,26 @@ castExpression
     : unaryExpression
     ;
 
-multiplicativeExpression
+multiplicativeExpression #RECURSIVE OK
     : unaryExpression
     | multiplicativeExpression Product unaryExpression
     | multiplicativeExpression Division unaryExpression
     | multiplicativeExpression Module unaryExpression
     ;
 
-additiveExpression
+additiveExpression #RECURSIVE OK
     : multiplicativeExpression
     | additiveExpression Plus multiplicativeExpression
     | additiveExpression Minus multiplicativeExpression
     ;
-
-shiftExpression
+ 
+shiftExpression #RECURSIVE OK
     : additiveExpression
     | shiftExpression LeftOp additiveExpression
     | shiftExpression RightOp additiveExpression
     ;
 
-relationalExpression
+relationalExpression #RECURSIVE OK
     : shiftExpression
     | relationalExpression Less shiftExpression
     | relationalExpression Greater shiftExpression
@@ -79,33 +79,33 @@ relationalExpression
     | relationalExpression GEOP shiftExpression
     ;
 
-equalityExpression
+equalityExpression #RECURSIVE OK
     : relationalExpression
     | equalityExpression EQOp relationalExpression
     | equalityExpression NEOp relationalExpression
     ;
 
-andExpression
+andExpression #RECURSIVE OK
     : equalityExpression
     | andExpression AndOp equalityExpression
     ;
 
-exclusiveOrExpression
+exclusiveOrExpression #RECURSIVE OK
     : andExpression
     | exclusiveOrExpression Power andExpression
     ;
 
-inclusiveOrExpression
+inclusiveOrExpression #RECURSIVE OK
     : exclusiveOrExpression
     | inclusiveOrExpression OrOp exclusiveOrExpression
     ;
 
-logialAndExpression
+logialAndExpression #RECURSIVE OK
     : inclusiveOrExpression
     | logialAndExpression AndOp inclusiveOrExpression
     ;
 
-logicalOrExpression
+logicalOrExpression #RECURSIVE OK
     : logicalAndExpression
     | logicalOrExpression OrOp logicalAndExpression
 
@@ -130,7 +130,7 @@ assignmentOperator
     | RightAssign
     ;
 
-expression
+expression #RECURSIVE OK
     : assignmentExpression
     | expression Comma assignmentExpression
 
@@ -138,7 +138,7 @@ constantExrpression
     : conditionExpression
     ;
 
-declaration
+declaration 
     : declarationSpecifiers SemiCollon
     | declarationSpecifiers initDeclaratorList SemiCollon
     ;
@@ -148,7 +148,7 @@ declarationSpecifiers
     | typeSpecifier declarationSpecifiers
     ;
 
-initDeclaratorList
+initDeclaratorList #RECURSIVE OK
     : initDeclarator
     | initDeclaratorList Comma initDeclarator
     ;
@@ -181,7 +181,7 @@ struct
     : Struct
     ;
 
-structDeclarationList
+structDeclarationList #RECURSIVE OK
     : structDeclarator
     | structDeclarationList Comma structDeclarator
     ;
@@ -197,7 +197,7 @@ declarator
     | directDeclarator
     ;
 
-directDeclarator
+directDeclarator #RECURSIVE OK
     : Identifier
     | ParenthesisOpen declarator ParenthesisClose
     | directDeclarator BracketOpen constantExrpression BracketClose
@@ -216,7 +216,7 @@ parameterTypeList
     | parameterList Comma Ellipsis
     ;
 
-parameterList
+parameterList #RECURSIVE OK
     : paramaeterDeclaration
     | parameterList Comma paramaeterDeclaration
     ;
@@ -227,7 +227,7 @@ paramaeterDeclaration
     | declarationSpecifiers
     ;
 
-identifierList
+identifierList #RECURSIVE OK
     : Identifier
     | identifierList Comma Identifier
     ;
@@ -243,7 +243,7 @@ abstractDeclarator
     | pointer directAbstractDeclarator
     ;
 
-directAbstractDeclarator
+directAbstractDeclarator #RECURSIVE OK
     : ParenthesisOpen abstractDeclarator ParenthesisClose
     | BracketClose BracketClose
     | BracketOpen constantExrpression BracketOpen
@@ -261,7 +261,7 @@ initializer
     | BraceOpen initializerList Comma BraceClose
     ;
 
-initializerList
+initializerList #RECURSIVE OK
     : initializer
     | initializerList Comma initializer
     ;
@@ -287,12 +287,12 @@ compoundStatement
     | BraceOpen declarationList BraceClose
     | BraceOpen statementList BraceClose
 
-declarationList
+declarationList #RECURSIVE OK
     : declaration
     | declarationList declaration
     ;
 
-statementList
+statementList #RECURSIVE OK
     : statement
     | statementList statement
     ;
