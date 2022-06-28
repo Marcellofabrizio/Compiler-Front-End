@@ -1,14 +1,16 @@
 #ifndef SYNTATIC_H
 #define SYNTATIC_H
 
+#include "../token.hpp"
+
 class Syntatic
 {
 
 public:
     int currentTokenIndex = 0;
-    vector<Token> tokenList;
+    std::vector<Token> tokenList;
 
-    Syntatic(vector<Token> results);
+    Syntatic(std::vector<Token> results);
 
     void getToken();
 
@@ -41,6 +43,7 @@ public:
     int logicalAndExpression();
     int inclusiveAndExpressionR();
     int logicalOrExpression();
+    int logicalOrExpressionR();
     int logicalAndExpressionR();
     int conditionExpression();
     int assignmentExpression();
@@ -88,6 +91,6 @@ public:
     int selectionsStatement();
     int iterationStatement();
     int jumpStatement();
-}
+};
 
 #endif

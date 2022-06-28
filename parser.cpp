@@ -42,6 +42,36 @@ public:
     // vectora de resultados, vai adicionando p depois passar p sintático
     vector<Token> results;
 
+    Token keywords[100] = {
+        {"NULL", Null},
+        {"printf", Identifier},
+        {"scanf", Identifier},
+        {"ident", Identifier},
+        {"if", If},
+        {"else if", ElseIf},
+        {"else", Else},
+        {"while", While},
+        {"for", For},
+        {"break", Break},
+        {"continue", Continue},
+        {"return", Return},
+        {"try", Try},
+        {"except", Except},
+        {"int", Int},
+        {"float", Float},
+        {"short", Short},
+        {"long", Long},
+        {"signed", Signed},
+        {"unsigned", Unsigned},
+        {"void", Void},
+        {"char", Char},
+        {"const", Const},
+        {"Struct", Struct},
+        {"Double", Double},
+        {"switch", Switch},
+        {"case", Case},
+        {"default", Default}};
+
     Parser(string filename)
     {
         infile = ifstream(filename);
@@ -450,10 +480,8 @@ public:
         cout << "Token na linha " << line << " coluna " << column << endl
              << endl;
 
-        results.push_back({
-            lexeme,
-            token.types
-        });
+        results.push_back({lexeme,
+                           token.types});
 
         clearLexeme();
         readCharacter();
