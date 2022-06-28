@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "./token.hpp"
-
+#include "../token.hpp"
+#include "../include/syntatic.hpp"
 using namespace std;
 
 int tk;
@@ -155,10 +155,12 @@ public:
         if (primaryExpression() == 1)
         {
             getToken();
-            if(postFixExpressionR()==1){
+            if (postFixExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -167,107 +169,143 @@ public:
             return 0;
         }
     }
-    int postFixExpressionR(){
-        if(tk==BracketOpen){
+    
+    int postFixExpressionR()
+    {
+        if (tk == BracketOpen)
+        {
             getToken();
-            if(expression()==1){
+            if (expression() == 1)
+            {
                 getToken();
-                if(tk==BracketClose){
+                if (tk == BracketClose)
+                {
                     getToken();
-                    if(postFixExpressionR()==1){
+                    if (postFixExpressionR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==ParenthesisOpen){
+        if (tk == ParenthesisOpen)
+        {
             getToken();
-            if(tk==ParenthesisClose){
+            if (tk == ParenthesisClose)
+            {
                 getToken();
-                if(postFixExpressionR()==1){
+                if (postFixExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(argumentExpressionList()==1){
+            if (argumentExpressionList() == 1)
+            {
                 getToken();
-                if(tk==ParenthesisClose){
+                if (tk == ParenthesisClose)
+                {
                     getToken();
-                    if(postFixExpressionR()==1){
+                    if (postFixExpressionR() == 1)
+                    {
                         return 1;
                     }
-                    else{
-                      return 0;
+                    else
+                    {
+                        return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Dot){
+        if (tk == Dot)
+        {
             getToken();
-            if(tk==Identifier){
+            if (tk == Identifier)
+            {
                 getToken();
-                if(postFixExpressionR()==1){
+                if (postFixExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Accessor){
+        if (tk == Accessor)
+        {
             getToken();
-            if(tk==Identifier){
+            if (tk == Identifier)
+            {
                 getToken();
-                if(postFixExpressionR()==1){
+                if (postFixExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==IncOp){
+        if (tk == IncOp)
+        {
             getToken();
-            if(postFixExpressionR()==1){
+            if (postFixExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==DecOp){
+        if (tk == DecOp)
+        {
             getToken();
-            if(postFixExpressionR()==1){
+            if (postFixExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -278,10 +316,12 @@ public:
         if (assignmentExpression() == 1)
         {
             getToken();
-            if(argumentExpressionListR()==1){
+            if (argumentExpressionListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -290,23 +330,31 @@ public:
             return 0;
         }
     }
-    int argumentExpressionListR(){
-        if(tk==Comma){
+    
+    int argumentExpressionListR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(assignmentExpression()==1){
+            if (assignmentExpression() == 1)
+            {
                 getToken();
-                if(argumentExpressionListR()==1){
+                if (argumentExpressionListR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -412,10 +460,12 @@ public:
         if (unaryExpression() == 1)
         {
             getToken();
-            if(multiplicativeExpressionR()==1){
+            if (multiplicativeExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -424,53 +474,71 @@ public:
             return 0;
         }
     }
-    int multiplicativeExpressionR(){
-        if(tk==Product){
+    
+    int multiplicativeExpressionR()
+    {
+        if (tk == Product)
+        {
             getToken();
-            if(unaryExpression()==1){
+            if (unaryExpression() == 1)
+            {
                 getToken();
-                if(multiplicativeExpressionR()==1){
+                if (multiplicativeExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Division){
+        if (tk == Division)
+        {
             getToken();
-            if(unaryExpression()==1){
+            if (unaryExpression() == 1)
+            {
                 getToken();
-                if(multiplicativeExpressionR()==1){
+                if (multiplicativeExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Module){
+        if (tk == Module)
+        {
             getToken();
-            if(unaryExpression()==1){
+            if (unaryExpression() == 1)
+            {
                 getToken();
-                if(multiplicativeExpressionR()==1){
+                if (multiplicativeExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -481,10 +549,12 @@ public:
         if (multiplicativeExpression() == 1)
         {
             getToken();
-            if(additiveExpressionR()==1){
+            if (additiveExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -493,38 +563,51 @@ public:
             return 0;
         }
     }
-    int additiveExpressionR(){
-        if(tk==Plus){
+    
+    int additiveExpressionR()
+    {
+        if (tk == Plus)
+        {
             getToken();
-            if(multiplicativeExpression()==1){
+            if (multiplicativeExpression() == 1)
+            {
                 getToken();
-                if(additiveExpressionR()==1){
+                if (additiveExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Minus){
+        if (tk == Minus)
+        {
             getToken();
-            if(multiplicativeExpression()==1){
+            if (multiplicativeExpression() == 1)
+            {
                 getToken();
-                if(additiveExpressionR()==1){
+                if (additiveExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -535,10 +618,12 @@ public:
         if (additiveExpression() == 1)
         {
             getToken();
-            if(shiftExpressionR()==1){
+            if (shiftExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -547,38 +632,51 @@ public:
             return 0;
         }
     }
-    int shiftExpressionR(){
-        if(tk==LeftOp){
+    
+    int shiftExpressionR()
+    {
+        if (tk == LeftOp)
+        {
             getToken();
-            if(additiveExpression()==1){
+            if (additiveExpression() == 1)
+            {
                 getToken();
-                if(shiftExpressionR()==1){
+                if (shiftExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
-            }  
-            else{
+            }
+            else
+            {
                 return 0;
             }
         }
-        if(tk==RightOp){
+        if (tk == RightOp)
+        {
             getToken();
-            if(additiveExpression()==1){
+            if (additiveExpression() == 1)
+            {
                 getToken();
-                if(shiftExpressionR()==1){
+                if (shiftExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
-            }  
-            else{
+            }
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -589,10 +687,12 @@ public:
         if (shiftExpression() == 1)
         {
             getToken();
-            if(relationalExpressionR()==1){
+            if (relationalExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -601,68 +701,91 @@ public:
             return 0;
         }
     }
-    int relationalExpressionR(){
-        if(tk==Less){
+    
+    int relationalExpressionR()
+    {
+        if (tk == Less)
+        {
             getToken();
-            if(shiftExpression()==1){
+            if (shiftExpression() == 1)
+            {
                 getToken();
-                if(relationalExpressionR()==1){
+                if (relationalExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Greater){
+        if (tk == Greater)
+        {
             getToken();
-            if(shiftExpression()==1){
+            if (shiftExpression() == 1)
+            {
                 getToken();
-                if(relationalExpressionR()==1){
+                if (relationalExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==LEOp){
+        if (tk == LEOp)
+        {
             getToken();
-            if(shiftExpression()==1){
+            if (shiftExpression() == 1)
+            {
                 getToken();
-                if(relationalExpressionR()==1){
+                if (relationalExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==GEOp){
+        if (tk == GEOp)
+        {
             getToken();
-            if(shiftExpression()==1){
+            if (shiftExpression() == 1)
+            {
                 getToken();
-                if(relationalExpressionR()==1){
+                if (relationalExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -672,10 +795,12 @@ public:
         if (relationalExpression() == 1)
         {
             getToken();
-            if(equalityExpressionR()==1){
+            if (equalityExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -684,40 +809,53 @@ public:
             return 0;
         }
     }
-    int equalityExpressionR(){
-        if(tk==EQOp){
+    
+    int equalityExpressionR()
+    {
+        if (tk == EQOp)
+        {
             getToken();
-            if(relationalExpression()==1){
+            if (relationalExpression() == 1)
+            {
                 getToken();
-                if(equalityExpressionR()==1){
+                if (equalityExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
-                return 0;
-            }
-        }   
-        if(tk==NEOp){
-            getToken();
-            if(relationalExpression()==1){
-                getToken();
-                if(equalityExpressionR()==1){
-                    return 1;
-                }
-                else{
-                    return 0;
-                }
-            }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        if (tk == NEOp)
+        {
+            getToken();
+            if (relationalExpression() == 1)
+            {
+                getToken();
+                if (equalityExpressionR() == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
             return 1;
-        } 
+        }
     }
 
     // andExpression
@@ -726,10 +864,12 @@ public:
         if (equalityExpression() == 1)
         {
             getToken();
-            if(andExpressionR()==1){
+            if (andExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -738,23 +878,31 @@ public:
             return 0;
         }
     }
-    int andExpressionR(){
-        if(tk==AndOp){
+    
+    int andExpressionR()
+    {
+        if (tk == AndOp)
+        {
             getToken();
-            if(equalityExpression()==1){
+            if (equalityExpression() == 1)
+            {
                 getToken();
-                if(andExpressionR()==1){
+                if (andExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -765,10 +913,12 @@ public:
         if (andExpression() == 1)
         {
             getToken();
-            if(exclusiveOrExpressionR()==1){
+            if (exclusiveOrExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -777,23 +927,31 @@ public:
             return 0;
         }
     }
-    int exclusiveOrExpressionR(){
-        if(tk==Power){
+    
+    int exclusiveOrExpressionR()
+    {
+        if (tk == Power)
+        {
             getToken();
-            if(andExpression()==1){
+            if (andExpression() == 1)
+            {
                 getToken();
-                if(exclusiveOrExpressionR()==1){
+                if (exclusiveOrExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -804,10 +962,12 @@ public:
         if (exclusiveOrExpression() == 1)
         {
             getToken();
-            if(inclusiveOrExpressionR()==1){
+            if (inclusiveOrExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -816,23 +976,31 @@ public:
             return 0;
         }
     }
-    int inclusiveOrExpressionR(){
-        if(tk==OrOp){
+    
+    int inclusiveOrExpressionR()
+    {
+        if (tk == OrOp)
+        {
             getToken();
-            if(exclusiveOrExpression()==1){
+            if (exclusiveOrExpression() == 1)
+            {
                 getToken();
-                if(inclusiveOrExpressionR()==1){
+                if (inclusiveOrExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -843,10 +1011,12 @@ public:
         if (inclusiveOrExpression() == 1)
         {
             getToken();
-            if(inclusiveAndExpressionR()==1){
+            if (inclusiveAndExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -855,23 +1025,31 @@ public:
             return 0;
         }
     }
-    int inclusiveAndExpressionR(){
-        if(tk==AndOp){
+    
+    int inclusiveAndExpressionR()
+    {
+        if (tk == AndOp)
+        {
             getToken();
-            if(inclusiveOrExpression()==1){
+            if (inclusiveOrExpression() == 1)
+            {
                 getToken();
-                if(inclusiveAndExpressionR()==1){
+                if (inclusiveAndExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -881,10 +1059,12 @@ public:
         if (logicalAndExpression() == 1)
         {
             getToken();
-            if(logicalOrExpressionR()==1){
+            if (logicalOrExpressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -893,23 +1073,31 @@ public:
             return 0;
         }
     }
-    int logicalOrExpressionR(){
-        if(tk==OrOp){
+    
+    int logicalOrExpressionR()
+    {
+        if (tk == OrOp)
+        {
             getToken();
-            if(logicalAndExpression()==1){
+            if (logicalAndExpression() == 1)
+            {
                 getToken();
-                if(logicalOrExpressionR()==1){
+                if (logicalOrExpressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -1039,10 +1227,12 @@ public:
         if (assignmentExpression() == 1)
         {
             getToken();
-            if(expressionR()==1){
+            if (expressionR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -1051,23 +1241,31 @@ public:
             return 0;
         }
     }
-    int expressionR(){
-        if(tk==Comma){
+    
+    int expressionR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(assignmentExpression()==1){
+            if (assignmentExpression() == 1)
+            {
                 getToken();
-                if(expressionR()==1){
+                if (expressionR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -1145,10 +1343,12 @@ public:
         if (initDeclarator() == 1)
         {
             getToken();
-            if(initDeclaratorListR()==1){
+            if (initDeclaratorListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -1157,26 +1357,35 @@ public:
             return 0;
         }
     }
-    int initDeclaratorListR(){
-        if(tk==Comma){
+
+    int initDeclaratorListR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(initDeclarator()==1){
+            if (initDeclarator() == 1)
+            {
                 getToken();
-                if(initDeclaratorListR()==1){
+                if (initDeclaratorListR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
+
     // initDeclarator
     int initDeclarator()
     {
@@ -1209,10 +1418,6 @@ public:
     // typeSpecifier
     int typeSpecifier()
     {
-        
-        cout << "FunÃ§Ã£o: " << "typeSpecifier" << endl;
-        cout << "Token: " << tk << endl;
-        cout << "Index: " << currentTokenIndex << endl;
 
         if (tk == Void)
         {
@@ -1260,21 +1465,22 @@ public:
         }
     }
 
-    int specifierList() 
+    int specifierList()
     {
         if (typeSpecifier() == 1)
         {
             getToken();
-            if(specifierList() == 1) 
+            if (specifierList() == 1)
             {
                 return 1;
             }
 
-            else 
+            else
             {
                 return 1;
             }
-        } else 
+        }
+        else
         {
             return 0;
         }
@@ -1364,10 +1570,12 @@ public:
         if (structDeclarator() == 1)
         {
             getToken();
-            if(structDeclarationListR()==1){
+            if (structDeclarationListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -1376,23 +1584,31 @@ public:
             return 0;
         }
     }
-    int structDeclarationListR(){
-        if(tk==Comma){
+
+    int structDeclarationListR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(structDeclarator()==1){
+            if (structDeclarator() == 1)
+            {
                 getToken();
-                if(structDeclarationListR()==1){
+                if (structDeclarationListR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -1469,10 +1685,12 @@ public:
         if (tk == Identifier)
         {
             getToken();
-            if(directDeclaratorR()==1){
+            if (directDeclaratorR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
@@ -1485,10 +1703,12 @@ public:
                 if (tk == ParenthesisClose)
                 {
                     getToken();
-                    if(directDeclaratorR()==1){
+                    if (directDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
@@ -1507,68 +1727,91 @@ public:
             return 0;
         }
     }
-    int directDeclaratorR(){
-        if(tk==ParenthesisOpen){
+
+    int directDeclaratorR()
+    {
+        if (tk == ParenthesisOpen)
+        {
             getToken();
-            if(tk==ParenthesisClose){
+            if (tk == ParenthesisClose)
+            {
                 getToken();
-                if(directDeclaratorR()==1){
+                if (directDeclaratorR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(parameterTypeList()==1){
+            if (parameterTypeList() == 1)
+            {
                 getToken();
-                if(tk==ParenthesisClose){
+                if (tk == ParenthesisClose)
+                {
                     getToken();
-                    if(directDeclaratorR()==1){
+                    if (directDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==BracketOpen){
+        if (tk == BracketOpen)
+        {
             getToken();
-            if(tk==BracketClose){
+            if (tk == BracketClose)
+            {
                 getToken();
-                if(directDeclaratorR()==1){
+                if (directDeclaratorR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(constantExrpression()==1){
+            if (constantExrpression() == 1)
+            {
                 getToken();
-                if(tk==BracketClose){
+                if (tk == BracketClose)
+                {
                     getToken();
-                    if(directDeclaratorR()==1){
+                    if (directDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -1626,37 +1869,48 @@ public:
     // parameterList
     int parameterList()
     {
-        if(paramaeterDeclaration()==1){
+        if (paramaeterDeclaration() == 1)
+        {
             getToken();
-            if(parameterListR()==1){
+            if (parameterListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
-            return 0;            
+        else
+        {
+            return 0;
         }
-
     }
-    int parameterListR(){
-        if(tk==Comma){
+
+    int parameterListR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(paramaeterDeclaration()==1){
+            if (paramaeterDeclaration() == 1)
+            {
                 getToken();
-                if(parameterListR()==1){
+                if (parameterListR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -1664,19 +1918,24 @@ public:
     // paramaeterDeclaration
     int paramaeterDeclaration()
     {
-        if(declarationSpecifiers()==1){
+        if (declarationSpecifiers() == 1)
+        {
             getToken();
-            if(declarator()==1){
+            if (declarator() == 1)
+            {
                 return 1;
             }
-            if(abstractDeclarator()==1){
+            if (abstractDeclarator() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 1;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -1684,55 +1943,69 @@ public:
     // identifierList
     int identifierList()
     {
-        if(tk==Identifier){
+        if (tk == Identifier)
+        {
             getToken();
-            if(identifierListR()==1){
+            if (identifierListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
-    int identifierListR(){
-        if(tk==Comma){
+
+    int identifierListR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(tk==Identifier){
+            if (tk == Identifier)
+            {
                 getToken();
-                if(identifierListR()==1){
+                if (identifierListR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
-            }  
-            else{
+            }
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
 
-
-
     // typeName    SPECIFIERLIST NÃƒO DECLARADO NA GRAMATICA
     int typeName()
     {
-        if(specifierList()==1){
+        if (specifierList() == 1)
+        {
             getToken();
-            if(abstractDeclarator()==1){
+            if (abstractDeclarator() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 1;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -1740,19 +2013,24 @@ public:
     // abstractDeclarator
     int abstractDeclarator()
     {
-        if(pointer()==1){
+        if (pointer() == 1)
+        {
             getToken();
-            if(directAbstractDeclarator()==1){
+            if (directAbstractDeclarator() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 1;
             }
         }
-        if(directAbstractDeclarator()==1){
+        if (directAbstractDeclarator() == 1)
+        {
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -1760,153 +2038,204 @@ public:
     // directAbstractDeclarator
     int directAbstractDeclarator()
     {
-        if(tk==ParenthesisOpen){
+        if (tk == ParenthesisOpen)
+        {
             getToken();
-            if(tk==ParenthesisClose){
+            if (tk == ParenthesisClose)
+            {
                 getToken();
-                if(directAbstractDeclaratorR()==1){
+                if (directAbstractDeclaratorR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(parameterTypeList()==1){
+            if (parameterTypeList() == 1)
+            {
                 getToken();
-                if(tk==ParenthesisClose){
+                if (tk == ParenthesisClose)
+                {
                     getToken();
-                    if(directAbstractDeclaratorR()==1){
+                    if (directAbstractDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(abstractDeclarator()==1){
+            if (abstractDeclarator() == 1)
+            {
                 getToken();
-                if(tk==ParenthesisClose){
+                if (tk == ParenthesisClose)
+                {
                     getToken();
-                    if(directAbstractDeclaratorR()==1){
+                    if (directAbstractDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==BracketClose){
+        if (tk == BracketClose)
+        {
             getToken();
-            if(tk==BracketClose){
+            if (tk == BracketClose)
+            {
                 getToken();
-                if(directAbstractDeclaratorR()==1){
+                if (directAbstractDeclaratorR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==BracketOpen){
+        if (tk == BracketOpen)
+        {
             getToken();
-            if(constantExrpression()==1){
+            if (constantExrpression() == 1)
+            {
                 getToken();
-                if(tk==BracketOpen){
+                if (tk == BracketOpen)
+                {
                     getToken();
-                    if(directAbstractDeclaratorR()==1){
+                    if (directAbstractDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
-    int directAbstractDeclaratorR(){
-        if(tk==BracketOpen){
+    
+    int directAbstractDeclaratorR()
+    {
+        if (tk == BracketOpen)
+        {
             getToken();
-            if(tk==BracketClose){
+            if (tk == BracketClose)
+            {
                 getToken();
-                if(directAbstractDeclaratorR()==1){
+                if (directAbstractDeclaratorR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(conditionExpression()==1){
+            if (conditionExpression() == 1)
+            {
                 getToken();
-                if(tk==BracketClose){
+                if (tk == BracketClose)
+                {
                     getToken();
-                    if(directAbstractDeclaratorR()==1){
+                    if (directAbstractDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==ParenthesisOpen){
+        if (tk == ParenthesisOpen)
+        {
             getToken();
-            if(tk==ParenthesisClose){
+            if (tk == ParenthesisClose)
+            {
                 getToken();
-                if(directAbstractDeclaratorR()==1){
+                if (directAbstractDeclaratorR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(parameterTypeList()==1){
+            if (parameterTypeList() == 1)
+            {
                 getToken();
-                if(tk==ParenthesisClose){
+                if (tk == ParenthesisClose)
+                {
                     getToken();
-                    if(directAbstractDeclaratorR()==1){
+                    if (directAbstractDeclaratorR() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -1914,34 +2243,44 @@ public:
     // initializer
     int initializer()
     {
-        if(assignmentExpression()==1){
+        if (assignmentExpression() == 1)
+        {
             return 1;
         }
-        if(tk==BraceOpen){
+        if (tk == BraceOpen)
+        {
             getToken();
-            if(initializerList()==1){
+            if (initializerList() == 1)
+            {
                 getToken();
-                if(tk==BraceClose){
+                if (tk == BraceClose)
+                {
                     return 1;
                 }
-                if(tk==Comma){
+                if (tk == Comma)
+                {
                     getToken();
-                    if(tk==BraceClose){
+                    if (tk == BraceClose)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -1949,36 +2288,48 @@ public:
     // initializerList
     int initializerList()
     {
-        if(initializer()==1){
+        if (initializer() == 1)
+        {
             getToken();
-            if(initializerListR()==1){
+            if (initializerListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
-    int initializerListR(){
-        if(tk==Comma){
+    
+    int initializerListR()
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(initializer()==1){
+            if (initializer() == 1)
+            {
                 getToken();
-                if(initializerListR()==1){
+                if (initializerListR() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
-        }   
-        else{
+        }
+        else
+        {
             return 1;
         }
     }
@@ -1986,25 +2337,32 @@ public:
     // statement
     int statement()
     {
-        if(labeledStatement()==1){
+        if (labeledStatement() == 1)
+        {
             return 1;
         }
-        if(compoundStatement()==1){
+        if (compoundStatement() == 1)
+        {
             return 1;
         }
-        if(expressionStatement()==1){
+        if (expressionStatement() == 1)
+        {
             return 1;
         }
-        if(selectionsStatement()==1){
+        if (selectionsStatement() == 1)
+        {
             return 1;
         }
-        if(iterationStatement()==1){
+        if (iterationStatement() == 1)
+        {
             return 1;
         }
-        if(jumpStatement()==1){
+        if (jumpStatement() == 1)
+        {
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -2012,58 +2370,76 @@ public:
     // labeledStatement
     int labeledStatement()
     {
-        if(tk==Identifier){
+        if (tk == Identifier)
+        {
             getToken();
-            if(tk==Collon){
+            if (tk == Collon)
+            {
                 getToken();
-                if(statement()==1){
+                if (statement() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Case){
+        if (tk == Case)
+        {
             getToken();
-            if(constantExrpression()==1){
+            if (constantExrpression() == 1)
+            {
                 getToken();
-                if(tk==Collon){
+                if (tk == Collon)
+                {
                     getToken();
-                    if(statement()==1){
+                    if (statement() == 1)
+                    {
                         return 1;
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Default){
+        if (tk == Default)
+        {
             getToken();
-            if(tk==Collon){
+            if (tk == Collon)
+            {
                 getToken();
-                if(statement()==1){
+                if (statement() == 1)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -2071,34 +2447,44 @@ public:
     // compoundStatement          //REVISAR GRAMATICA LINHA 288
     int compoundStatement()
     {
-        if(tk==BraceOpen){
+        if (tk == BraceOpen)
+        {
             getToken();
-            if(tk==BraceClose){
+            if (tk == BraceClose)
+            {
                 return 1;
             }
-            if(statementList()==1){
+            if (statementList() == 1)
+            {
                 getToken();
-                if(tk==BraceClose){
+                if (tk == BraceClose)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            if(declarationList()==1){
+            if (declarationList() == 1)
+            {
                 getToken();
-                if(tk==BraceClose){
+                if (tk == BraceClose)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -2106,30 +2492,40 @@ public:
     // declarationList
     int declarationList()
     {
-        if(declaration()==1){
+        if (declaration() == 1)
+        {
             getToken();
-            if(declarationListR()==1){
+            if (declarationListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
-    int declarationListR(){
-        if(declaration()==1){
+   
+    int declarationListR()
+    {
+        if (declaration() == 1)
+        {
             getToken();
-            if(declarationListR()==1){
+            if (declarationListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -2137,30 +2533,40 @@ public:
     // statementList
     int statementList()
     {
-        if(statement()==1){
+        if (statement() == 1)
+        {
             getToken();
-            if(statementListR()==1){
+            if (statementListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
-    int statementListR(){
-        if(statement()==1){
+    
+    int statementListR()
+    {
+        if (statement() == 1)
+        {
             getToken();
-            if(statementListR()==1){
+            if (statementListR() == 1)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 1;
         }
     }
@@ -2168,19 +2574,24 @@ public:
     // expressionStatement
     int expressionStatement()
     {
-        if(tk==SemiCollon){
+        if (tk == SemiCollon)
+        {
             return 1;
         }
-        if(expression()==1){
+        if (expression() == 1)
+        {
             getToken();
-            if(tk==SemiCollon){
+            if (tk == SemiCollon)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -2188,73 +2599,96 @@ public:
     // selectionsStatement
     int selectionsStatement()
     {
-        if(tk==If){
+        if (tk == If)
+        {
             getToken();
-            if(tk==ParenthesisOpen){
+            if (tk == ParenthesisOpen)
+            {
                 getToken();
-                if(expression()==1){
+                if (expression() == 1)
+                {
                     getToken();
-                    if(tk==ParenthesisClose){
+                    if (tk == ParenthesisClose)
+                    {
                         getToken();
-                        if(statement()==1){
+                        if (statement() == 1)
+                        {
                             getToken();
-                            if(tk==Else){
+                            if (tk == Else)
+                            {
                                 getToken();
-                                if(statement()==1){
+                                if (statement() == 1)
+                                {
                                     return 1;
                                 }
-                                else{
+                                else
+                                {
                                     return 0;
                                 }
                             }
-                            else{
+                            else
+                            {
                                 return 1;
                             }
                         }
-                        else{
+                        else
+                        {
                             return 0;
                         }
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Switch){
+        if (tk == Switch)
+        {
             getToken();
-            if(tk==ParenthesisOpen){
+            if (tk == ParenthesisOpen)
+            {
                 getToken();
-                if(expression()==1){
+                if (expression() == 1)
+                {
                     getToken();
-                    if(tk==ParenthesisClose){
+                    if (tk == ParenthesisClose)
+                    {
                         getToken();
-                        if(statement()==1){
+                        if (statement() == 1)
+                        {
                             return 1;
                         }
-                        else{
+                        else
+                        {
                             return 0;
                         }
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -2262,121 +2696,160 @@ public:
     // iterationStatement
     int iterationStatement()
     {
-        if(tk==While){
+        if (tk == While)
+        {
             getToken();
-            if(tk==ParenthesisOpen){
+            if (tk == ParenthesisOpen)
+            {
                 getToken();
-                if(expression()==1){
+                if (expression() == 1)
+                {
                     getToken();
-                    if(tk==ParenthesisClose){
+                    if (tk == ParenthesisClose)
+                    {
                         getToken();
-                        if(statement()==1){
+                        if (statement() == 1)
+                        {
                             return 1;
                         }
-                        else{
+                        else
+                        {
                             return 0;
                         }
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Do){
+        if (tk == Do)
+        {
             getToken();
-            if(statement()==1){
+            if (statement() == 1)
+            {
                 getToken();
-                if(tk==While){
+                if (tk == While)
+                {
                     getToken();
-                    if(tk==ParenthesisOpen){
+                    if (tk == ParenthesisOpen)
+                    {
                         getToken();
-                        if(expression()==1){
+                        if (expression() == 1)
+                        {
                             getToken();
-                            if(tk==ParenthesisClose){
+                            if (tk == ParenthesisClose)
+                            {
                                 getToken();
-                                if(tk==SemiCollon){
+                                if (tk == SemiCollon)
+                                {
                                     return 1;
                                 }
-                                else{
+                                else
+                                {
                                     return 0;
                                 }
                             }
-                            else{
+                            else
+                            {
                                 return 0;
                             }
                         }
-                        else{
+                        else
+                        {
                             return 0;
                         }
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==For){
+        if (tk == For)
+        {
             getToken();
-            if(tk==ParenthesisOpen){
+            if (tk == ParenthesisOpen)
+            {
                 getToken();
-                if(expressionStatement()==1){
+                if (expressionStatement() == 1)
+                {
                     getToken();
-                    if(expressionStatement()==1){
-                        getToken(); 
-                        if(tk==ParenthesisClose){
+                    if (expressionStatement() == 1)
+                    {
+                        getToken();
+                        if (tk == ParenthesisClose)
+                        {
                             getToken();
-                            if(statement()==1){
+                            if (statement() == 1)
+                            {
                                 return 1;
                             }
-                            else{
+                            else
+                            {
                                 return 0;
                             }
                         }
-                        if(expression()==1){
+                        if (expression() == 1)
+                        {
                             getToken();
-                            if(tk==ParenthesisClose){
+                            if (tk == ParenthesisClose)
+                            {
                                 getToken();
-                                if(statement()==1){
+                                if (statement() == 1)
+                                {
                                     return 1;
                                 }
-                                else{
+                                else
+                                {
                                     return 0;
                                 }
                             }
-                            else{
+                            else
+                            {
                                 return 0;
                             }
                         }
-                        else{
+                        else
+                        {
                             return 0;
                         }
                     }
-                    else{
+                    else
+                    {
                         return 0;
                     }
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
@@ -2384,43 +2857,56 @@ public:
     // jumpStatement
     int jumpStatement()
     {
-        if(tk==Continue){
+        if (tk == Continue)
+        {
             getToken();
-            if(tk==SemiCollon){
+            if (tk == SemiCollon)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Break){
+        if (tk == Break)
+        {
             getToken();
-            if(tk==SemiCollon){
+            if (tk == SemiCollon)
+            {
                 return 1;
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        if(tk==Return){
+        if (tk == Return)
+        {
             getToken();
-            if(tk==SemiCollon){
+            if (tk == SemiCollon)
+            {
                 return 1;
             }
-            if(expression()==1){
+            if (expression() == 1)
+            {
                 getToken();
-                if(tk==SemiCollon){
+                if (tk == SemiCollon)
+                {
                     return 1;
                 }
-                else{
+                else
+                {
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 return 0;
             }
         }
-        else{
+        else
+        {
             return 0;
         }
     }
