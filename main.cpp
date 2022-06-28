@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "./parser.cpp"
-#include "./syntatic.cpp"
+#include "./include/syntatic.cpp"
 
 using namespace std;
 
