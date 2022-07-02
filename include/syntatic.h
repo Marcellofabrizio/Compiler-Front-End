@@ -12,6 +12,8 @@ public:
 
     Syntatic(std::vector<Token> results);
 
+    void savePosition();
+    void restorePosition();
     void getToken();
 
     int externalDeclaration();
