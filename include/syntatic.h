@@ -85,6 +85,8 @@ public:
     int statement();
     int labeledStatement();
     int compoundStatement();
+    int compoundStatementBody();
+    int compoundStatementBodyR();
     int declarationList();
     int declarationListR();
     int statementList();

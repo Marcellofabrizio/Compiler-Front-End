@@ -1,13 +1,8 @@
-int marcello = 10;
-
-marcello.value = arroz;
-
-a > 0;
-
-a || false;
-
-float b;
-
-int main(int a) {
+int main(int argc, char *b[])
+{
     int a = 0;
+
+    int *token = 12;
+
+    return 1
 }

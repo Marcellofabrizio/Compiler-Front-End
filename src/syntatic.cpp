@@ -35,6 +35,7 @@ void Syntatic::getToken()
 int Syntatic::Syntatic::externalDeclaration()
 {
 
+    /*==================================== LEONARDO */
     int position = this->currentTokenIndex;
     if (functionDeclaration() == 1)
     {
@@ -42,6 +43,8 @@ int Syntatic::Syntatic::externalDeclaration()
     }
     else
     {
+
+        /*==================================== LEONARDO */
         this->currentTokenIndex = position - 1;
         getToken();
         if (declaration() == 1)
@@ -788,15 +791,8 @@ int Syntatic::inclusiveOrExpression()
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 int Syntatic::inclusiveOrExpressionR()
@@ -810,20 +806,10 @@ int Syntatic::inclusiveOrExpressionR()
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
-    else
-    {
-        return 1;
-    }
+
+    return 1;
 }
 
 // logicalAndExpression
@@ -835,15 +821,8 @@ int Syntatic::logicalAndExpression()
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 int Syntatic::inclusiveAndExpressionR()
@@ -857,20 +836,9 @@ int Syntatic::inclusiveAndExpressionR()
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
-    else
-    {
-        return 1;
-    }
+    return 1;
 }
 // logicalOrExpression
 int Syntatic::logicalOrExpression()
@@ -881,15 +849,9 @@ int Syntatic::logicalOrExpression()
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 int Syntatic::logicalOrExpressionR()
@@ -903,20 +865,9 @@ int Syntatic::logicalOrExpressionR()
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
-    else
-    {
-        return 1;
-    }
+    return 1;
 }
 
 // conditionExpression
@@ -969,6 +920,7 @@ int Syntatic::assignmentExpression()
     // {
     //     return 1;
     // }
+    /*==================================== LEONARDO */
     int position = this->currentTokenIndex;
     if (unaryExpression() == 1)
     {
@@ -982,6 +934,7 @@ int Syntatic::assignmentExpression()
             }
             else
             {
+                /*==================================== LEONARDO */
                 this->currentTokenIndex = positionAss - 1;
                 getToken();
                 if (logicalOrExpression() == 1)
@@ -992,6 +945,7 @@ int Syntatic::assignmentExpression()
         }
     }
 
+    /*==================================== LEONARDO */
     this->currentTokenIndex = position - 1;
     getToken();
 
@@ -2033,27 +1987,45 @@ int Syntatic::compoundStatement()
     if (tk == BraceOpen)
     {
         getToken();
-        if (tk == BraceClose)
+        if (compoundStatementBody() == 1)
         {
-            getToken();
+            if (tk == BraceClose)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+/*==================================== LEONARDO */
+int Syntatic::compoundStatementBody()
+{
+    if (compoundStatementBodyR() == 1)
+    {
+        if (compoundStatementBody() == 1)
+        {
             return 1;
         }
-        if (statementList() == 1)
-        {
-            if (tk == BraceClose)
-            {
-                getToken();
-                return 1;
-            }
-        }
-        if (declarationList() == 1)
-        {
-            if (tk == BraceClose)
-            {
-                getToken();
-                return 1;
-            }
-        }
+
+        return 0;
+    }
+
+    return 1;
+}
+
+/*==================================== LEONARDO */
+int Syntatic::compoundStatementBodyR()
+{
+    if (declarationList() == 1)
+    {
+        return 1;
+    }
+
+    if (statementList() == 1)
+    {
+        return 1;
     }
 
     return 0;
