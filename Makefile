@@ -130,6 +130,21 @@ SyntaticParser/fast:
 .PHONY : SyntaticParser/fast
 
 # target to build an object file
+lexic.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/lexic.o
+.PHONY : lexic.o
+
+# target to preprocess a source file
+lexic.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/lexic.i
+.PHONY : lexic.i
+
+# target to generate assembly for a file
+lexic.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/lexic.s
+.PHONY : lexic.s
+
+# target to build an object file
 main.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.o
 .PHONY : main.o
@@ -143,21 +158,6 @@ main.i:
 main.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.s
 .PHONY : main.s
-
-# target to build an object file
-parser.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/parser.o
-.PHONY : parser.o
-
-# target to preprocess a source file
-parser.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/parser.i
-.PHONY : parser.i
-
-# target to generate assembly for a file
-parser.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/parser.s
-.PHONY : parser.s
 
 # target to build an object file
 src/syntatic.o:
@@ -183,12 +183,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... SyntaticParser"
+	@echo "... lexic.o"
+	@echo "... lexic.i"
+	@echo "... lexic.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... parser.o"
-	@echo "... parser.i"
-	@echo "... parser.s"
 	@echo "... src/syntatic.o"
 	@echo "... src/syntatic.i"
 	@echo "... src/syntatic.s"

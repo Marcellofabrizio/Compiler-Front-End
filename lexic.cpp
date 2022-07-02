@@ -24,7 +24,7 @@ typedef enum
     Error,
 } State;
 
-class Parser
+class Lexic
 {
 
 public:
@@ -71,7 +71,7 @@ public:
         {"case", Case},
         {"default", Default}};
 
-    Parser(string filename)
+    Lexic(string filename)
     {
         infile = ifstream(filename);
 

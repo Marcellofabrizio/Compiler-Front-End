@@ -120,7 +120,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "parser.cpp",
+			"path" : "lexic.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

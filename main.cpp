@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "./parser.cpp"
+#include "./lexic.cpp"
 #include "./include/syntatic.h"
 
 using namespace std;
@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 
-    Parser *parser = new Parser("./test.c");
+    Lexic *parser = new Lexic("./test.c");
     parser->analyze();
 
     Syntatic *syntatic = new Syntatic(parser->results);
