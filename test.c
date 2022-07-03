@@ -1,8 +1,15 @@
-int main(int argc, char *b[])
+int main() 
 {
-    int a = 0;
+    int a;
+    char *b;
 
-    int *token = 12;
+    int i = 0;
+    
 
+    do
+    {
+        int a = 1;
+    } while (result != NULL);
+ 
     return 1;
 }

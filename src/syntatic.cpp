@@ -924,13 +924,13 @@ int Syntatic::assignmentExpression()
     //     return 1;
     // }
     /*==================================== LEONARDO */
-    int position = this->currentTokenIndex;
+    savePosition();
     if (unaryExpression() == 1)
     {
         if (assignmentOperator() == 1)
         {
 
-            int positionAss = this->currentTokenIndex;
+            savePosition();
             if (assignmentExpression() == 1)
             {
                 return 1;
@@ -938,7 +938,7 @@ int Syntatic::assignmentExpression()
             else
             {
                 /*==================================== LEONARDO */
-                this->currentTokenIndex = positionAss - 1;
+                restorePosition();
                 getToken();
                 if (logicalOrExpression() == 1)
                 {
@@ -949,7 +949,7 @@ int Syntatic::assignmentExpression()
     }
 
     /*==================================== LEONARDO */
-    this->currentTokenIndex = position - 1;
+    restorePosition();
     getToken();
 
     if (logicalOrExpression() == 1)
@@ -1003,10 +1003,8 @@ int Syntatic::assignmentOperator()
         getToken();
         return 1;
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 // expression
@@ -1018,15 +1016,9 @@ int Syntatic::expression()
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 int Syntatic::expressionR()
@@ -1040,20 +1032,10 @@ int Syntatic::expressionR()
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
-    else
-    {
-        return 1;
-    }
+
+    return 1;
 }
 
 // constantExrpression
@@ -1683,18 +1665,6 @@ int Syntatic::directAbstractDeclarator()
     if (tk == ParenthesisOpen)
     {
         getToken();
-        if (tk == ParenthesisClose)
-        {
-            getToken();
-            if (directAbstractDeclaratorR() == 1)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
         if (parameterTypeList() == 1)
         {
             if (tk == ParenthesisClose)
@@ -1704,17 +1674,9 @@ int Syntatic::directAbstractDeclarator()
                 {
                     return 1;
                 }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
             }
         }
-        if (abstractDeclarator() == 1)
+        else if (abstractDeclarator() == 1)
         {
             if (tk == ParenthesisClose)
             {
@@ -1723,87 +1685,21 @@ int Syntatic::directAbstractDeclarator()
                 {
                     return 1;
                 }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
             }
         }
-        else
-        {
-            return 0;
-        }
-    }
-    if (tk == BracketClose)
-    {
-        getToken();
-        if (tk == BracketClose)
+        else if (tk == ParenthesisClose)
         {
             getToken();
             if (directAbstractDeclaratorR() == 1)
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
-    if (tk == BracketOpen)
-    {
-        getToken();
-        if (constantExrpression() == 1)
-        {
-            if (tk == BracketOpen)
-            {
-                getToken();
-                if (directAbstractDeclaratorR() == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    else
-    {
-        return 0;
-    }
-}
 
-int Syntatic::directAbstractDeclaratorR()
-{
     if (tk == BracketOpen)
     {
         getToken();
-        if (tk == BracketClose)
-        {
-            getToken();
-            if (directAbstractDeclaratorR() == 1)
-            {
-                return 1;
-            }
-        }
         if (logicalOrExpression() == 1)
         {
             if (tk == BracketClose)
@@ -1815,11 +1711,8 @@ int Syntatic::directAbstractDeclaratorR()
                 }
             }
         }
-    }
-    if (tk == ParenthesisOpen)
-    {
-        getToken();
-        if (tk == ParenthesisClose)
+
+        if (tk == BracketClose)
         {
             getToken();
             if (directAbstractDeclaratorR() == 1)
@@ -1827,6 +1720,40 @@ int Syntatic::directAbstractDeclaratorR()
                 return 1;
             }
         }
+    }
+
+    return 0;
+}
+
+int Syntatic::directAbstractDeclaratorR()
+{
+    if (tk == BracketOpen)
+    {
+        getToken();
+        if (logicalOrExpression() == 1)
+        {
+            if (tk == BracketClose)
+            {
+                getToken();
+                if (directAbstractDeclaratorR() == 1)
+                {
+                    return 1;
+                }
+            }
+        }
+
+        if (tk == BracketClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR() == 1)
+            {
+                return 1;
+            }
+        }
+    }
+    if (tk == ParenthesisOpen)
+    {
+        getToken();
         if (parameterTypeList() == 1)
         {
             if (tk == ParenthesisClose)
@@ -1836,6 +1763,15 @@ int Syntatic::directAbstractDeclaratorR()
                 {
                     return 1;
                 }
+            }
+        }
+
+        if (tk == ParenthesisClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR() == 1)
+            {
+                return 1;
             }
         }
     }
@@ -2120,6 +2056,28 @@ int Syntatic::expressionStatement()
     return 0;
 }
 
+int Syntatic::expressionStatementBody()
+{
+    if (tk == ParenthesisOpen)
+    {
+        getToken();
+
+        if (expression() == 1)
+        {
+            if (tk == ParenthesisClose)
+            {
+                getToken();
+                if (statement() == 1)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
 // selectionsStatement
 int Syntatic::selectionsStatement()
 {
@@ -2180,36 +2138,10 @@ int Syntatic::iterationStatement()
     if (tk == While)
     {
         getToken();
-        if (tk == ParenthesisOpen)
+
+        if (expressionStatementBody() == 1)
         {
-            getToken();
-            if (expression() == 1)
-            {
-                if (tk == ParenthesisClose)
-                {
-                    getToken();
-                    if (statement() == 1)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
+            return 1;
         }
     }
     if (tk == Do)
@@ -2233,38 +2165,15 @@ int Syntatic::iterationStatement()
                                 getToken();
                                 return 1;
                             }
-                            else
-                            {
-                                return 0;
-                            }
-                        }
-                        else
-                        {
-                            return 0;
                         }
                     }
-                    else
-                    {
-                        return 0;
-                    }
-                }
-                else
-                {
-                    return 0;
                 }
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
     if (tk == For)
     {
+        cout << "For: " << endl;
         getToken();
         if (tk == ParenthesisOpen)
         {
@@ -2273,18 +2182,6 @@ int Syntatic::iterationStatement()
             {
                 if (expressionStatement() == 1)
                 {
-                    if (tk == ParenthesisClose)
-                    {
-                        getToken();
-                        if (statement() == 1)
-                        {
-                            return 1;
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
                     if (expression() == 1)
                     {
                         if (tk == ParenthesisClose)
@@ -2294,40 +2191,25 @@ int Syntatic::iterationStatement()
                             {
                                 return 1;
                             }
-                            else
-                            {
-                                return 0;
-                            }
-                        }
-                        else
-                        {
-                            return 0;
                         }
                     }
-                    else
+
+                    else if (tk == ParenthesisClose)
                     {
-                        return 0;
+                        getToken();
+                        if (statement() == 1)
+                        {
+                            return 1;
+                        }
                     }
                 }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
             }
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    cout << tk << endl;
+    cout << "oooops" << endl;
+    return 0;
 }
 
 // jumpStatement
