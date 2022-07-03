@@ -39,22 +39,20 @@ int Syntatic::Syntatic::externalDeclaration()
 {
 
     /*==================================== LEONARDO */
-    int position = this->currentTokenIndex;
+    // savePosition();
     if (functionDeclaration() == 1)
     {
         return 1;
     }
-    else
-    {
+    // else
+    // {
 
-        /*==================================== LEONARDO */
-        this->currentTokenIndex = position - 1;
-        getToken();
-        if (declaration() == 1)
-        {
-            return 1;
-        }
-    }
+    //     getToken();
+    //     if (declaration() == 1)
+    //     {
+    //         return 1;
+    //     }
+    // }
 
     return 0;
 }
@@ -62,6 +60,7 @@ int Syntatic::Syntatic::externalDeclaration()
 // functionDeclaration
 int Syntatic::functionDeclaration()
 {
+    cout << "functionDeclaration: " << tk << endl;
     if (declarationSpecifiers() == 1)
     {
         if (declarator() == 1)
@@ -79,7 +78,7 @@ int Syntatic::functionDeclaration()
             }
         }
     }
-    if (declarator() == 1)
+    else if (declarator() == 1)
     {
         if (declarationList() == 1)
         {
@@ -88,7 +87,7 @@ int Syntatic::functionDeclaration()
                 return 1;
             }
         }
-        if (compoundStatement() == 1)
+        else if (compoundStatement() == 1)
         {
             return 1;
         }
@@ -100,6 +99,7 @@ int Syntatic::functionDeclaration()
 // primaryExpression
 int Syntatic::primaryExpression()
 {
+    cout << "primaryExpression: " << tk << endl;
     if (tk == Identifier)
     { // id
         getToken();
@@ -129,6 +129,7 @@ int Syntatic::primaryExpression()
 // postFixExpression
 int Syntatic::postFixExpression()
 {
+    cout << "postFixExpression: " << tk << endl;
     if (primaryExpression() == 1)
     {
         if (postFixExpressionR() == 1)
@@ -142,6 +143,7 @@ int Syntatic::postFixExpression()
 
 int Syntatic::postFixExpressionR()
 {
+    cout << "postFixExpressionR: " << tk << endl;
     if (tk == ParenthesisOpen)
     {
         getToken();
@@ -212,6 +214,7 @@ int Syntatic::postFixExpressionR()
 // argumentExpressionList
 int Syntatic::argumentExpressionList()
 {
+    cout << "argumentExpressionList: " << tk << endl;
     if (assignmentExpression() == 1)
     {
         if (argumentExpressionListR() == 1)
@@ -224,6 +227,7 @@ int Syntatic::argumentExpressionList()
 
 int Syntatic::argumentExpressionListR()
 {
+    cout << "argumentExpressionListR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
@@ -242,6 +246,7 @@ int Syntatic::argumentExpressionListR()
 // unaryExpression
 int Syntatic::unaryExpression()
 {
+    cout << "unaryExpression: " << tk << endl;
     if (postFixExpression() == 1)
     {
         return 1;
@@ -276,6 +281,7 @@ int Syntatic::unaryExpression()
 // unaryOperator
 int Syntatic::unaryOperator()
 {
+    cout << "unaryOperator: " << tk << endl;
     if (tk == AndOp)
     {
         getToken();
@@ -313,6 +319,7 @@ int Syntatic::unaryOperator()
 // castExpression
 int Syntatic::castExpression()
 {
+    cout << "castExpression: " << tk << endl;
     if (unaryExpression() == 1)
     {
         return 1;
@@ -326,6 +333,7 @@ int Syntatic::castExpression()
 // multiplicativeExpression
 int Syntatic::multiplicativeExpression()
 {
+    cout << "multiplicativeExpression: " << tk << endl;
     if (unaryExpression() == 1)
     {
         if (multiplicativeExpressionR() == 1)
@@ -345,6 +353,7 @@ int Syntatic::multiplicativeExpression()
 
 int Syntatic::multiplicativeExpressionR()
 {
+    cout << "multiplicativeExpressionR: " << tk << endl;
     if (tk == Product)
     {
         getToken();
@@ -411,6 +420,7 @@ int Syntatic::multiplicativeExpressionR()
 // additiveExpression
 int Syntatic::additiveExpression()
 {
+    cout << "additiveExpression: " << tk << endl;
     if (multiplicativeExpression() == 1)
     {
         if (additiveExpressionR() == 1)
@@ -430,6 +440,7 @@ int Syntatic::additiveExpression()
 
 int Syntatic::additiveExpressionR()
 {
+    cout << "additiveExpressionR: " << tk << endl;
     if (tk == Plus)
     {
         getToken();
@@ -477,6 +488,7 @@ int Syntatic::additiveExpressionR()
 // shiftExpression
 int Syntatic::shiftExpression()
 {
+    cout << "shiftExpression: " << tk << endl;
     if (additiveExpression() == 1)
     {
         if (shiftExpressionR() == 1)
@@ -496,6 +508,7 @@ int Syntatic::shiftExpression()
 
 int Syntatic::shiftExpressionR()
 {
+    cout << "shiftExpressionR: " << tk << endl;
     if (tk == LeftOp)
     {
         getToken();
@@ -543,6 +556,7 @@ int Syntatic::shiftExpressionR()
 // relationalExpression
 int Syntatic::relationalExpression()
 {
+    cout << "relationalExpression: " << tk << endl;
     if (shiftExpression() == 1)
     {
         if (relationalExpressionR() == 1)
@@ -562,6 +576,7 @@ int Syntatic::relationalExpression()
 
 int Syntatic::relationalExpressionR()
 {
+    cout << "relationalExpressionR: " << tk << endl;
     if (tk == Less)
     {
         getToken();
@@ -646,6 +661,7 @@ int Syntatic::relationalExpressionR()
 // equalityExpression
 int Syntatic::equalityExpression()
 {
+    cout << "equalityExpression: " << tk << endl;
     if (relationalExpression() == 1)
     {
         if (equalityExpressionR() == 1)
@@ -665,6 +681,7 @@ int Syntatic::equalityExpression()
 
 int Syntatic::equalityExpressionR()
 {
+    cout << "equalityExpressionR: " << tk << endl;
     if (tk == EQOp)
     {
         getToken();
@@ -712,6 +729,7 @@ int Syntatic::equalityExpressionR()
 // andExpression
 int Syntatic::andExpression()
 {
+    cout << "andExpression: " << tk << endl;
     if (equalityExpression() == 1)
     {
         if (andExpressionR() == 1)
@@ -724,6 +742,7 @@ int Syntatic::andExpression()
 
 int Syntatic::andExpressionR()
 {
+    cout << "andExpressionR: " << tk << endl;
     if (tk == AndOp)
     {
         getToken();
@@ -741,6 +760,7 @@ int Syntatic::andExpressionR()
 // exclusiveOrExpression
 int Syntatic::exclusiveOrExpression()
 {
+    cout << "exclusiveOrExpression: " << tk << endl;
     if (andExpression() == 1)
     {
         if (exclusiveOrExpressionR() == 1)
@@ -760,6 +780,7 @@ int Syntatic::exclusiveOrExpression()
 
 int Syntatic::exclusiveOrExpressionR()
 {
+    cout << "exclusiveOrExpressionR: " << tk << endl;
     if (tk == Power)
     {
         getToken();
@@ -788,6 +809,7 @@ int Syntatic::exclusiveOrExpressionR()
 // inclusiveOrExpression
 int Syntatic::inclusiveOrExpression()
 {
+    cout << "inclusiveOrExpression: " << tk << endl;
     if (exclusiveOrExpression() == 1)
     {
         if (inclusiveOrExpressionR() == 1)
@@ -800,6 +822,7 @@ int Syntatic::inclusiveOrExpression()
 
 int Syntatic::inclusiveOrExpressionR()
 {
+    cout << "inclusiveOrExpressionR: " << tk << endl;
     if (tk == OrOp)
     {
         getToken();
@@ -818,6 +841,7 @@ int Syntatic::inclusiveOrExpressionR()
 // logicalAndExpression
 int Syntatic::logicalAndExpression()
 {
+    cout << "logicalAndExpression: " << tk << endl;
     if (inclusiveOrExpression() == 1)
     {
         if (inclusiveAndExpressionR() == 1)
@@ -830,6 +854,7 @@ int Syntatic::logicalAndExpression()
 
 int Syntatic::inclusiveAndExpressionR()
 {
+    cout << "inclusiveAndExpressionR: " << tk << endl;
     if (tk == AndOp)
     {
         getToken();
@@ -846,6 +871,7 @@ int Syntatic::inclusiveAndExpressionR()
 // logicalOrExpression
 int Syntatic::logicalOrExpression()
 {
+    cout << "logicalOrExpression: " << tk << endl;
     if (logicalAndExpression() == 1)
     {
         if (logicalOrExpressionR() == 1)
@@ -859,6 +885,7 @@ int Syntatic::logicalOrExpression()
 
 int Syntatic::logicalOrExpressionR()
 {
+    cout << "logicalOrExpressionR: " << tk << endl;
     if (tk == OrOp)
     {
         getToken();
@@ -876,6 +903,7 @@ int Syntatic::logicalOrExpressionR()
 // conditionExpression
 int Syntatic::conditionExpression()
 {
+    cout << "conditionExpression: " << tk << endl;
     if (logicalOrExpression() == 1)
     {
         if (tk == QuestionMark)
@@ -919,6 +947,7 @@ int Syntatic::conditionExpression()
 // assignmentExpression
 int Syntatic::assignmentExpression()
 {
+    cout << "assignmentExpression: " << tk << endl;
     // if (conditionExpression() == 1)
     // {
     //     return 1;
@@ -963,6 +992,7 @@ int Syntatic::assignmentExpression()
 // assignmentOperator
 int Syntatic::assignmentOperator()
 {
+    cout << "assignmentOperator: " << tk << endl;
     if (tk == Assign)
     {
         getToken();
@@ -1003,13 +1033,16 @@ int Syntatic::assignmentOperator()
         getToken();
         return 1;
     }
-
-    return 0;
+    else
+    {
+        return 0;
+    }
 }
 
 // expression
 int Syntatic::expression()
 {
+    cout << "expression: " << tk << endl;
     if (assignmentExpression() == 1)
     {
         if (expressionR() == 1)
@@ -1017,12 +1050,13 @@ int Syntatic::expression()
             return 1;
         }
     }
-
+    
     return 0;
 }
 
 int Syntatic::expressionR()
 {
+    cout << "expressionR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
@@ -1034,13 +1068,14 @@ int Syntatic::expressionR()
             }
         }
     }
-
+    
     return 1;
 }
 
 // constantExrpression
 int Syntatic::constantExrpression()
 {
+    cout << "constantExrpression: " << tk << endl;
     if (conditionExpression() == 1)
     {
         return 1;
@@ -1054,6 +1089,7 @@ int Syntatic::constantExrpression()
 // declaration
 int Syntatic::declaration()
 {
+    cout << "declaration: " << tk << endl;
     if (declarationSpecifiers() == 1)
     {
         if (tk == SemiCollon)
@@ -1077,8 +1113,7 @@ int Syntatic::declaration()
 // declarationSpecifiers
 int Syntatic::declarationSpecifiers()
 {
-
-    cout << "Declaration specification" << endl;
+    cout << "declarationSpecifiers: " << tk << endl;
     if (typeSpecifier() == 1)
     {
         if (declarationSpecifiers() == 1)
@@ -1095,6 +1130,7 @@ int Syntatic::declarationSpecifiers()
 // initDeclaratorList
 int Syntatic::initDeclaratorList()
 {
+    cout << "initDeclaratorList: " << tk << endl;
     if (initDeclarator() == 1)
     {
         if (initDeclaratorListR() == 1)
@@ -1108,6 +1144,7 @@ int Syntatic::initDeclaratorList()
 
 int Syntatic::initDeclaratorListR()
 {
+    cout << "initDeclaratorListR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
@@ -1125,6 +1162,7 @@ int Syntatic::initDeclaratorListR()
 // initDeclarator
 int Syntatic::initDeclarator()
 {
+    cout << "initDeclarator: " << tk << endl;
     if (declarator() == 1)
     {
         if (tk == Assign)
@@ -1145,7 +1183,7 @@ int Syntatic::initDeclarator()
 // typeSpecifier
 int Syntatic::typeSpecifier()
 {
-
+    cout << "typeSpecifier: " << tk << endl;
     if (tk == Void)
     {
         getToken();
@@ -1195,14 +1233,13 @@ int Syntatic::typeSpecifier()
     {
         return 1;
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 int Syntatic::specifierList()
 {
+    cout << "specifierList: " << tk << endl;
     if (typeSpecifier() == 1)
     {
         if (specifierList() == 1)
@@ -1224,8 +1261,10 @@ int Syntatic::specifierList()
 // structSprecifier
 int Syntatic::structSprecifier()
 {
-    if (structGrammar() == 1)
+    cout << "structSprecifier: " << tk << endl;
+    if (tk == Struct)
     {
+        getToken();
         if (tk == Identifier)
         {
             getToken();
@@ -1266,6 +1305,7 @@ int Syntatic::structSprecifier()
 // struct -> tive que mudar o nome devido ao VScode ser mala e reclamar
 int Syntatic::structGrammar()
 {
+
     if (tk == Struct)
     {
         getToken();
@@ -1278,7 +1318,8 @@ int Syntatic::structGrammar()
 // structDeclarationList
 int Syntatic::structDeclarationList()
 {
-    if (structDeclarator() == 1)
+    cout << "structDeclarationList: " << tk << endl;
+    if (structDeclaration() == 1)
     {
         if (structDeclarationList() == 1)
         {
@@ -1290,21 +1331,50 @@ int Syntatic::structDeclarationList()
     return 0;
 }
 
-int Syntatic::structDeclarationListR()
+int Syntatic::structDeclaration()
 {
+    cout << "structDeclaration: " << tk << endl;
+    if (specifierList() == 1)
+    {
+        if (structDeclarationList() == 1)
+        {
+            if (tk == SemiCollon)
+            {
+                getToken();
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int Syntatic::structDeclaratorList()
+{
+    cout << "structDeclaratorList: " << tk << endl;
+    if (structDeclarator() == 1)
+    {
+        if (structDeclaratorListR() == 1)
+        {
+            return 1;
+        }
+    }
+
+    return 1;
+}
+
+int Syntatic::structDeclaratorListR()
+{
+    cout << "structDeclaratorListR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
         if (structDeclarator() == 1)
         {
-            if (structDeclarationListR() == 1)
+            if (structDeclaratorListR() == 1)
             {
                 return 1;
             }
-        }
-        else
-        {
-            return 1;
         }
     }
 
@@ -1328,10 +1398,8 @@ int Syntatic::structDeclarator()
                 return 0;
             }
         }
-        else
-        {
-            return 1;
-        }
+
+        return 1;
     }
     if (tk == Collon)
     {
@@ -1340,20 +1408,15 @@ int Syntatic::structDeclarator()
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 // declarator
 int Syntatic::declarator()
 {
+    cout << "declarator: " << tk << endl;
     if (pointer() == 1)
     {
         if (directDeclarator() == 1)
@@ -1372,6 +1435,7 @@ int Syntatic::declarator()
 // directDeclarator
 int Syntatic::directDeclarator()
 {
+    cout << "directDeclarator: " << tk << endl;
     if (tk == Identifier)
     {
         getToken();
@@ -1402,6 +1466,7 @@ int Syntatic::directDeclarator()
 
 int Syntatic::directDeclaratorR()
 {
+    cout << "directDeclaratorR: " << tk << endl;
     if (tk == ParenthesisOpen)
     {
         getToken();
@@ -1468,12 +1533,35 @@ int Syntatic::directDeclaratorR()
 // pointer
 int Syntatic::pointer()
 {
+    cout << "pointer: " << tk << endl;
     if (tk == Product)
     {
         getToken();
         if (pointer() == 1)
         {
             return 1;
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+// parameterTypeList
+int Syntatic::parameterTypeList()
+{
+    cout << "parameterTypeList: " << tk << endl;
+    if (parameterList() == 1)
+    {
+        if (tk == Comma)
+        {
+            getToken();
+            if (tk == Ellipsis)
+            {
+                getToken();
+                return 1;
+            }
         }
         else
         {
@@ -1484,56 +1572,24 @@ int Syntatic::pointer()
     return 0;
 }
 
-// parameterTypeList
-int Syntatic::parameterTypeList()
-{
-    if (parameterList() == 1)
-    {
-        if (tk == Comma)
-        {
-            getToken();
-            if (tk == Ellipsis)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 1;
-        }
-    }
-    else
-    {
-        return 0;
-    }
-}
-
 // parameterList
 int Syntatic::parameterList()
 {
+    cout << "parameterList: " << tk << endl;
     if (parameterDeclaration() == 1)
     {
         if (parameterListR() == 1)
         {
             return 1;
         }
-        else
-        {
-            return 0;
-        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 int Syntatic::parameterListR()
 {
+    cout << "parameterListR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
@@ -1543,25 +1599,16 @@ int Syntatic::parameterListR()
             {
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
         }
     }
-    else
-    {
-        return 1;
-    }
+
+    return 1;
 }
 
 // parameterDeclaration
 int Syntatic::parameterDeclaration()
 {
+    cout << "parameterDeclaration: " << tk << endl;
     if (declarationSpecifiers() == 1)
     {
         if (declarator() == 1)
@@ -1572,20 +1619,17 @@ int Syntatic::parameterDeclaration()
         {
             return 1;
         }
-        else
-        {
-            return 1;
-        }
+
+        return 1;
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 // identifierList
 int Syntatic::identifierList()
 {
+    cout << "identifierList: " << tk << endl;
     if (tk == Identifier)
     {
         getToken();
@@ -1600,6 +1644,7 @@ int Syntatic::identifierList()
 
 int Syntatic::identifierListR()
 {
+    cout << "identifierListR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
@@ -1615,29 +1660,10 @@ int Syntatic::identifierListR()
     return 1;
 }
 
-// typeName    SPECIFIERLIST NÃƒO DECLARADO NA GRAMATICA
-int Syntatic::typeName()
-{
-    if (specifierList() == 1)
-    {
-        if (abstractDeclarator() == 1)
-        {
-            return 1;
-        }
-        else
-        {
-            return 1;
-        }
-    }
-    else
-    {
-        return 0;
-    }
-}
-
 // abstractDeclarator
 int Syntatic::abstractDeclarator()
 {
+    cout << "abstractDeclarator: " << tk << endl;
     if (pointer() == 1)
     {
         if (directAbstractDeclarator() == 1)
@@ -1653,18 +1679,25 @@ int Syntatic::abstractDeclarator()
     {
         return 1;
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 // directAbstractDeclarator
 int Syntatic::directAbstractDeclarator()
 {
+    cout << "directAbstractDeclarator: " << tk << endl;
     if (tk == ParenthesisOpen)
     {
         getToken();
+        if (tk == ParenthesisClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR() == 1)
+            {
+                return 1;
+            }
+        }
         if (parameterTypeList() == 1)
         {
             if (tk == ParenthesisClose)
@@ -1676,7 +1709,7 @@ int Syntatic::directAbstractDeclarator()
                 }
             }
         }
-        else if (abstractDeclarator() == 1)
+        if (abstractDeclarator() == 1)
         {
             if (tk == ParenthesisClose)
             {
@@ -1687,7 +1720,11 @@ int Syntatic::directAbstractDeclarator()
                 }
             }
         }
-        else if (tk == ParenthesisClose)
+    }
+    if (tk == BracketClose)
+    {
+        getToken();
+        if (tk == BracketClose)
         {
             getToken();
             if (directAbstractDeclaratorR() == 1)
@@ -1696,28 +1733,18 @@ int Syntatic::directAbstractDeclarator()
             }
         }
     }
-
     if (tk == BracketOpen)
     {
         getToken();
-        if (logicalOrExpression() == 1)
+        if (constantExrpression() == 1)
         {
-            if (tk == BracketClose)
+            if (tk == BracketOpen)
             {
                 getToken();
                 if (directAbstractDeclaratorR() == 1)
                 {
                     return 1;
                 }
-            }
-        }
-
-        if (tk == BracketClose)
-        {
-            getToken();
-            if (directAbstractDeclaratorR() == 1)
-            {
-                return 1;
             }
         }
     }
@@ -1727,9 +1754,18 @@ int Syntatic::directAbstractDeclarator()
 
 int Syntatic::directAbstractDeclaratorR()
 {
+    cout << "directAbstractDeclaratorR: " << tk << endl;
     if (tk == BracketOpen)
     {
         getToken();
+        if (tk == BracketClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR() == 1)
+            {
+                return 1;
+            }
+        }
         if (logicalOrExpression() == 1)
         {
             if (tk == BracketClose)
@@ -1741,8 +1777,11 @@ int Syntatic::directAbstractDeclaratorR()
                 }
             }
         }
-
-        if (tk == BracketClose)
+    }
+    if (tk == ParenthesisOpen)
+    {
+        getToken();
+        if (tk == ParenthesisClose)
         {
             getToken();
             if (directAbstractDeclaratorR() == 1)
@@ -1750,10 +1789,6 @@ int Syntatic::directAbstractDeclaratorR()
                 return 1;
             }
         }
-    }
-    if (tk == ParenthesisOpen)
-    {
-        getToken();
         if (parameterTypeList() == 1)
         {
             if (tk == ParenthesisClose)
@@ -1763,15 +1798,6 @@ int Syntatic::directAbstractDeclaratorR()
                 {
                     return 1;
                 }
-            }
-        }
-
-        if (tk == ParenthesisClose)
-        {
-            getToken();
-            if (directAbstractDeclaratorR() == 1)
-            {
-                return 1;
             }
         }
     }
@@ -1782,7 +1808,8 @@ int Syntatic::directAbstractDeclaratorR()
 // initializer
 int Syntatic::initializer()
 {
-    if (assignmentExpression() == 1)
+    cout << "initializer: " << tk << endl;
+    if(assignmentExpression() == 1)
     {
         return 1;
     }
@@ -1814,6 +1841,7 @@ int Syntatic::initializer()
 // initializerList
 int Syntatic::initializerList()
 {
+    cout << "initializerList: " << tk << endl;
     if (initializer() == 1)
     {
         if (initializerListR() == 1)
@@ -1827,6 +1855,7 @@ int Syntatic::initializerList()
 
 int Syntatic::initializerListR()
 {
+    cout << "initializerListR: " << tk << endl;
     if (tk == Comma)
     {
         getToken();
@@ -1845,6 +1874,7 @@ int Syntatic::initializerListR()
 // statement
 int Syntatic::statement()
 {
+    cout << "statement: " << tk << endl;
     if (labeledStatement() == 1)
     {
         return 1;
@@ -1878,6 +1908,7 @@ int Syntatic::statement()
 // labeledStatement
 int Syntatic::labeledStatement()
 {
+    cout << "labeledStatement: " << tk << endl;
     if (tk == Identifier)
     {
         getToken();
@@ -1923,6 +1954,7 @@ int Syntatic::labeledStatement()
 // compoundStatement          //REVISAR GRAMATICA LINHA 288
 int Syntatic::compoundStatement()
 {
+    cout << "compoundStatement: " << tk << endl;
     if (tk == BraceOpen)
     {
         getToken();
@@ -1941,6 +1973,7 @@ int Syntatic::compoundStatement()
 /*==================================== LEONARDO */
 int Syntatic::compoundStatementBody()
 {
+    cout << "compoundStatementBody: " << tk << endl;
     if (compoundStatementBodyR() == 1)
     {
         if (compoundStatementBody() == 1)
@@ -1957,6 +1990,7 @@ int Syntatic::compoundStatementBody()
 /*==================================== LEONARDO */
 int Syntatic::compoundStatementBodyR()
 {
+    cout << "compoundStatementBodyR: " << tk << endl;
     if (declarationList() == 1)
     {
         return 1;
@@ -1973,6 +2007,7 @@ int Syntatic::compoundStatementBodyR()
 // declarationList
 int Syntatic::declarationList()
 {
+    cout << "declarationList: " << tk << endl;
     if (declaration() == 1)
     {
         if (declarationList() == 1)
@@ -1988,6 +2023,7 @@ int Syntatic::declarationList()
 
 int Syntatic::declarationListR()
 {
+    cout << "declarationListR: " << tk << endl;
     if (declaration() == 1)
     {
         if (declarationList() == 1)
@@ -2004,6 +2040,7 @@ int Syntatic::declarationListR()
 // statementList
 int Syntatic::statementList()
 {
+    cout << "statementList: " << tk << endl;
     if (statement() == 1)
     {
         if (statementList() == 1)
@@ -2019,6 +2056,7 @@ int Syntatic::statementList()
 
 int Syntatic::statementListR()
 {
+    cout << "statementListR: " << tk << endl;
     if (statement() == 1)
     {
         if (statementListR() == 1)
@@ -2039,6 +2077,7 @@ int Syntatic::statementListR()
 // expressionStatement
 int Syntatic::expressionStatement()
 {
+    cout << "expressionStatement: " << tk << endl;
     if (tk == SemiCollon)
     {
         getToken();
@@ -2056,31 +2095,10 @@ int Syntatic::expressionStatement()
     return 0;
 }
 
-int Syntatic::expressionStatementBody()
-{
-    if (tk == ParenthesisOpen)
-    {
-        getToken();
-
-        if (expression() == 1)
-        {
-            if (tk == ParenthesisClose)
-            {
-                getToken();
-                if (statement() == 1)
-                {
-                    return 1;
-                }
-            }
-        }
-    }
-
-    return 0;
-}
-
 // selectionsStatement
 int Syntatic::selectionsStatement()
 {
+    cout << "selectionsStatement: " << tk << endl;
     if (tk == If)
     {
         getToken();
@@ -2135,16 +2153,27 @@ int Syntatic::selectionsStatement()
 // iterationStatement
 int Syntatic::iterationStatement()
 {
+    cout << "iterationStatement: " << tk << endl;
     if (tk == While)
     {
         getToken();
-
-        if (expressionStatementBody() == 1)
+        if (tk == ParenthesisOpen)
         {
-            return 1;
+            getToken();
+            if (expression() == 1)
+            {
+                if (tk == ParenthesisClose)
+                {
+                    getToken();
+                    if (statement() == 1)
+                    {
+                        return 1;
+                    }
+                }
+            }
         }
     }
-    if (tk == Do)
+    else if (tk == Do)
     {
         getToken();
         if (statement() == 1)
@@ -2171,9 +2200,8 @@ int Syntatic::iterationStatement()
             }
         }
     }
-    if (tk == For)
+    else if (tk == For)
     {
-        cout << "For: " << endl;
         getToken();
         if (tk == ParenthesisOpen)
         {
@@ -2182,6 +2210,14 @@ int Syntatic::iterationStatement()
             {
                 if (expressionStatement() == 1)
                 {
+                    if (tk == ParenthesisClose)
+                    {
+                        getToken();
+                        if (statement() == 1)
+                        {
+                            return 1;
+                        }
+                    }
                     if (expression() == 1)
                     {
                         if (tk == ParenthesisClose)
@@ -2193,28 +2229,18 @@ int Syntatic::iterationStatement()
                             }
                         }
                     }
-
-                    else if (tk == ParenthesisClose)
-                    {
-                        getToken();
-                        if (statement() == 1)
-                        {
-                            return 1;
-                        }
-                    }
                 }
             }
         }
     }
 
-    cout << tk << endl;
-    cout << "oooops" << endl;
     return 0;
 }
 
 // jumpStatement
 int Syntatic::jumpStatement()
 {
+    cout << "jumpStatement: " << tk << endl;
     if (tk == Continue)
     {
         getToken();
@@ -2235,9 +2261,7 @@ int Syntatic::jumpStatement()
     }
     if (tk == Return)
     {
-        cout << "return " << endl;
         getToken();
-        cout << tk << endl;
         if (tk == SemiCollon)
         {
             getToken();

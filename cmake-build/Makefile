@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/marcello/Repositories/LexicParser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marcello/Repositories/LexicParser
+CMAKE_BINARY_DIR = /home/marcello/Repositories/LexicParser/cmake-build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/Repositories/LexicParser/CMakeFiles /home/marcello/Repositories/LexicParser//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/Repositories/LexicParser/cmake-build/CMakeFiles /home/marcello/Repositories/LexicParser/cmake-build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/Repositories/LexicParser/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/Repositories/LexicParser/cmake-build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -130,21 +130,6 @@ SyntaticParser/fast:
 .PHONY : SyntaticParser/fast
 
 # target to build an object file
-lexic.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/lexic.o
-.PHONY : lexic.o
-
-# target to preprocess a source file
-lexic.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/lexic.i
-.PHONY : lexic.i
-
-# target to generate assembly for a file
-lexic.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/lexic.s
-.PHONY : lexic.s
-
-# target to build an object file
 main.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.o
 .PHONY : main.o
@@ -158,6 +143,21 @@ main.i:
 main.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.s
 .PHONY : main.s
+
+# target to build an object file
+src/lexic.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/lexic.o
+.PHONY : src/lexic.o
+
+# target to preprocess a source file
+src/lexic.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/lexic.i
+.PHONY : src/lexic.i
+
+# target to generate assembly for a file
+src/lexic.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/lexic.s
+.PHONY : src/lexic.s
 
 # target to build an object file
 src/syntatic.o:
@@ -183,12 +183,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... SyntaticParser"
-	@echo "... lexic.o"
-	@echo "... lexic.i"
-	@echo "... lexic.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/lexic.o"
+	@echo "... src/lexic.i"
+	@echo "... src/lexic.s"
 	@echo "... src/syntatic.o"
 	@echo "... src/syntatic.i"
 	@echo "... src/syntatic.s"

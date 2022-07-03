@@ -7,7 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <unistd.h>
-#include "../token.hpp"
+#include "./token.hpp"
 
 #define RED "\033[31m" /* Red */
 
@@ -70,18 +70,18 @@ public:
 
     Lexic(string filename);
 
+    bool eofReached();
     void readLine();
     void readCharacter();
     void unreadCharacter();
     void addToLexeme();
     void clearLexeme();
-    void eofReached();
     void analyze();
     void analyzeStartState();
     void analyzeStringState();
     void analyzeDigitState();
     void analyzeFloatingPointState();
-    void setToken(Token token, string value);
+    void setToken(Token token);
     void handleError();
     Token getKeyword();
 };

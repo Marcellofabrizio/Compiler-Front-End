@@ -1,15 +1,4 @@
-int main() 
+int main(int a)
 {
-    int a;
-    char *b;
-
-    int i = 0;
-    
-
-    do
-    {
-        int a = 1;
-    } while (result != NULL);
- 
     return 1;
 }

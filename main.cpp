@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "./lexic.cpp"
+#include "./include/lexic.h"
 #include "./include/syntatic.h"
 
 using namespace std;

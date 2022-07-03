@@ -2,7 +2,7 @@
 #define SYNTATIC_H
 
 #include <stack>
-#include "../token.hpp"
+#include "./token.hpp"
 
 class Syntatic
 {
@@ -66,7 +66,7 @@ public:
     int structSprecifier();
     int structGrammar();
     int structDeclarationList();
-    int structDeclarationListR();
+    int structDeclaration();
     int structDeclarator();
     int declarator();
     int directDeclarator();
@@ -98,6 +98,8 @@ public:
     int selectionsStatement();
     int iterationStatement();
     int jumpStatement();
+    int structDeclaratorList();
+    int structDeclaratorListR();
 };
 
 #endif

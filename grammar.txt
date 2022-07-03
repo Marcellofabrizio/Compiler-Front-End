@@ -3,11 +3,15 @@ externalDeclaration
     | declaration
     ;
 
-functionDefinition
+functionDefinition // Fatorar usando savePosition e restaurePosition
+    savePosition()
     : declarationSpecifiers declarator declarationList compoundStatement
     | declarationSpecifiers declarator compoundStatement
+    restaurePosition()
+    savePosition()
     | declarator declarationList compoundStatement
     | declarator compoundStatement
+    restaurePosition()
     ;
 
 primaryExpression 
@@ -16,20 +20,28 @@ primaryExpression
     | ParenthesisOpen expression ParenthesisClose
     ;
 
-postFixExpression  #RECURSIVE OK
-    : primaryExpression
-    | postFixExpression BracketOpen expression BracketClose
-    | postFixExpression ParenthesisOpen ParenthesisClose
-    | postFixExpression ParenthesisOpen argumentExpressionList ParenthesisClose 
-    | postFixExpression Dot Identifier
-    | postFixExpression Accessor Identifier
-    | postFixExpression IncOp
-    | postFixExpression DecOp
+postFixExpression  
+    : primaryExpression postFixEspressionR
     ;
 
-argumentExpressionList #RECURSIVE OK
-    : assignmentExpression
-    | argumentExpressionList Comma assignmentExpression
+postFixEspressionR
+    : BracketOpen expression BracketClose postFixEspressionR
+    | ParenthesisOpen ParenthesisClose postFixEspressionR
+    | ParenthesisOpen argumentExpressionList ParenthesisClose postFixEspressionR
+    | Dot Identifier postFixEspressionR
+    | Accessor Identifier postFixEspressionR
+    | IncOp postFixEspressionR
+    | DecOp postFixEspressionR
+    | Vazio
+    ;
+
+argumentExpressionList 
+    : assignmentExpression argumentExpressionListR 
+    ;
+
+argumentExpressionListR 
+    : Comma assignmentExpression argumentExpressionListR  
+    | Vazio
     ;
 
 unaryExpression
@@ -50,64 +62,106 @@ unaryOperator
 
 castExpression
     : unaryExpression
+    | ParenthesisOpen typeName ParenthesisClose castExpression
     ;
 
-multiplicativeExpression #RECURSIVE OK
-    : unaryExpression
-    | multiplicativeExpression Product unaryExpression
-    | multiplicativeExpression Division unaryExpression
-    | multiplicativeExpression Module unaryExpression
+multiplicativeExpression 
+    : castExpression multiplicativeExpressionR
     ;
 
-additiveExpression #RECURSIVE OK
-    : multiplicativeExpression
-    | additiveExpression Plus multiplicativeExpression
-    | additiveExpression Minus multiplicativeExpression
+multiplicativeExpressionR
+    : Product unaryExpression multiplicativeExpressionR
+    | Division unaryExpression multiplicativeExpressionR
+    | Module unaryExpression multiplicativeExpressionR
+    | Vazio
+    ;
+
+additiveExpression 
+    : multiplicativeExpression additiveExpressionR
+    ;
+
+additiveExpressionR
+    : Plus multiplicativeExpression additiveExpressionR
+    | Minus multiplicativeExpression additiveExpressionR
+    | Vazio     
     ;
  
-shiftExpression #RECURSIVE OK
-    : additiveExpression
-    | shiftExpression LeftOp additiveExpression
-    | shiftExpression RightOp additiveExpression
+shiftExpression
+    : additiveExpression shiftExpressionR
     ;
 
-relationalExpression #RECURSIVE OK
-    : shiftExpression
-    | relationalExpression Less shiftExpression
-    | relationalExpression Greater shiftExpression
-    | relationalExpression LEOp shiftExpression
-    | relationalExpression GEOP shiftExpression
+shiftExpressionR
+    : LeftOp additiveExpression shiftExpressionR
+    | RightOp additiveExpression shiftExpressionR
+    | Vazio
     ;
 
-equalityExpression #RECURSIVE OK
-    : relationalExpression
-    | equalityExpression EQOp relationalExpression
-    | equalityExpression NEOp relationalExpression
+relationalExpression
+    : shiftExpression relationalExpressionR
     ;
 
-andExpression #RECURSIVE OK
-    : equalityExpression
-    | andExpression AndOp equalityExpression
+relationalExpressionR
+    : Less shiftExpression relationalExpressionR
+    | Greater shiftExpression relationalExpressionR
+    | LEOp shiftExpression relationalExpressionR
+    | GEOP shiftExpression relationalExpressionR
+    | Vazio
     ;
 
-exclusiveOrExpression #RECURSIVE OK
-    : andExpression
-    | exclusiveOrExpression Power andExpression
+equalityExpression
+    : relationalExpression equalityExpressionR
     ;
 
-inclusiveOrExpression #RECURSIVE OK
-    : exclusiveOrExpression
-    | inclusiveOrExpression OrOp exclusiveOrExpression
+equalityExpressionR
+    : EQOp relationalExpression equalityExpressionR
+    | NEOp relationalExpression equalityExpressionR
+    | Vazio
     ;
 
-logialAndExpression #RECURSIVE OK
-    : inclusiveOrExpression
-    | logialAndExpression AndOp inclusiveOrExpression
+andExpression
+    : equalityExpression andExpressionR
     ;
 
-logicalOrExpression #RECURSIVE OK
-    : logicalAndExpression
-    | logicalOrExpression OrOp logicalAndExpression
+andExpressionR
+    : AndOp equalityExpression andExpressionR
+    | Vazio
+    ;
+
+exclusiveOrExpression
+    : andExpression exclusiveOrExpressionR
+    ;
+
+exclusiveOrExpressionR
+    : Power andExpression exclusiveOrExpressionR
+    | Vazio
+    ;
+
+inclusiveOrExpression 
+    : exclusiveOrExpression inclusiveOrExpressionR
+    ;
+
+inclusiveOrExpressionR
+    : OrOp exclusiveOrExpression inclusiveOrExpressionR
+    | Vazio
+    ;
+
+logialAndExpression 
+    : inclusiveOrExpression logialAndExpressionR
+    ;
+
+logialAndExpressionR
+    : AndOp inclusiveOrExpression logialAndExpressionR
+    | Vazio
+    ;
+
+logicalOrExpression
+    : logicalAndExpression logicalOrExpressionR
+    ;
+
+logicalOrExpressionR
+    : OrOp logicalAndExpression logicalOrExpressionR
+    | Vazio
+    ;
 
 conditionExpression
     : logicalOrExpression
@@ -130,12 +184,18 @@ assignmentOperator
     | RightAssign
     ;
 
-expression #RECURSIVE OK
-    : assignmentExpression
-    | expression Comma assignmentExpression
+
+expression
+    : assignmentExpression expressionR
+    ;
+
+expressionR
+    : Comma assignmentExpression expressionR
+    | Vazio
+    ;
 
 constantExrpression
-    : conditionExpression
+    : logicalOrExpression
     ;
 
 declaration 
@@ -148,9 +208,12 @@ declarationSpecifiers
     | typeSpecifier declarationSpecifiers
     ;
 
-initDeclaratorList #RECURSIVE OK
-    : initDeclarator
-    | initDeclaratorList Comma initDeclarator
+initDeclaratorList 
+    : initDeclarator initDeclaratorListR
+    ;
+
+initDeclaratorListR
+    : Comma initDeclarator initDeclaratorListR 
     ;
 
 initDeclarator
@@ -170,31 +233,45 @@ typeSpecifier
     | Unsigned
     | structSprecifier
     ;
-
 specifierList
-	: typeSpecifier specifierList
-	| typeSpecifier
-	;
+    : typeSpecifier specifierList
+    | typeSpecifier
+    ;
 
 structSprecifier
-    : struct Identifier BraceOpen structDeclarationList BraceClose
-    | struct BraceOpen structDeclarationList BraceClose
-    | struct Identifier
+    : Struct Identifier BraceOpen structDeclarationList BraceClose
+    | Struct Identifier
+    | Struct BraceOpen structDeclarationList BraceClose
     ;
 
-struct
-    : Struct
+structDeclarationList 
+    : structDeclaration structDeclarationListR
     ;
 
-structDeclarationList #RECURSIVE OK
-    : structDeclarator
-    | structDeclarationList Comma structDeclarator
+structDeclarationListR
+    : structDeclaration structDeclaratorListR
+
+structDeclaration
+    : specifierList structDeclaratorList SemiCollon
+    ;
+
+specifierList
+    : typeSpecifier specifierList
+    | typeSpecifier
+    ;
+
+structDeclaratorList
+    : structDeclarator structDeclaratorListR 
+    ;
+
+structDeclaratorListR
+    : Comma structDeclarator structDeclaratorListR
     ;
 
 structDeclarator
     : declarator
-    | Collon constantExrpression
-    | declarator Collon constantExrpression
+    | Collon logicalOrExpression
+    | declarator Collon logicalOrExpression
     ;
 
 declarator
@@ -202,13 +279,18 @@ declarator
     | directDeclarator
     ;
 
-directDeclarator #RECURSIVE OK
-    : Identifier
-    | ParenthesisOpen declarator ParenthesisClose
-    | directDeclarator BracketOpen constantExrpression BracketClose
-    | directDeclarator BracketOpen BracketClose
-    | directDeclarator ParenthesisOpen parameterTypeList ParenthesisClose
-    | directDeclarator ParenthesisOpen ParenthesisClose
+
+
+directDeclarator
+	: Identifier directDeclaratorR
+	| ParentesisOpen declarator ParentesisClose directDeclaratorR
+	;
+
+directDeclaratorR 
+	: BracketOpen logicalOrExpression BracketClose directDeclaratorR
+	| BracketOpen BracketClose directDeclaratorR
+    | ParenthesisOpen parameterTypeList ParenthesisClose directDeclaratorR
+    | ParenthesisOpen ParenthesisClose directDeclaratorR
     ;
 
 pointer 
@@ -221,21 +303,27 @@ parameterTypeList
     | parameterList Comma Ellipsis
     ;
 
-parameterList #RECURSIVE OK
-    : paramaeterDeclaration
-    | parameterList Comma paramaeterDeclaration
-    ;
+parameterList
+:  parameterDeclaration parameterListR
+;
 
-paramaeterDeclaration
+parameterListR
+: Comma parameterDeclaration parameterListR
+;  
+
+parameterDeclaration
     : declarationSpecifiers declarator
     | declarationSpecifiers abstractDeclarator
     | declarationSpecifiers
     ;
 
-identifierList #RECURSIVE OK
-    : Identifier
-    | identifierList Comma Identifier
+identifierList 
+    : Identifier identifierListR
     ;
+
+identifierListR
+	: Comma Identifier identifierListR 
+	;
 
 typeName
     : specifierList
@@ -248,16 +336,19 @@ abstractDeclarator
     | pointer directAbstractDeclarator
     ;
 
-directAbstractDeclarator #RECURSIVE OK
-    : ParenthesisOpen abstractDeclarator ParenthesisClose
-    | BracketClose BracketClose
-    | BracketOpen constantExrpression BracketOpen
-    | directAbstractDeclarator BracketOpen BracketClose
-    | directAbstractDeclarator BracketOpen conditionExpression BracketClose
-    | ParenthesisOpen ParenthesisClose
-    | ParenthesisOpen parameterTypeList ParenthesisClose
-    | directAbstractDeclarator ParenthesisOpen ParenthesisClose
-    | directAbstractDeclarator ParenthesisOpen parameterTypeList ParenthesisClose
+directAbstractDeclarator 
+    : ParenthesisOpen abstractDeclarator ParenthesisClose directAbstractDeclaratorR
+    | BracketClose BracketClose directAbstractDeclaratorR
+    | BracketOpen constantExrpression BracketOpen directAbstractDeclaratorR
+    | ParenthesisOpen ParenthesisClose directAbstractDeclaratorR
+    | ParenthesisOpen parameterTypeList ParenthesisClose directAbstractDeclaratorR
+    ;
+
+directAbstractDeclaratorR
+	: BracketOpen BracketClose directAbstractDeclaratorR
+    | BracketOpen logicalOrExpression BracketClose directAbstractDeclaratorR
+    | ParenthesisOpen ParenthesisClose directAbstractDeclaratorR
+    | ParenthesisOpen parameterTypeList ParenthesisClose directAbstractDeclaratorR
     ;
 
 initializer
@@ -266,11 +357,14 @@ initializer
     | BraceOpen initializerList Comma BraceClose
     ;
 
-initializerList #RECURSIVE OK
-    : initializer
-    | initializerList Comma initializer
+initializerList 
+    : initializer initializerListR
     ;
 
+initializerListR
+	: Comma initializer initializerListR
+    ;
+	
 statement
     : labeledStatement
     | compoundStatement
@@ -280,9 +374,12 @@ statement
     | jumpStatement
     ;
 
+
+
+
 labeledStatement
     : Identifier Collon statement
-    | Case constantExrpression Collon statement
+    | Case logicalOrExpression Collon statement
     | Default Collon statement
     ;
 
@@ -292,15 +389,19 @@ compoundStatement
     | BraceOpen declarationList BraceClose
     | BraceOpen statementList BraceClose
 
-declarationList #RECURSIVE OK
+declarationList 
     : declaration
     | declarationList declaration
     ;
 
-statementList #RECURSIVE OK
-    : statement
-    | statementList statement
+statementList 
+    : statement statementListR
     ;
+
+statementListR
+	: statement statementListR
+            : vazio
+	;
 
 expressionStatement
     : SemiCollon
