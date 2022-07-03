@@ -74,7 +74,7 @@ public:
     int parameterTypeList();
     int parameterList();
     int parameterListR();
-    int paramaeterDeclaration();
+    int parameterDeclaration();
     int identifierList();
     int identifierListR();
     int typeName(); 

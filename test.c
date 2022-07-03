@@ -4,5 +4,5 @@ int main(int argc, char *b[])
 
     int *token = 12;
 
-    return 1
+    return 1;
 }

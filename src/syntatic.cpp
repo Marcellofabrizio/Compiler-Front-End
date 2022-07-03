@@ -16,12 +16,15 @@ Syntatic::Syntatic(vector<Token> results)
     getToken();
 }
 
-void savePosition()
+void Syntatic::savePosition()
 {
+    this->tokenStack.push(this->currentTokenIndex);
 }
 
-void restorePosition()
+void Syntatic::restorePosition()
 {
+    this->currentTokenIndex = this->tokenStack.top();
+    this->tokenStack.pop();
 }
 
 void Syntatic::getToken()
@@ -1530,7 +1533,7 @@ int Syntatic::parameterTypeList()
 // parameterList
 int Syntatic::parameterList()
 {
-    if (paramaeterDeclaration() == 1)
+    if (parameterDeclaration() == 1)
     {
         if (parameterListR() == 1)
         {
@@ -1552,7 +1555,7 @@ int Syntatic::parameterListR()
     if (tk == Comma)
     {
         getToken();
-        if (paramaeterDeclaration() == 1)
+        if (parameterDeclaration() == 1)
         {
             if (parameterListR() == 1)
             {
@@ -1574,8 +1577,8 @@ int Syntatic::parameterListR()
     }
 }
 
-// paramaeterDeclaration
-int Syntatic::paramaeterDeclaration()
+// parameterDeclaration
+int Syntatic::parameterDeclaration()
 {
     if (declarationSpecifiers() == 1)
     {
@@ -2352,6 +2355,7 @@ int Syntatic::jumpStatement()
     {
         cout << "return " << endl;
         getToken();
+        cout << tk << endl;
         if (tk == SemiCollon)
         {
             getToken();
