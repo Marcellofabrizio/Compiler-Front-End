@@ -1,6 +1,7 @@
 #ifndef SYNTATIC_H
 #define SYNTATIC_H
 
+#include <stack>
 #include "../token.hpp"
 
 class Syntatic
@@ -9,6 +10,7 @@ class Syntatic
 public:
     int currentTokenIndex = 0;
     std::vector<Token> tokenList;
+    std::stack<int> tokenStack;
 
     Syntatic(std::vector<Token> results);
 
