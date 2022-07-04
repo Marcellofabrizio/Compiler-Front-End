@@ -9,6 +9,7 @@ class Syntatic
 
 public:
     int currentTokenIndex = 0;
+    int tk;
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
 
