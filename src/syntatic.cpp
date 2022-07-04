@@ -463,4 +463,297 @@ bool Syntatic::additiveExpressionR()
     return true;
 }
 
+bool Syntatic::shiftExpression(){
+    if(additiveExpression()){
+        if(shiftExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::shiftExpressionR(){
+    if(tk==LeftOp){
+        getToken();
+        if(additiveExpression()){
+            if(shiftExpressionR()){
+                return true;
+            }
+        }
+    }
+    if(tk==RightOp){
+        getToken();
+        if(additiveExpression()){
+            if(shiftExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntatic::relationalExpression(){
+    if(shiftExpression()){
+        if(relationalExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::relationalExpressionR(){
+    if(tk==Less){
+        getToken();
+        if(shiftExpression()){
+            if(relationalExpressionR()){
+                return true;
+            }
+        }
+    }
+    if(tk==Greater){
+        getToken();
+        if(shiftExpression()){
+            if(relationalExpressionR()){
+                return true;
+            }
+        }
+    }
+    if(tk==LEOp){
+        getToken();
+        if(shiftExpression()){
+            if(relationalExpressionR()){
+                return true;
+            }
+        }
+    }
+    if(tk==GEOp){
+        getToken();
+        if(shiftExpression()){
+            if(relationalExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntatic::equalityExpression(){
+    if(relationalExpression()){
+        if(equalityExpressionR(){
+            return true;
+        })
+    }
+    return false;
+}
+
+bool Syntatic::equalityExpressionR(){
+    if(tk==EQOp){
+        getToken();
+        if(relationalExpression()){
+            if(equalityExpressionR()){
+                return true;
+            }
+        }
+    }
+    if(tk==NEOp){
+        getToken();
+        if(relationalExpression()){
+            if(equalityExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntatic::andExpression(){
+    if(equalityExpression()){
+        if(andExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::andExpressionR(){
+    if(tk==AndOp){
+        getToken();
+        if(equalityExpression()){
+            if(andExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+    
+}
+
+bool Syntatic::exclusiveOrExpression(){
+    if(andExpression()){
+        if(exclusiveOrExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::exclusiveOrExpressionR(){
+    if(tk==Power){
+        getToken();
+        if(andExpression()){
+            if(exclusiveOrExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+    
+}
+
+bool Syntatic::inclusiveOrExpression(){
+    if(exclusiveOrExpression()){
+        if(inclusiveOrExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::inclusiveOrExpressionR(){
+    if(tk==OrOp){
+        getToken();
+        if(exclusiveOrExpression()){
+            if(inclusiveOrExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+    
+}
+
+bool Syntatic::logicalAndExpression(){
+    if(inclusiveOrExpression()){
+        if(logicalAndExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::logicalAndExpressionR(){
+    if(tk==AndOp){
+        getToken();
+        if(inclusiveOrExpression()){
+            if(logicalAndExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+    
+}
+
+bool Syntatic::logicalOrExpression(){
+    if(logicalAndExpression()){
+        if(logicalOrExpressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::logicalOrExpressionR(){
+    if(tk==OrOp){
+        getToken();
+        if(logicalAndExpression()){
+            if(logicalOrExpressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+    
+}
+
+bool Syntatic::conditionExpression(){
+    if(logicalOrExpression()){
+        if(tk==QuestionMark){
+            getToken();
+            if(expression()){
+                if(tk==Colon){
+                    getToken();
+                    if(conditionExpression()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Syntatic::assignmentExpression(){
+    if(conditionExpression()){
+        return true;
+    }
+    if(unaryExpression()){
+        if(assignmentOperator()){
+            if(assignmentExpression()){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Syntatic::assignmentOperator(){
+    if(tk==Assign){
+        return true;
+    }
+    if(tk==MulAssign){
+        return true;
+    }
+    if(tk==DivAssign){
+        return true;
+    }
+    if(tk==ModAssign){
+        return true;
+    }
+    if(tk==AddAssign){
+        return true;
+    }
+    if(tk==LessAssign){
+        return true;
+    }
+    if(tk==LeftAssign){
+        return true;
+    }
+    if(tk==RightAssign){
+        return true;
+    }
+    return false;
+}
+
+bool Syntatic::expression(){
+    if(assignmentExpression()){
+        if(expressionR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::expressionR(){
+    if(tk==Comma){
+        getToken();
+        if(assignmentExpression()){
+            if(expressionR()){
+                return true;
+            }
+        }
+    }
+    return true;
+}
 // parabÃ©ns por chegar ao final do cÃ³digo

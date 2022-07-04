@@ -145,12 +145,12 @@ inclusiveOrExpressionR
     | Vazio
     ;
 
-logialAndExpression 
-    : inclusiveOrExpression logialAndExpressionR
+logicalAndExpression 
+    : inclusiveOrExpression logicalAndExpressionR
     ;
 
-logialAndExpressionR
-    : AndOp inclusiveOrExpression logialAndExpressionR
+logicalAndExpressionR
+    : AndOp inclusiveOrExpression logicalAndExpressionR
     | Vazio
     ;
 
