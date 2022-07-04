@@ -1635,7 +1635,6 @@ bool Syntatic::compoundStatement()
             }
         }
     }
-
     return false;
 }
 
