@@ -1689,4 +1689,160 @@ bool Syntatic::declarationList()
     return false;
 }
 
+bool Syntatic::statementList(){
+    if(statement()){
+        if(statementList()){
+            return true;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Syntatic::expressionStatement(){
+    if(tk==SemiCollon){
+        getToken();
+        return true;
+    }
+    if(expression()){
+        if(tk==SemiCollon){
+            getToken();
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::selectionsStatement(){
+    if(tk==If){
+        getToken();
+        if(tk==ParenthesisOpen){
+            getToken();
+            if(expression()){
+                if(tk==ParenthesisClose){
+                    getToken();
+                    if(statement()){
+                        if(tk==Else){
+                            getToken();
+                            if(statement()){
+                                return true;
+                            }
+                        }   
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    if(tk==Switch){
+        getToken();
+        if(tk==ParenthesisOpen){
+            getToken();
+            if(expression()){
+                if(tk==ParenthesisClose){
+                    getToken();
+                    if(statement()){ 
+                        return true;
+                    }
+                }
+            }
+        }
+
+    }
+    return false;
+}
+
+bool Syntatic::iterationStatement(){
+    if(tk==While){
+        getToken();
+        if(tk==ParenthesisOpen){
+            getToken();
+            if(expression()){
+                if(tk==ParenthesisClose){
+                    getToken();
+                    if(statement()){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    if(tk==Do){
+        getToken();
+        if(statement()){
+            if(tk==While){
+                getToken();
+                if(tk==ParenthesisOpen){
+                    getToken();
+                    if(expression()){
+                        if(tk==ParenthesisClose){
+                            getToken();
+                            if(tk==SemiCollon){
+                                getToken();
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if(tk==For){
+        getToken();
+        if(tk==ParenthesisClose){
+            getToken();
+            if(expressionStatement()){
+                if(expressionStatement()){
+                    if(tk==ParenthesisClose){
+                        getToken();
+                        if(statement()){
+                            return true;
+                        }
+                    }
+                    if(expression()){
+                        if(tk==ParenthesisClose){
+                            getToken();
+                            if(statement()){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool Syntatic::jumpStatement(){
+    if(tk==Continue){
+        getToken();
+        if(tk==SemiCollon){
+            getToken();
+            return true;
+        }
+    }
+    if(tk==Break){
+        getToken();
+        if(tk==SemiCollon){
+            getToken();
+            return true;
+        }
+    }
+    if(tk==Return){
+        getToken();
+        if(tk==SemiCollon){
+            getToken();
+            return true;
+        }
+        if(expression()){
+            if(tk==SemiCollon){
+                getToken();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 // parabÃ©ns por chegar ao final do cÃ³digo

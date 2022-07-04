@@ -397,22 +397,12 @@ compoundStatement
     | BraceOpen statementList BraceClose
 
 declarationList 
-    : declaration declarationListR
+    : declaration declarationList
     ;
-
-declarationList 
-    : declaration declarationListR
-    ;
-
 
 statementList 
-    : statement statementListR
+    : statement statementList
     ;
-
-statementListR
-	: statement statementListR
-    : vazio
-	;
 
 expressionStatement
     : SemiCollon
