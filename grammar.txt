@@ -342,11 +342,11 @@ abstractDeclarator
     ;
 
 directAbstractDeclarator 
+    | ParenthesisOpen ParenthesisClose directAbstractDeclaratorR
     : ParenthesisOpen abstractDeclarator ParenthesisClose directAbstractDeclaratorR
+    | ParenthesisOpen parameterTypeList ParenthesisClose directAbstractDeclaratorR
     | BracketClose BracketClose directAbstractDeclaratorR
     | BracketOpen constantExrpression BracketOpen directAbstractDeclaratorR
-    | ParenthesisOpen ParenthesisClose directAbstractDeclaratorR
-    | ParenthesisOpen parameterTypeList ParenthesisClose directAbstractDeclaratorR
     ;
 
 directAbstractDeclaratorR
@@ -397,9 +397,13 @@ compoundStatement
     | BraceOpen statementList BraceClose
 
 declarationList 
-    : declaration
-    | declarationList declaration
+    : declaration declarationListR
     ;
+
+declarationList 
+    : declaration declarationListR
+    ;
+
 
 statementList 
     : statement statementListR

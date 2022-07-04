@@ -1152,31 +1152,42 @@ bool Syntatic::structDeclarator()
     return false;
 }
 
-bool Syntatic::declarator(){
-    if(directDeclarator()){
+bool Syntatic::declarator()
+{
+    if (directDeclarator())
+    {
         return true;
     }
-    if(pointer()){
-        if(directDeclarator()){
+    if (pointer())
+    {
+        if (directDeclarator())
+        {
             return true;
         }
     }
-    return false; 
+    return false;
 }
 
-bool Syntatic::directDeclarator(){
-    if(tk==Identifier){
+bool Syntatic::directDeclarator()
+{
+    if (tk == Identifier)
+    {
         getToken();
-        if(directDeclaratorR()){
+        if (directDeclaratorR())
+        {
             return true;
         }
     }
-    if(tk==ParenthesisOpen){
+    if (tk == ParenthesisOpen)
+    {
         getToken();
-        if(declarator()){
-            if(tk==ParenthesisClose){
+        if (declarator())
+        {
+            if (tk == ParenthesisClose)
+            {
                 getToken();
-                if(directDeclaratorR()){
+                if (directDeclaratorR())
+                {
                     return true;
                 }
             }
@@ -1185,49 +1196,64 @@ bool Syntatic::directDeclarator(){
     return false;
 }
 
-bool Syntatic::directDeclaratorR(){
-    if(tk==BracketOpen){
+bool Syntatic::directDeclaratorR()
+{
+    if (tk == BracketOpen)
+    {
         getToken();
-        if(tk==BracketClose){
+        if (tk == BracketClose)
+        {
             getToken();
-            if(directDeclaratorR()){
+            if (directDeclaratorR())
+            {
                 return true;
             }
         }
-        if(logicalOrExpression()){
-            if(tk==BracketClose){
+        if (logicalOrExpression())
+        {
+            if (tk == BracketClose)
+            {
                 getToken();
-                if(directDeclaratorR()){
+                if (directDeclaratorR())
+                {
                     return true;
                 }
             }
         }
     }
-    if(tk==ParenthesisOpen){
+    if (tk == ParenthesisOpen)
+    {
         getToken();
-        if(tk==ParenthesisClose){
+        if (tk == ParenthesisClose)
+        {
             getToken();
-            if(directDeclaratorR()){
+            if (directDeclaratorR())
+            {
                 return true;
             }
         }
-        if(parameterTypeList()){
-            if(tk==ParenthesisClose){
+        if (parameterTypeList())
+        {
+            if (tk == ParenthesisClose)
+            {
                 getToken();
-                if(directDeclaratorR()){
+                if (directDeclaratorR())
+                {
                     return true;
                 }
             }
         }
     }
     return true;
-    
 }
 
-bool Syntatic::pointer(){
-    if(tk==Product){
+bool Syntatic::pointer()
+{
+    if (tk == Product)
+    {
         getToken();
-        if(pointer()){
+        if (pointer())
+        {
             return true;
         }
         return true;
@@ -1235,11 +1261,15 @@ bool Syntatic::pointer(){
     return false;
 }
 
-bool Syntatic::parameterTypeList(){
-    if(parameterList()){
-        if(tk==Comma){
+bool Syntatic::parameterTypeList()
+{
+    if (parameterList())
+    {
+        if (tk == Comma)
+        {
             getToken();
-            if(tk==Ellipsis){
+            if (tk == Ellipsis)
+            {
                 getToken();
                 return true;
             }
@@ -1249,20 +1279,27 @@ bool Syntatic::parameterTypeList(){
     return false;
 }
 
-bool Syntatic::parameterList(){
-    if(parameterDeclaration()){
-        if(parameterListR()){
+bool Syntatic::parameterList()
+{
+    if (parameterDeclaration())
+    {
+        if (parameterListR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::parameterListR(){
-    if(tk==Comma){
+bool Syntatic::parameterListR()
+{
+    if (tk == Comma)
+    {
         getToken();
-        if(parameterDeclaration()){
-            if(parameterListR()){
+        if (parameterDeclaration())
+        {
+            if (parameterListR())
+            {
                 return true;
             }
         }
@@ -1270,12 +1307,16 @@ bool Syntatic::parameterListR(){
     return true;
 }
 
-bool Syntatic::parameterDeclaration(){
-    if(declarationSpecifiers()){
-        if(declarator()){
+bool Syntatic::parameterDeclaration()
+{
+    if (declarationSpecifiers())
+    {
+        if (declarator())
+        {
             return true;
         }
-        if(abstractDeclarator()){
+        if (abstractDeclarator())
+        {
             return true;
         }
         return true;
@@ -1283,22 +1324,29 @@ bool Syntatic::parameterDeclaration(){
     return false;
 }
 
-bool Syntatic::identifierList(){
-    if(tk==Identifier){
+bool Syntatic::identifierList()
+{
+    if (tk == Identifier)
+    {
         getToken();
-        if(identifierListR()){
+        if (identifierListR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::identifierListR(){
-    if(tk==Comma){
+bool Syntatic::identifierListR()
+{
+    if (tk == Comma)
+    {
         getToken();
-        if(tk==Identifier){
+        if (tk == Identifier)
+        {
             getToken();
-            if(identifierListR()){
+            if (identifierListR())
+            {
                 return true;
             }
         }
@@ -1306,13 +1354,338 @@ bool Syntatic::identifierListR(){
     return true;
 }
 
-bool Syntatic::typeName(){
-    if(specifierList()){
-        if(abstractDeclarator()){
+bool Syntatic::typeName()
+{
+    if (specifierList())
+    {
+        if (abstractDeclarator())
+        {
             return true;
         }
         return true;
     }
+    return false;
+}
+
+bool Syntatic::abstractDeclarator()
+{
+    if (pointer())
+    {
+        if (directAbstractDeclarator())
+        {
+            return true;
+        }
+
+        return true;
+    }
+
+    if (directAbstractDeclarator())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::directAbstractDeclarator()
+{
+    if (tk == ParenthesisOpen)
+    {
+        getToken();
+        if (parameterTypeList())
+        {
+            if (tk == ParenthesisClose)
+            {
+                getToken();
+                if (directAbstractDeclarator())
+                {
+                    return true;
+                }
+            }
+        }
+
+        else if (abstractDeclarator())
+        {
+            if (tk == ParenthesisClose)
+            {
+                getToken();
+                if (directAbstractDeclaratorR())
+                {
+                    return true;
+                }
+            }
+        }
+
+        else if (tk == ParenthesisClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR())
+            {
+                return true;
+            }
+        }
+    }
+
+    else if (tk == BracketOpen)
+    {
+        getToken();
+        if (logicalOrExpression())
+        {
+            if (tk == BracketClose)
+            {
+                getToken();
+                if (directAbstractDeclaratorR())
+                {
+                    return true;
+                }
+            }
+        }
+
+        else if (tk == BracketClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR())
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::directAbstractDeclaratorR()
+{
+    if (tk == BracketOpen)
+    {
+        getToken();
+
+        if (logicalOrExpression())
+        {
+            if (tk == BracketClose)
+            {
+                getToken();
+                if (directAbstractDeclaratorR())
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    else if (tk == ParenthesisOpen)
+    {
+        getToken();
+        if (parameterTypeList())
+        {
+            if (tk == ParenthesisClose)
+            {
+                getToken();
+                if (directAbstractDeclaratorR())
+                {
+                    return true;
+                }
+            }
+        }
+
+        else if (tk == ParenthesisClose)
+        {
+            getToken();
+            if (directAbstractDeclaratorR())
+            {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::initializer()
+{
+    if (assignmentExpression())
+    {
+        return true;
+    }
+
+    if (tk == BraceOpen)
+    {
+        getToken();
+        if (initializerList())
+        {
+            if (tk == BraceClose)
+            {
+                getToken();
+                return true;
+            }
+
+            else if (tk == Comma)
+            {
+                getToken();
+                if (tk == BraceClose)
+                {
+                    getToken();
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::initializerList()
+{
+    if (initializer())
+    {
+        if (initDeclaratorListR())
+        {
+            return true;
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::initializerListR()
+{
+    if (tk == Comma)
+    {
+        if (initializer())
+        {
+            if (initializerListR())
+            {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::statement()
+{
+    if (labeledStatement())
+    {
+        return true;
+    }
+    else if (compoundStatement())
+    {
+        return true;
+    }
+    else if (expressionStatement())
+    {
+        return true;
+    }
+    else if (selectionStatement())
+    {
+        return true;
+    }
+    else if (iterationStatement())
+    {
+        return true;
+    }
+    else if (jumpStatement())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::labeledStatement()
+{
+    if (tk == Case)
+    {
+        getToken();
+        if (logicalOrExpression())
+        {
+            if (tk == Collon)
+            {
+                getToken();
+                if (statement())
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    else if (tk == Default)
+    {
+        getToken();
+
+        if (tk == Collon)
+        {
+            getToken();
+            if (statement())
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::compoundStatement()
+{
+    if (tk == BraceOpen)
+    {
+        getToken();
+        if (compoundStatementList())
+        {
+            if (tk == BraceClose)
+            {
+                getToken();
+                return true;
+            }
+        }
+    }
+}
+
+bool Syntatic::compoundStatementList()
+{
+    if (compoundStatementBody())
+    {
+        if (compoundStatementList())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
+bool Syntatic::compoundStatementBody()
+{
+    if (declarationList())
+    {
+        return true;
+    }
+
+    else if (statementList())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::declarationList()
+{
+    if (declaration())
+    {
+        if (declarationList())
+        {
+            return true;
+        }
+
+        return true;
+    }
+
     return false;
 }
 

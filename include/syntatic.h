@@ -90,14 +90,14 @@ public:
     bool statement();
     bool labeledStatement();
     bool compoundStatement();
+    bool compoundStatementList();
     bool compoundStatementBody();
-    bool compoundStatementBodyR();
     bool declarationList();
     bool declarationListR();
     bool statementList();
     bool statementListR();
     bool expressionStatement();
-    bool selectionsStatement();
+    bool selectionStatement();
     bool iterationStatement();
     bool jumpStatement();
     bool structDeclaratorList();
