@@ -1151,4 +1151,169 @@ bool Syntatic::structDeclarator()
 
     return false;
 }
+
+bool Syntatic::declarator(){
+    if(directDeclarator()){
+        return true;
+    }
+    if(pointer()){
+        if(directDeclarator()){
+            return true;
+        }
+    }
+    return false; 
+}
+
+bool Syntatic::directDeclarator(){
+    if(tk==Identifier){
+        getToken();
+        if(directDeclaratorR()){
+            return true;
+        }
+    }
+    if(tk==ParenthesisOpen){
+        getToken();
+        if(declarator()){
+            if(tk==ParenthesisClose){
+                getToken();
+                if(directDeclaratorR()){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool Syntatic::directDeclaratorR(){
+    if(tk==BracketOpen){
+        getToken();
+        if(tk==BracketClose){
+            getToken();
+            if(directDeclaratorR()){
+                return true;
+            }
+        }
+        if(logicalOrExpression()){
+            if(tk==BracketClose){
+                getToken();
+                if(directDeclaratorR()){
+                    return true;
+                }
+            }
+        }
+    }
+    if(tk==ParenthesisOpen){
+        getToken();
+        if(tk==ParenthesisClose){
+            getToken();
+            if(directDeclaratorR()){
+                return true;
+            }
+        }
+        if(parameterTypeList()){
+            if(tk==ParenthesisClose){
+                getToken();
+                if(directDeclaratorR()){
+                    return true;
+                }
+            }
+        }
+    }
+    return true;
+    
+}
+
+bool Syntatic::pointer(){
+    if(tk==Product){
+        getToken();
+        if(pointer()){
+            return true;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Syntatic::parameterTypeList(){
+    if(parameterList()){
+        if(tk==Comma){
+            getToken();
+            if(tk==Ellipsis){
+                getToken();
+                return true;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Syntatic::parameterList(){
+    if(parameterDeclaration()){
+        if(parameterListR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::parameterListR(){
+    if(tk==Comma){
+        getToken();
+        if(parameterDeclaration()){
+            if(parameterListR()){
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntatic::parameterDeclaration(){
+    if(declarationSpecifiers()){
+        if(declarator()){
+            return true;
+        }
+        if(abstractDeclarator()){
+            return true;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Syntatic::identifierList(){
+    if(tk==Identifier){
+        getToken();
+        if(identifierListR()){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Syntatic::identifierListR(){
+    if(tk==Comma){
+        getToken();
+        if(tk==Identifier){
+            getToken();
+            if(identifierListR()){
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntatic::typeName(){
+    if(specifierList()){
+        if(abstractDeclarator()){
+            return true;
+        }
+        return true;
+    }
+    return false;
+}
+
 // parabÃ©ns por chegar ao final do cÃ³digo
