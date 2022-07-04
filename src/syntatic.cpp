@@ -53,7 +53,7 @@ bool Syntatic::Syntatic::externalDeclaration()
         }
     }
 
-    return false
+    return false;
 }
 
 bool Syntatic::functionDeclaration()
@@ -235,7 +235,7 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    return true
+    return true;
 }
 
 bool Syntatic::argumentExpressionList()
@@ -463,28 +463,38 @@ bool Syntatic::additiveExpressionR()
     return true;
 }
 
-bool Syntatic::shiftExpression(){
-    if(additiveExpression()){
-        if(shiftExpressionR()){
+bool Syntatic::shiftExpression()
+{
+    if (additiveExpression())
+    {
+        if (shiftExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::shiftExpressionR(){
-    if(tk==LeftOp){
+bool Syntatic::shiftExpressionR()
+{
+    if (tk == LeftOp)
+    {
         getToken();
-        if(additiveExpression()){
-            if(shiftExpressionR()){
+        if (additiveExpression())
+        {
+            if (shiftExpressionR())
+            {
                 return true;
             }
         }
     }
-    if(tk==RightOp){
+    if (tk == RightOp)
+    {
         getToken();
-        if(additiveExpression()){
-            if(shiftExpressionR()){
+        if (additiveExpression())
+        {
+            if (shiftExpressionR())
+            {
                 return true;
             }
         }
@@ -492,44 +502,60 @@ bool Syntatic::shiftExpressionR(){
     return true;
 }
 
-bool Syntatic::relationalExpression(){
-    if(shiftExpression()){
-        if(relationalExpressionR()){
+bool Syntatic::relationalExpression()
+{
+    if (shiftExpression())
+    {
+        if (relationalExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::relationalExpressionR(){
-    if(tk==Less){
+bool Syntatic::relationalExpressionR()
+{
+    if (tk == Less)
+    {
         getToken();
-        if(shiftExpression()){
-            if(relationalExpressionR()){
+        if (shiftExpression())
+        {
+            if (relationalExpressionR())
+            {
                 return true;
             }
         }
     }
-    if(tk==Greater){
+    if (tk == Greater)
+    {
         getToken();
-        if(shiftExpression()){
-            if(relationalExpressionR()){
+        if (shiftExpression())
+        {
+            if (relationalExpressionR())
+            {
                 return true;
             }
         }
     }
-    if(tk==LEOp){
+    if (tk == LEOp)
+    {
         getToken();
-        if(shiftExpression()){
-            if(relationalExpressionR()){
+        if (shiftExpression())
+        {
+            if (relationalExpressionR())
+            {
                 return true;
             }
         }
     }
-    if(tk==GEOp){
+    if (tk == GEOp)
+    {
         getToken();
-        if(shiftExpression()){
-            if(relationalExpressionR()){
+        if (shiftExpression())
+        {
+            if (relationalExpressionR())
+            {
                 return true;
             }
         }
@@ -537,28 +563,38 @@ bool Syntatic::relationalExpressionR(){
     return true;
 }
 
-bool Syntatic::equalityExpression(){
-    if(relationalExpression()){
-        if(equalityExpressionR(){
+bool Syntatic::equalityExpression()
+{
+    if (relationalExpression())
+    {
+        if (equalityExpressionR())
+        {
             return true;
-        })
+        }
     }
     return false;
 }
 
-bool Syntatic::equalityExpressionR(){
-    if(tk==EQOp){
+bool Syntatic::equalityExpressionR()
+{
+    if (tk == EQOp)
+    {
         getToken();
-        if(relationalExpression()){
-            if(equalityExpressionR()){
+        if (relationalExpression())
+        {
+            if (equalityExpressionR())
+            {
                 return true;
             }
         }
     }
-    if(tk==NEOp){
+    if (tk == NEOp)
+    {
         getToken();
-        if(relationalExpression()){
-            if(equalityExpressionR()){
+        if (relationalExpression())
+        {
+            if (equalityExpressionR())
+            {
                 return true;
             }
         }
@@ -566,124 +602,160 @@ bool Syntatic::equalityExpressionR(){
     return true;
 }
 
-bool Syntatic::andExpression(){
-    if(equalityExpression()){
-        if(andExpressionR()){
+bool Syntatic::andExpression()
+{
+    if (equalityExpression())
+    {
+        if (andExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::andExpressionR(){
-    if(tk==AndOp){
+bool Syntatic::andExpressionR()
+{
+    if (tk == AndOp)
+    {
         getToken();
-        if(equalityExpression()){
-            if(andExpressionR()){
+        if (equalityExpression())
+        {
+            if (andExpressionR())
+            {
                 return true;
             }
         }
     }
     return true;
-    
 }
 
-bool Syntatic::exclusiveOrExpression(){
-    if(andExpression()){
-        if(exclusiveOrExpressionR()){
+bool Syntatic::exclusiveOrExpression()
+{
+    if (andExpression())
+    {
+        if (exclusiveOrExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::exclusiveOrExpressionR(){
-    if(tk==Power){
+bool Syntatic::exclusiveOrExpressionR()
+{
+    if (tk == Power)
+    {
         getToken();
-        if(andExpression()){
-            if(exclusiveOrExpressionR()){
+        if (andExpression())
+        {
+            if (exclusiveOrExpressionR())
+            {
                 return true;
             }
         }
     }
     return true;
-    
 }
 
-bool Syntatic::inclusiveOrExpression(){
-    if(exclusiveOrExpression()){
-        if(inclusiveOrExpressionR()){
+bool Syntatic::inclusiveOrExpression()
+{
+    if (exclusiveOrExpression())
+    {
+        if (inclusiveOrExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::inclusiveOrExpressionR(){
-    if(tk==OrOp){
+bool Syntatic::inclusiveOrExpressionR()
+{
+    if (tk == OrOp)
+    {
         getToken();
-        if(exclusiveOrExpression()){
-            if(inclusiveOrExpressionR()){
+        if (exclusiveOrExpression())
+        {
+            if (inclusiveOrExpressionR())
+            {
                 return true;
             }
         }
     }
     return true;
-    
 }
 
-bool Syntatic::logicalAndExpression(){
-    if(inclusiveOrExpression()){
-        if(logicalAndExpressionR()){
+bool Syntatic::logicalAndExpression()
+{
+    if (inclusiveOrExpression())
+    {
+        if (logicalAndExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::logicalAndExpressionR(){
-    if(tk==AndOp){
+bool Syntatic::logicalAndExpressionR()
+{
+    if (tk == AndOp)
+    {
         getToken();
-        if(inclusiveOrExpression()){
-            if(logicalAndExpressionR()){
+        if (inclusiveOrExpression())
+        {
+            if (logicalAndExpressionR())
+            {
                 return true;
             }
         }
     }
     return true;
-    
 }
 
-bool Syntatic::logicalOrExpression(){
-    if(logicalAndExpression()){
-        if(logicalOrExpressionR()){
+bool Syntatic::logicalOrExpression()
+{
+    if (logicalAndExpression())
+    {
+        if (logicalOrExpressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::logicalOrExpressionR(){
-    if(tk==OrOp){
+bool Syntatic::logicalOrExpressionR()
+{
+    if (tk == OrOp)
+    {
         getToken();
-        if(logicalAndExpression()){
-            if(logicalOrExpressionR()){
+        if (logicalAndExpression())
+        {
+            if (logicalOrExpressionR())
+            {
                 return true;
             }
         }
     }
     return true;
-    
 }
 
-bool Syntatic::conditionExpression(){
-    if(logicalOrExpression()){
-        if(tk==QuestionMark){
+bool Syntatic::conditionExpression()
+{
+    if (logicalOrExpression())
+    {
+        if (tk == QuestionMark)
+        {
             getToken();
-            if(expression()){
-                if(tk==Colon){
+            if (expression())
+            {
+                if (tk == Colon)
+                {
                     getToken();
-                    if(conditionExpression()){
+                    if (conditionExpression())
+                    {
                         return true;
                     }
                 }
@@ -694,13 +766,18 @@ bool Syntatic::conditionExpression(){
     return false;
 }
 
-bool Syntatic::assignmentExpression(){
-    if(conditionExpression()){
+bool Syntatic::assignmentExpression()
+{
+    if (conditionExpression())
+    {
         return true;
     }
-    if(unaryExpression()){
-        if(assignmentOperator()){
-            if(assignmentExpression()){
+    if (unaryExpression())
+    {
+        if (assignmentOperator())
+        {
+            if (assignmentExpression())
+            {
                 return true;
             }
         }
@@ -708,52 +785,370 @@ bool Syntatic::assignmentExpression(){
     return false;
 }
 
-bool Syntatic::assignmentOperator(){
-    if(tk==Assign){
+bool Syntatic::assignmentOperator()
+{
+    if (tk == Assign)
+    {
         return true;
     }
-    if(tk==MulAssign){
+    if (tk == MulAssign)
+    {
         return true;
     }
-    if(tk==DivAssign){
+    if (tk == DivAssign)
+    {
         return true;
     }
-    if(tk==ModAssign){
+    if (tk == ModAssign)
+    {
         return true;
     }
-    if(tk==AddAssign){
+    if (tk == AddAssign)
+    {
         return true;
     }
-    if(tk==LessAssign){
+    if (tk == LessAssign)
+    {
         return true;
     }
-    if(tk==LeftAssign){
+    if (tk == LeftAssign)
+    {
         return true;
     }
-    if(tk==RightAssign){
+    if (tk == RightAssign)
+    {
         return true;
     }
     return false;
 }
 
-bool Syntatic::expression(){
-    if(assignmentExpression()){
-        if(expressionR()){
+bool Syntatic::expression()
+{
+    if (assignmentExpression())
+    {
+        if (expressionR())
+        {
             return true;
         }
     }
     return false;
 }
 
-bool Syntatic::expressionR(){
-    if(tk==Comma){
+bool Syntatic::expressionR()
+{
+    if (tk == Comma)
+    {
         getToken();
-        if(assignmentExpression()){
-            if(expressionR()){
+        if (assignmentExpression())
+        {
+            if (expressionR())
+            {
                 return true;
             }
         }
     }
     return true;
+}
+
+bool Syntatic::constantExrpression()
+{
+    if (logicalOrExpression())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::declaration()
+{
+
+    if (declarationSpecifiers())
+    {
+        if (tk == SemiCollon)
+        {
+            getToken();
+            return true;
+        }
+
+        else if (initDeclaratorList())
+        {
+            if (tk == SemiCollon)
+            {
+                getToken();
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::declarationSpecifiers()
+{
+    if (typeSpecifier())
+    {
+        savePosition();
+        if (declarationSpecifiers())
+        {
+            return true;
+        }
+        restorePosition();
+        getToken();
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::initDeclaratorList()
+{
+    if (initDeclarator())
+    {
+        if (initDeclaratorListR())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::initDeclaratorListR()
+{
+    if (tk == Comma)
+    {
+        if (initDeclarator())
+        {
+            if (initDeclaratorListR())
+            {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::initDeclarator()
+{
+    if (declarator())
+    {
+        if (tk == Assign)
+        {
+            if (initializer())
+            {
+                return true;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::typeSpecifier()
+{
+    if (tk == Void)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == Char)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == Short)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == Int)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == Long)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == Float)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == Double)
+    {
+        getToken();
+        return true;
+    }
+    if (tk == structSprecifier())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::specifierList()
+{
+
+    if (typeSpecifier())
+    {
+        if (specifierList())
+        {
+            return true;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntatic::structSprecifier()
+{
+    if (tk == Struct)
+    {
+        getToken();
+        if (tk == Identifier)
+        {
+            getToken();
+            if (tk == BraceOpen)
+            {
+                getToken();
+                if (structDeclarationList())
+                {
+                    if (tk == BracketClose)
+                    {
+                        getToken();
+                        return true;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        else if (tk == BraceOpen)
+        {
+            getToken();
+
+            if (structDeclarationList())
+            {
+                if (tk == BraceClose)
+                {
+                    getToken();
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::structDeclarationList()
+{
+    if (structDeclaration())
+    {
+        if (structDeclarationListR())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::structDeclarationListR()
+{
+    if (structDeclaration())
+    {
+        if (structDeclarationListR())
+        {
+            return true;
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::structDeclaration()
+{
+    if (specifierList())
+    {
+        if (structDeclarationList())
+        {
+            if (tk == SemiCollon)
+            {
+                getToken();
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::structDeclaratorList()
+{
+    if (structDeclarator())
+    {
+        if (structDeclaratorListR())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Syntatic::structDeclaratorListR()
+{
+    if (tk == Comma)
+    {
+        getToken();
+        if (structDeclarator())
+        {
+            if (structDeclaratorListR())
+            {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::structDeclarator()
+{
+    if (declarator())
+    {
+        if (tk == Collon)
+        {
+            getToken();
+            if (logicalOrExpression())
+            {
+                return true;
+            }
+        }
+
+        return true;
+    }
+
+    else if (tk == Collon)
+    {
+        getToken();
+        if (logicalOrExpression())
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 // parabÃ©ns por chegar ao final do cÃ³digo

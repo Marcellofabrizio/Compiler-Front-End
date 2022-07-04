@@ -235,10 +235,6 @@ typeSpecifier
     | Unsigned
     | structSprecifier
     ;
-specifierList
-    : typeSpecifier specifierList
-    | typeSpecifier
-    ;
 
 structSprecifier
     : Struct Identifier BraceOpen structDeclarationList BraceClose
@@ -276,8 +272,8 @@ structDeclaratorListR
 
 structDeclarator
     : declarator
-    | Collon logicalOrExpression
     | declarator Collon logicalOrExpression
+    | Collon logicalOrExpression
     ;
 
 declarator

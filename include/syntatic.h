@@ -68,6 +68,7 @@ public:
     bool structSprecifier();
     bool structGrammar();
     bool structDeclarationList();
+    bool structDeclarationListR();
     bool structDeclaration();
     bool structDeclarator();
     bool declarator();
@@ -80,7 +81,6 @@ public:
     bool parameterDeclaration();
     bool identifierList();
     bool identifierListR();
-    bool typeName();
     bool abstractDeclarator();
     bool directAbstractDeclarator();
     bool directAbstractDeclaratorR();
