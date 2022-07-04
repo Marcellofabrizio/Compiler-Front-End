@@ -1,4 +1,5 @@
-int main(int a)
+int main()
 {
-    return 1;
+    float a = 's';
+    return 0;
 }

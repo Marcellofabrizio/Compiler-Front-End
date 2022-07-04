@@ -37,15 +37,15 @@ void Syntatic::getToken()
 // externalDeclaration
 bool Syntatic::Syntatic::externalDeclaration()
 {
-    savePosition();
+    //savePosition();
     if (functionDeclaration())
     {
         return true;
     }
     else
     {
-        restorePosition();
-        getToken();
+        //restorePosition();
+        //getToken();
 
         if (declaration())
         {
@@ -1642,6 +1642,7 @@ bool Syntatic::compoundStatement()
             }
         }
     }
+    return false;
 }
 
 bool Syntatic::compoundStatementList()
@@ -1713,7 +1714,7 @@ bool Syntatic::expressionStatement(){
     return false;
 }
 
-bool Syntatic::selectionsStatement(){
+bool Syntatic::selectionStatement(){
     if(tk==If){
         getToken();
         if(tk==ParenthesisOpen){
