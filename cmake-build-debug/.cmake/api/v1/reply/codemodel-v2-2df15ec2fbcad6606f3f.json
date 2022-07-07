@@ -7,11 +7,16 @@
 				{
 					"build" : ".",
 					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
 					"projectIndex" : 0,
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -26,7 +31,8 @@
 					"name" : "SyntaticParser",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -34,8 +40,15 @@
 			[
 				{
 					"directoryIndex" : 0,
+					"id" : "Parser::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Parser-Debug-fec47cbbc3abd0bacac5.json",
+					"name" : "Parser",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "SyntaticParser::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-SyntaticParser-Debug-3f4e54cef63c85e922b1.json",
+					"jsonFile" : "target-SyntaticParser-Debug-0b3f8cd5ce0f8be04c75.json",
 					"name" : "SyntaticParser",
 					"projectIndex" : 0
 				}
@@ -45,8 +58,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/marcello/Repositories/LexicParser/build",
-		"source" : "/home/marcello/Repositories/LexicParser"
+		"build" : "/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug",
+		"source" : "/home/marcello/CLionProjects/SyntaticParser"
 	},
 	"version" : 
 	{

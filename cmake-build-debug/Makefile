@@ -48,19 +48,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /app/extra/clion/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E rm -f
+RM = /app/extra/clion/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marcello/Repositories/LexicParser
+CMAKE_SOURCE_DIR = /home/marcello/CLionProjects/SyntaticParser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marcello/Repositories/LexicParser/cmake-build
+CMAKE_BINARY_DIR = /home/marcello/CLionProjects/SyntaticParser/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/marcello/Repositories/LexicParser/cmake-build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/app/extra/clion/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -78,7 +78,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/app/extra/clion/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/Repositories/LexicParser/cmake-build/CMakeFiles /home/marcello/Repositories/LexicParser/cmake-build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/CMakeFiles /home/marcello/CLionProjects/SyntaticParser/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/Repositories/LexicParser/cmake-build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,6 +117,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named Parser
+
+# Build rule for target.
+Parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Parser
+.PHONY : Parser
+
+# fast build rule for target.
+Parser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/build
+.PHONY : Parser/fast
+
+#=============================================================================
 # Target rules for targets named SyntaticParser
 
 # Build rule for target.
@@ -129,50 +142,77 @@ SyntaticParser/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/build
 .PHONY : SyntaticParser/fast
 
+SyntaticParser.o: SyntaticParser.cpp.o
+.PHONY : SyntaticParser.o
+
 # target to build an object file
-main.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.o
-.PHONY : main.o
+SyntaticParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/SyntaticParser.cpp.o
+.PHONY : SyntaticParser.cpp.o
+
+SyntaticParser.i: SyntaticParser.cpp.i
+.PHONY : SyntaticParser.i
 
 # target to preprocess a source file
-main.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.i
-.PHONY : main.i
+SyntaticParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/SyntaticParser.cpp.i
+.PHONY : SyntaticParser.cpp.i
+
+SyntaticParser.s: SyntaticParser.cpp.s
+.PHONY : SyntaticParser.s
 
 # target to generate assembly for a file
-main.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/main.s
-.PHONY : main.s
+SyntaticParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/SyntaticParser.cpp.s
+.PHONY : SyntaticParser.cpp.s
 
-# target to build an object file
-src/lexic.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/lexic.o
+src/lexic.o: src/lexic.cpp.o
 .PHONY : src/lexic.o
 
-# target to preprocess a source file
-src/lexic.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/lexic.i
+# target to build an object file
+src/lexic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexic.cpp.o
+.PHONY : src/lexic.cpp.o
+
+src/lexic.i: src/lexic.cpp.i
 .PHONY : src/lexic.i
 
-# target to generate assembly for a file
-src/lexic.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/lexic.s
+# target to preprocess a source file
+src/lexic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexic.cpp.i
+.PHONY : src/lexic.cpp.i
+
+src/lexic.s: src/lexic.cpp.s
 .PHONY : src/lexic.s
 
-# target to build an object file
-src/syntatic.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/syntatic.o
+# target to generate assembly for a file
+src/lexic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexic.cpp.s
+.PHONY : src/lexic.cpp.s
+
+src/syntatic.o: src/syntatic.cpp.o
 .PHONY : src/syntatic.o
 
-# target to preprocess a source file
-src/syntatic.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/syntatic.i
+# target to build an object file
+src/syntatic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntatic.cpp.o
+.PHONY : src/syntatic.cpp.o
+
+src/syntatic.i: src/syntatic.cpp.i
 .PHONY : src/syntatic.i
 
-# target to generate assembly for a file
-src/syntatic.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/src/syntatic.s
+# target to preprocess a source file
+src/syntatic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntatic.cpp.i
+.PHONY : src/syntatic.cpp.i
+
+src/syntatic.s: src/syntatic.cpp.s
 .PHONY : src/syntatic.s
+
+# target to generate assembly for a file
+src/syntatic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntatic.cpp.s
+.PHONY : src/syntatic.cpp.s
 
 # Help Target
 help:
@@ -182,10 +222,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... Parser"
 	@echo "... SyntaticParser"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... SyntaticParser.o"
+	@echo "... SyntaticParser.i"
+	@echo "... SyntaticParser.s"
 	@echo "... src/lexic.o"
 	@echo "... src/lexic.i"
 	@echo "... src/lexic.s"

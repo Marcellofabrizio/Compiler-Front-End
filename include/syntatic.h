@@ -9,15 +9,17 @@ class Syntatic
 
 public:
     int currentTokenIndex = 0;
+    int tk;
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
 
     Syntatic(std::vector<Token> results);
 
-    void savePosition();
-    void restorePosition();
+    int savePosition();
+    void restorePosition(int pos);
     void getToken();
 
+    bool translationUnit();
     bool externalDeclaration();
     bool functionDeclaration();
     bool primaryExpression();

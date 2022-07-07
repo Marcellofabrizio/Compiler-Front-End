@@ -7,43 +7,65 @@
 #include "../include/syntatic.h"
 using namespace std;
 
-int tk;
-
 Syntatic::Syntatic(vector<Token> results)
 {
     this->tokenList = results;
-    this->currentTokenIndex = 0;
+    this->currentTokenIndex = -1;
+}
+
+int Syntatic::savePosition()
+{
+    return this->currentTokenIndex;
+}
+
+void Syntatic::restorePosition(int pos)
+{
+    this->currentTokenIndex = pos - 1;
     getToken();
-}
-
-void Syntatic::savePosition()
-{
-    this->tokenStack.push(this->currentTokenIndex);
-}
-
-void Syntatic::restorePosition()
-{
-    this->currentTokenIndex = this->tokenStack.top();
-    this->tokenStack.pop();
 }
 
 void Syntatic::getToken()
 {
     // funcao para pegar o token
-    tk = this->tokenList[this->currentTokenIndex].types;
-    this->currentTokenIndex++;
+    int size = this->tokenList.size();
+    if (this->currentTokenIndex < size)
+    {
+        this->tk = this->tokenList[++this->currentTokenIndex].types;
+    }
+
+    else
+    {
+        this->tk = EndOfFile;
+    }
 }
 
-// externalDeclaration
-bool Syntatic::Syntatic::externalDeclaration()
+bool Syntatic::translationUnit()
 {
+    getToken();
+    while (this->tk != EndOfFile)
+    {
+        if (!externalDeclaration())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Syntatic::externalDeclaration()
+{
+    int position = savePosition();
     if (functionDeclaration())
     {
         return true;
     }
-    else if (declaration())
-    {
-        return true;
+    else {
+        restorePosition(position);
+        if (declaration())
+        {
+            return true;
+        }
     }
 
     return false;
@@ -51,12 +73,10 @@ bool Syntatic::Syntatic::externalDeclaration()
 
 bool Syntatic::functionDeclaration()
 {
-    savePosition();
     if (declarationSpecifiers())
     {
         if (declarator())
         {
-            savePosition();
             if (declarationList())
             {
                 if (compoundStatement())
@@ -65,8 +85,6 @@ bool Syntatic::functionDeclaration()
                 }
             }
 
-            restorePosition();
-            getToken();
             if (compoundStatement())
             {
                 return true;
@@ -74,11 +92,8 @@ bool Syntatic::functionDeclaration()
         }
     }
 
-    restorePosition();
-    getToken();
     if (declarator())
     {
-        savePosition();
         if (declarationList())
         {
             if (compoundStatement())
@@ -87,8 +102,6 @@ bool Syntatic::functionDeclaration()
             }
         }
 
-        restorePosition();
-        getToken();
         if (compoundStatement())
         {
             return true;
@@ -100,24 +113,24 @@ bool Syntatic::functionDeclaration()
 
 bool Syntatic::primaryExpression()
 {
-    if (tk == Identifier)
+    if (this->tk == Identifier)
     {
         getToken();
         return true;
     }
 
-    else if (tk == Constant)
+    else if (this->tk == Constant)
     {
         getToken();
         return true;
     }
 
-    else if (tk == ParenthesisOpen)
+    else if (this->tk == ParenthesisOpen)
     {
         getToken();
         if (expression())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 return true;
             }
@@ -143,10 +156,10 @@ bool Syntatic::postFixExpression()
 bool Syntatic::postFixExpressionR()
 {
 
-    if (tk == ParenthesisOpen)
+    if (this->tk == ParenthesisOpen)
     {
         getToken();
-        if (tk == ParenthesisClose)
+        if (this->tk == ParenthesisClose)
         {
             getToken();
             if (postFixExpressionR())
@@ -157,7 +170,7 @@ bool Syntatic::postFixExpressionR()
 
         else if (argumentExpressionList())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (postFixExpressionR())
@@ -168,10 +181,10 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    if (tk == Dot)
+    if (this->tk == Dot)
     {
         getToken();
-        if (tk == Identifier)
+        if (this->tk == Identifier)
         {
             getToken();
             if (postFixExpressionR())
@@ -181,10 +194,10 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    if (tk == Accessor)
+    if (this->tk == Accessor)
     {
         getToken();
-        if (tk == Identifier)
+        if (this->tk == Identifier)
         {
             getToken();
             if (postFixExpressionR())
@@ -194,7 +207,7 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    if (tk == IncOp)
+    if (this->tk == IncOp)
     {
         getToken();
         if (postFixExpressionR())
@@ -203,7 +216,7 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    if (tk == DecOp)
+    if (this->tk == DecOp)
     {
         getToken();
         if (postFixExpressionR())
@@ -212,12 +225,12 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    if (tk == BraceOpen)
+    if (this->tk == BraceOpen)
     {
         getToken();
         if (expression())
         {
-            if (tk == BracketClose)
+            if (this->tk == BracketClose)
             {
                 getToken();
                 if (postFixExpressionR())
@@ -246,7 +259,7 @@ bool Syntatic::argumentExpressionList()
 
 bool Syntatic::argumentExpressionListR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         getToken();
         if (assignmentExpression())
@@ -268,7 +281,7 @@ bool Syntatic::unaryExpression()
         return true;
     }
 
-    if (tk == IncOp)
+    if (this->tk == IncOp)
     {
         getToken();
         if (unaryExpression())
@@ -277,7 +290,7 @@ bool Syntatic::unaryExpression()
         }
     }
 
-    if (tk == DecOp)
+    if (this->tk == DecOp)
     {
         getToken();
         if (unaryExpression())
@@ -288,7 +301,7 @@ bool Syntatic::unaryExpression()
 
     if (unaryOperator())
     {
-        if (castExpression())
+        if (unaryExpression())
         {
             return true;
         }
@@ -299,32 +312,32 @@ bool Syntatic::unaryExpression()
 
 bool Syntatic::unaryOperator()
 {
-    if (tk == AndOp)
+    if (this->tk == AndOp)
     {
         getToken();
         return true;
     }
-    if (tk == Product)
+    if (this->tk == Product)
     {
         getToken();
         return true;
     }
-    if (tk == Plus)
+    if (this->tk == Plus)
     {
         getToken();
         return true;
     }
-    if (tk == Minus)
+    if (this->tk == Minus)
     {
         getToken();
         return true;
     }
-    if (tk == Negate)
+    if (this->tk == Negate)
     {
         getToken();
         return true;
     }
-    if (tk == LogicalNot)
+    if (this->tk == LogicalNot)
     {
         getToken();
         return true;
@@ -340,12 +353,12 @@ bool Syntatic::castExpression()
         return true;
     }
 
-    else if (tk == ParenthesisOpen)
+    else if (this->tk == ParenthesisOpen)
     {
         getToken();
         if (typeName())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (castExpression())
@@ -361,7 +374,7 @@ bool Syntatic::castExpression()
 
 bool Syntatic::multiplicativeExpression()
 {
-    if (castExpression())
+    if (unaryExpression())
     {
         if (multiplicativeExpressionR())
         {
@@ -375,7 +388,7 @@ bool Syntatic::multiplicativeExpression()
 bool Syntatic::multiplicativeExpressionR()
 {
 
-    if (tk == Product)
+    if (this->tk == Product)
     {
         getToken();
         if (unaryExpression())
@@ -387,7 +400,7 @@ bool Syntatic::multiplicativeExpressionR()
         }
     }
 
-    else if (tk == Division)
+    else if (this->tk == Division)
     {
         getToken();
         if (unaryExpression())
@@ -399,7 +412,7 @@ bool Syntatic::multiplicativeExpressionR()
         }
     }
 
-    else if (tk == Module)
+    else if (this->tk == Module)
     {
         getToken();
         if (unaryExpression())
@@ -429,7 +442,7 @@ bool Syntatic::additiveExpression()
 
 bool Syntatic::additiveExpressionR()
 {
-    if (tk == Plus)
+    if (this->tk == Plus)
     {
         getToken();
         if (multiplicativeExpression())
@@ -441,7 +454,7 @@ bool Syntatic::additiveExpressionR()
         }
     }
 
-    else if (tk == Minus)
+    else if (this->tk == Minus)
     {
         getToken();
         if (multiplicativeExpression())
@@ -470,7 +483,7 @@ bool Syntatic::shiftExpression()
 
 bool Syntatic::shiftExpressionR()
 {
-    if (tk == LeftOp)
+    if (this->tk == LeftOp)
     {
         getToken();
         if (additiveExpression())
@@ -481,7 +494,7 @@ bool Syntatic::shiftExpressionR()
             }
         }
     }
-    if (tk == RightOp)
+    if (this->tk == RightOp)
     {
         getToken();
         if (additiveExpression())
@@ -509,7 +522,7 @@ bool Syntatic::relationalExpression()
 
 bool Syntatic::relationalExpressionR()
 {
-    if (tk == Less)
+    if (this->tk == Less)
     {
         getToken();
         if (shiftExpression())
@@ -520,7 +533,7 @@ bool Syntatic::relationalExpressionR()
             }
         }
     }
-    if (tk == Greater)
+    if (this->tk == Greater)
     {
         getToken();
         if (shiftExpression())
@@ -531,7 +544,7 @@ bool Syntatic::relationalExpressionR()
             }
         }
     }
-    if (tk == LEOp)
+    if (this->tk == LEOp)
     {
         getToken();
         if (shiftExpression())
@@ -542,7 +555,7 @@ bool Syntatic::relationalExpressionR()
             }
         }
     }
-    if (tk == GEOp)
+    if (this->tk == GEOp)
     {
         getToken();
         if (shiftExpression())
@@ -570,7 +583,7 @@ bool Syntatic::equalityExpression()
 
 bool Syntatic::equalityExpressionR()
 {
-    if (tk == EQOp)
+    if (this->tk == EQOp)
     {
         getToken();
         if (relationalExpression())
@@ -581,7 +594,7 @@ bool Syntatic::equalityExpressionR()
             }
         }
     }
-    if (tk == NEOp)
+    if (this->tk == NEOp)
     {
         getToken();
         if (relationalExpression())
@@ -609,7 +622,7 @@ bool Syntatic::andExpression()
 
 bool Syntatic::andExpressionR()
 {
-    if (tk == AndOp)
+    if (this->tk == AndOp)
     {
         getToken();
         if (equalityExpression())
@@ -637,7 +650,7 @@ bool Syntatic::exclusiveOrExpression()
 
 bool Syntatic::exclusiveOrExpressionR()
 {
-    if (tk == Power)
+    if (this->tk == Power)
     {
         getToken();
         if (andExpression())
@@ -665,7 +678,7 @@ bool Syntatic::inclusiveOrExpression()
 
 bool Syntatic::inclusiveOrExpressionR()
 {
-    if (tk == OrOp)
+    if (this->tk == OrOp)
     {
         getToken();
         if (exclusiveOrExpression())
@@ -693,7 +706,7 @@ bool Syntatic::logicalAndExpression()
 
 bool Syntatic::logicalAndExpressionR()
 {
-    if (tk == AndOp)
+    if (this->tk == AndOp)
     {
         getToken();
         if (inclusiveOrExpression())
@@ -721,7 +734,7 @@ bool Syntatic::logicalOrExpression()
 
 bool Syntatic::logicalOrExpressionR()
 {
-    if (tk == OrOp)
+    if (this->tk == OrOp)
     {
         getToken();
         if (logicalAndExpression())
@@ -739,12 +752,12 @@ bool Syntatic::conditionExpression()
 {
     if (logicalOrExpression())
     {
-        if (tk == QuestionMark)
+        if (this->tk == QuestionMark)
         {
             getToken();
             if (expression())
             {
-                if (tk == Colon)
+                if (this->tk == Colon)
                 {
                     getToken();
                     if (conditionExpression())
@@ -761,55 +774,79 @@ bool Syntatic::conditionExpression()
 
 bool Syntatic::assignmentExpression()
 {
-    if (conditionExpression())
-    {
-        return true;
-    }
+
+    int position = savePosition();
+
     if (unaryExpression())
     {
         if (assignmentOperator())
         {
+
+            int assPosition = savePosition();
+
             if (assignmentExpression())
             {
                 return true;
             }
+
+            else {
+                restorePosition(assPosition);
+
+                if (logicalOrExpression()) {
+                    return true;
+                }
+            }
         }
     }
+
+    restorePosition(position);
+    if (logicalOrExpression()) {
+        return true;
+    }
+
     return false;
 }
 
 bool Syntatic::assignmentOperator()
 {
-    if (tk == Assign)
+    if (this->tk == Assign)
     {
+        getToken();
         return true;
     }
-    if (tk == MulAssign)
+    if (this->tk == MulAssign)
     {
+        getToken();
         return true;
     }
-    if (tk == DivAssign)
+    if (this->tk == DivAssign)
     {
+        getToken();
         return true;
     }
-    if (tk == ModAssign)
+    if (this->tk == ModAssign)
     {
+        getToken();
         return true;
     }
-    if (tk == AddAssign)
+    if (this->tk == AddAssign)
     {
+        getToken();
         return true;
     }
-    if (tk == LessAssign)
+    if (this->tk == LessAssign)
     {
+        getToken();
         return true;
     }
-    if (tk == LeftAssign)
+    if (this->tk == LeftAssign)
     {
+        getToken();
         return true;
     }
-    if (tk == RightAssign)
+    if (this->tk == RightAssign)
     {
+        getToken();
         return true;
     }
     return false;
@@ -829,7 +866,7 @@ bool Syntatic::expression()
 
 bool Syntatic::expressionR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         getToken();
         if (assignmentExpression())
@@ -858,7 +895,7 @@ bool Syntatic::declaration()
 
     if (declarationSpecifiers())
     {
-        if (tk == SemiCollon)
+        if (this->tk == SemiCollon)
         {
             getToken();
             return true;
@@ -866,7 +903,7 @@ bool Syntatic::declaration()
 
         else if (initDeclaratorList())
         {
-            if (tk == SemiCollon)
+            if (this->tk == SemiCollon)
             {
                 getToken();
                 return true;
@@ -881,13 +918,10 @@ bool Syntatic::declarationSpecifiers()
 {
     if (typeSpecifier())
     {
-        savePosition();
         if (declarationSpecifiers())
         {
             return true;
         }
-        restorePosition();
-        getToken();
         return true;
     }
 
@@ -909,7 +943,7 @@ bool Syntatic::initDeclaratorList()
 
 bool Syntatic::initDeclaratorListR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         if (initDeclarator())
         {
@@ -927,8 +961,9 @@ bool Syntatic::initDeclarator()
 {
     if (declarator())
     {
-        if (tk == Assign)
+        if (this->tk == Assign)
         {
+            getToken();
             if (initializer())
             {
                 return true;
@@ -943,42 +978,42 @@ bool Syntatic::initDeclarator()
 
 bool Syntatic::typeSpecifier()
 {
-    if (tk == Void)
+    if (this->tk == Void)
     {
         getToken();
         return true;
     }
-    if (tk == Char)
+    if (this->tk == Char)
     {
         getToken();
         return true;
     }
-    if (tk == Short)
+    if (this->tk == Short)
     {
         getToken();
         return true;
     }
-    if (tk == Int)
+    if (this->tk == Int)
     {
         getToken();
         return true;
     }
-    if (tk == Long)
+    if (this->tk == Long)
     {
         getToken();
         return true;
     }
-    if (tk == Float)
+    if (this->tk == Float)
     {
         getToken();
         return true;
     }
-    if (tk == Double)
+    if (this->tk == Double)
     {
         getToken();
         return true;
     }
-    if (tk == structSprecifier())
+    if (structSprecifier())
     {
         return true;
     }
@@ -1004,18 +1039,18 @@ bool Syntatic::specifierList()
 
 bool Syntatic::structSprecifier()
 {
-    if (tk == Struct)
+    if (this->tk == Struct)
     {
         getToken();
-        if (tk == Identifier)
+        if (this->tk == Identifier)
         {
             getToken();
-            if (tk == BraceOpen)
+            if (this->tk == BraceOpen)
             {
                 getToken();
                 if (structDeclarationList())
                 {
-                    if (tk == BracketClose)
+                    if (this->tk == BracketClose)
                     {
                         getToken();
                         return true;
@@ -1026,13 +1061,13 @@ bool Syntatic::structSprecifier()
             return true;
         }
 
-        else if (tk == BraceOpen)
+        else if (this->tk == BraceOpen)
         {
             getToken();
 
             if (structDeclarationList())
             {
-                if (tk == BraceClose)
+                if (this->tk == BraceClose)
                 {
                     getToken();
                     return true;
@@ -1076,7 +1111,7 @@ bool Syntatic::structDeclaration()
     {
         if (structDeclarationList())
         {
-            if (tk == SemiCollon)
+            if (this->tk == SemiCollon)
             {
                 getToken();
                 return true;
@@ -1102,7 +1137,7 @@ bool Syntatic::structDeclaratorList()
 
 bool Syntatic::structDeclaratorListR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         getToken();
         if (structDeclarator())
@@ -1121,7 +1156,7 @@ bool Syntatic::structDeclarator()
 {
     if (declarator())
     {
-        if (tk == Collon)
+        if (this->tk == Collon)
         {
             getToken();
             if (logicalOrExpression())
@@ -1133,7 +1168,7 @@ bool Syntatic::structDeclarator()
         return true;
     }
 
-    else if (tk == Collon)
+    else if (this->tk == Collon)
     {
         getToken();
         if (logicalOrExpression())
@@ -1163,7 +1198,7 @@ bool Syntatic::declarator()
 
 bool Syntatic::directDeclarator()
 {
-    if (tk == Identifier)
+    if (this->tk == Identifier)
     {
         getToken();
         if (directDeclaratorR())
@@ -1171,12 +1206,12 @@ bool Syntatic::directDeclarator()
             return true;
         }
     }
-    if (tk == ParenthesisOpen)
+    if (this->tk == ParenthesisOpen)
     {
         getToken();
         if (declarator())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (directDeclaratorR())
@@ -1191,10 +1226,10 @@ bool Syntatic::directDeclarator()
 
 bool Syntatic::directDeclaratorR()
 {
-    if (tk == BracketOpen)
+    if (this->tk == BracketOpen)
     {
         getToken();
-        if (tk == BracketClose)
+        if (this->tk == BracketClose)
         {
             getToken();
             if (directDeclaratorR())
@@ -1204,7 +1239,7 @@ bool Syntatic::directDeclaratorR()
         }
         if (logicalOrExpression())
         {
-            if (tk == BracketClose)
+            if (this->tk == BracketClose)
             {
                 getToken();
                 if (directDeclaratorR())
@@ -1214,10 +1249,10 @@ bool Syntatic::directDeclaratorR()
             }
         }
     }
-    if (tk == ParenthesisOpen)
+    if (this->tk == ParenthesisOpen)
     {
         getToken();
-        if (tk == ParenthesisClose)
+        if (this->tk == ParenthesisClose)
         {
             getToken();
             if (directDeclaratorR())
@@ -1227,7 +1262,7 @@ bool Syntatic::directDeclaratorR()
         }
         if (parameterTypeList())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (directDeclaratorR())
@@ -1242,7 +1277,7 @@ bool Syntatic::directDeclaratorR()
 
 bool Syntatic::pointer()
 {
-    if (tk == Product)
+    if (this->tk == Product)
     {
         getToken();
         if (pointer())
@@ -1258,10 +1293,10 @@ bool Syntatic::parameterTypeList()
 {
     if (parameterList())
     {
-        if (tk == Comma)
+        if (this->tk == Comma)
         {
             getToken();
-            if (tk == Ellipsis)
+            if (this->tk == Ellipsis)
             {
                 getToken();
                 return true;
@@ -1286,7 +1321,7 @@ bool Syntatic::parameterList()
 
 bool Syntatic::parameterListR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         getToken();
         if (parameterDeclaration())
@@ -1319,7 +1354,7 @@ bool Syntatic::parameterDeclaration()
 
 bool Syntatic::identifierList()
 {
-    if (tk == Identifier)
+    if (this->tk == Identifier)
     {
         getToken();
         if (identifierListR())
@@ -1332,10 +1367,10 @@ bool Syntatic::identifierList()
 
 bool Syntatic::identifierListR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         getToken();
-        if (tk == Identifier)
+        if (this->tk == Identifier)
         {
             getToken();
             if (identifierListR())
@@ -1382,12 +1417,12 @@ bool Syntatic::abstractDeclarator()
 
 bool Syntatic::directAbstractDeclarator()
 {
-    if (tk == ParenthesisOpen)
+    if (this->tk == ParenthesisOpen)
     {
         getToken();
         if (parameterTypeList())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (directAbstractDeclarator())
@@ -1399,7 +1434,7 @@ bool Syntatic::directAbstractDeclarator()
 
         else if (abstractDeclarator())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (directAbstractDeclaratorR())
@@ -1409,7 +1444,7 @@ bool Syntatic::directAbstractDeclarator()
             }
         }
 
-        else if (tk == ParenthesisClose)
+        else if (this->tk == ParenthesisClose)
         {
             getToken();
             if (directAbstractDeclaratorR())
@@ -1419,12 +1454,12 @@ bool Syntatic::directAbstractDeclarator()
         }
     }
 
-    else if (tk == BracketOpen)
+    else if (this->tk == BracketOpen)
     {
         getToken();
         if (logicalOrExpression())
         {
-            if (tk == BracketClose)
+            if (this->tk == BracketClose)
             {
                 getToken();
                 if (directAbstractDeclaratorR())
@@ -1434,7 +1469,7 @@ bool Syntatic::directAbstractDeclarator()
             }
         }
 
-        else if (tk == BracketClose)
+        else if (this->tk == BracketClose)
         {
             getToken();
             if (directAbstractDeclaratorR())
@@ -1449,13 +1484,13 @@ bool Syntatic::directAbstractDeclarator()
 
 bool Syntatic::directAbstractDeclaratorR()
 {
-    if (tk == BracketOpen)
+    if (this->tk == BracketOpen)
     {
         getToken();
 
         if (logicalOrExpression())
         {
-            if (tk == BracketClose)
+            if (this->tk == BracketClose)
             {
                 getToken();
                 if (directAbstractDeclaratorR())
@@ -1466,12 +1501,12 @@ bool Syntatic::directAbstractDeclaratorR()
         }
     }
 
-    else if (tk == ParenthesisOpen)
+    else if (this->tk == ParenthesisOpen)
     {
         getToken();
         if (parameterTypeList())
         {
-            if (tk == ParenthesisClose)
+            if (this->tk == ParenthesisClose)
             {
                 getToken();
                 if (directAbstractDeclaratorR())
@@ -1481,7 +1516,7 @@ bool Syntatic::directAbstractDeclaratorR()
             }
         }
 
-        else if (tk == ParenthesisClose)
+        else if (this->tk == ParenthesisClose)
         {
             getToken();
             if (directAbstractDeclaratorR())
@@ -1501,21 +1536,21 @@ bool Syntatic::initializer()
         return true;
     }
 
-    if (tk == BraceOpen)
+    if (this->tk == BraceOpen)
     {
         getToken();
         if (initializerList())
         {
-            if (tk == BraceClose)
+            if (this->tk == BraceClose)
             {
                 getToken();
                 return true;
             }
 
-            else if (tk == Comma)
+            else if (this->tk == Comma)
             {
                 getToken();
-                if (tk == BraceClose)
+                if (this->tk == BraceClose)
                 {
                     getToken();
                     return true;
@@ -1542,7 +1577,7 @@ bool Syntatic::initializerList()
 
 bool Syntatic::initializerListR()
 {
-    if (tk == Comma)
+    if (this->tk == Comma)
     {
         if (initializer())
         {
@@ -1558,27 +1593,34 @@ bool Syntatic::initializerListR()
 
 bool Syntatic::statement()
 {
+
+    int position = savePosition();
     if (labeledStatement())
     {
         return true;
     }
-    else if (compoundStatement())
+    restorePosition(position);
+    if (compoundStatement())
     {
         return true;
     }
-    else if (expressionStatement())
+    restorePosition(position);
+    if (expressionStatement())
     {
         return true;
     }
-    else if (selectionStatement())
+    restorePosition(position);
+    if (selectionStatement())
     {
         return true;
     }
-    else if (iterationStatement())
+    restorePosition(position);
+    if (iterationStatement())
     {
         return true;
     }
-    else if (jumpStatement())
+    restorePosition(position);
+    if (jumpStatement())
     {
         return true;
     }
@@ -1588,12 +1630,12 @@ bool Syntatic::statement()
 
 bool Syntatic::labeledStatement()
 {
-    if (tk == Case)
+    if (this->tk == Case)
     {
         getToken();
         if (logicalOrExpression())
         {
-            if (tk == Collon)
+            if (this->tk == Collon)
             {
                 getToken();
                 if (statement())
@@ -1604,11 +1646,11 @@ bool Syntatic::labeledStatement()
         }
     }
 
-    else if (tk == Default)
+    else if (this->tk == Default)
     {
         getToken();
 
-        if (tk == Collon)
+        if (this->tk == Collon)
         {
             getToken();
             if (statement())
@@ -1623,13 +1665,15 @@ bool Syntatic::labeledStatement()
 
 bool Syntatic::compoundStatement()
 {
-    if (tk == BraceOpen)
+    if (this->tk == BraceOpen)
     {
         getToken();
+
         if (compoundStatementList())
         {
-            if (tk == BraceClose)
+            if (this->tk == BraceClose)
             {
+
                 getToken();
                 return true;
             }
@@ -1658,6 +1702,13 @@ bool Syntatic::compoundStatementBody()
     if (declarationList())
     {
         return true;
+    }
+
+    if (declarationList())
+    {
+        if (statementList()) {
+            return true;
+        }
     }
 
     else if (statementList())
@@ -1698,14 +1749,14 @@ bool Syntatic::statementList()
 
 bool Syntatic::expressionStatement()
 {
-    if (tk == SemiCollon)
+    if (this->tk == SemiCollon)
     {
         getToken();
         return true;
     }
     if (expression())
     {
-        if (tk == SemiCollon)
+        if (this->tk == SemiCollon)
         {
             getToken();
             return true;
@@ -1716,20 +1767,20 @@ bool Syntatic::expressionStatement()
 
 bool Syntatic::selectionStatement()
 {
-    if (tk == If)
+    if (this->tk == If)
     {
         getToken();
-        if (tk == ParenthesisOpen)
+        if (this->tk == ParenthesisOpen)
         {
             getToken();
             if (expression())
             {
-                if (tk == ParenthesisClose)
+                if (this->tk == ParenthesisClose)
                 {
                     getToken();
                     if (statement())
                     {
-                        if (tk == Else)
+                        if (this->tk == Else)
                         {
                             getToken();
                             if (statement())
@@ -1743,15 +1794,15 @@ bool Syntatic::selectionStatement()
             }
         }
     }
-    if (tk == Switch)
+    if (this->tk == Switch)
     {
         getToken();
-        if (tk == ParenthesisOpen)
+        if (this->tk == ParenthesisOpen)
         {
             getToken();
             if (expression())
             {
-                if (tk == ParenthesisClose)
+                if (this->tk == ParenthesisClose)
                 {
                     getToken();
                     if (statement())
@@ -1767,15 +1818,15 @@ bool Syntatic::selectionStatement()
 
 bool Syntatic::iterationStatement()
 {
-    if (tk == While)
+    if (this->tk == While)
     {
         getToken();
-        if (tk == ParenthesisOpen)
+        if (this->tk == ParenthesisOpen)
         {
             getToken();
             if (expression())
             {
-                if (tk == ParenthesisClose)
+                if (this->tk == ParenthesisClose)
                 {
                     getToken();
                     if (statement())
@@ -1786,23 +1837,23 @@ bool Syntatic::iterationStatement()
             }
         }
     }
-    if (tk == Do)
+    if (this->tk == Do)
     {
         getToken();
         if (statement())
         {
-            if (tk == While)
+            if (this->tk == While)
             {
                 getToken();
-                if (tk == ParenthesisOpen)
+                if (this->tk == ParenthesisOpen)
                 {
                     getToken();
                     if (expression())
                     {
-                        if (tk == ParenthesisClose)
+                        if (this->tk == ParenthesisClose)
                         {
                             getToken();
-                            if (tk == SemiCollon)
+                            if (this->tk == SemiCollon)
                             {
                                 getToken();
                                 return true;
@@ -1813,17 +1864,17 @@ bool Syntatic::iterationStatement()
             }
         }
     }
-    if (tk == For)
+    if (this->tk == For)
     {
         getToken();
-        if (tk == ParenthesisClose)
+        if (this->tk == ParenthesisClose)
         {
             getToken();
             if (expressionStatement())
             {
                 if (expressionStatement())
                 {
-                    if (tk == ParenthesisClose)
+                    if (this->tk == ParenthesisClose)
                     {
                         getToken();
                         if (statement())
@@ -1833,7 +1884,7 @@ bool Syntatic::iterationStatement()
                     }
                     if (expression())
                     {
-                        if (tk == ParenthesisClose)
+                        if (this->tk == ParenthesisClose)
                         {
                             getToken();
                             if (statement())
@@ -1851,35 +1902,35 @@ bool Syntatic::iterationStatement()
 
 bool Syntatic::jumpStatement()
 {
-    if (tk == Continue)
+    if (this->tk == Continue)
     {
         getToken();
-        if (tk == SemiCollon)
+        if (this->tk == SemiCollon)
         {
             getToken();
             return true;
         }
     }
-    if (tk == Break)
+    if (this->tk == Break)
     {
         getToken();
-        if (tk == SemiCollon)
+        if (this->tk == SemiCollon)
         {
             getToken();
             return true;
         }
     }
-    if (tk == Return)
+    if (this->tk == Return)
     {
         getToken();
-        if (tk == SemiCollon)
+        if (this->tk == SemiCollon)
         {
             getToken();
             return true;
         }
         if (expression())
         {
-            if (tk == SemiCollon)
+            if (this->tk == SemiCollon)
             {
                 getToken();
                 return true;
@@ -1889,4 +1940,4 @@ bool Syntatic::jumpStatement()
     return false;
 }
 
-// parabÃ©ns por chegar ao final do cÃ³digo
+// parabéns por chegar ao final do código

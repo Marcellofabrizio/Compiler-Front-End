@@ -3,39 +3,38 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
-#include <unistd.h>
 
 #include "../include/lexic.h"
 
 Token keywords[100] = {
-    {"NULL", Null},
-    {"printf", Identifier},
-    {"scanf", Identifier},
-    {"ident", Identifier},
-    {"if", If},
-    {"else if", ElseIf},
-    {"else", Else},
-    {"while", While},
-    {"for", For},
-    {"break", Break},
-    {"continue", Continue},
-    {"return", Return},
-    {"try", Try},
-    {"except", Except},
-    {"int", Int},
-    {"float", Float},
-    {"short", Short},
-    {"long", Long},
-    {"signed", Signed},
-    {"unsigned", Unsigned},
-    {"void", Void},
-    {"char", Char},
-    {"const", Const},
-    {"Struct", Struct},
-    {"Double", Double},
-    {"switch", Switch},
-    {"case", Case},
-    {"default", Default}};
+        {"NULL", Null},
+        {"printf", Identifier},
+        {"scanf", Identifier},
+        {"ident", Identifier},
+        {"if", If},
+        {"else if", ElseIf},
+        {"else", Else},
+        {"while", While},
+        {"for", For},
+        {"break", Break},
+        {"continue", Continue},
+        {"return", Return},
+        {"try", Try},
+        {"except", Except},
+        {"int", Int},
+        {"float", Float},
+        {"short", Short},
+        {"long", Long},
+        {"signed", Signed},
+        {"unsigned", Unsigned},
+        {"void", Void},
+        {"char", Char},
+        {"const", Const},
+        {"struct", Struct},
+        {"double", Double},
+        {"switch", Switch},
+        {"case", Case},
+        {"default", Default} };
 
 Lexic::Lexic(string filename)
 {
@@ -75,6 +74,11 @@ void Lexic::readCharacter()
     if (this->currentChar == '\n' || this->lineBuffer.empty())
     {
         readLine();
+        if (this->currentChar == -1)
+        {
+            this->results.push_back({ "EoF", EndOfFile });
+            return;
+        }
     }
 
     this->currentChar = this->lineBuffer[this->column++];
@@ -108,17 +112,17 @@ void Lexic::analyze()
     {
         switch (this->state)
         {
-        case State::Deffault:
-            analyzeStartState();
-            break;
+            case State::Deffault:
+                analyzeStartState();
+                break;
 
-        case State::KeywordState:
-            analyzeStringState();
-            break;
+            case State::KeywordState:
+                analyzeStringState();
+                break;
 
-        case State::Digit:
-            analyzeDigitState();
-            break;
+            case State::Digit:
+                analyzeDigitState();
+                break;
         }
     }
 }
@@ -151,11 +155,11 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"Igual", EQOp});
+            setToken({ "Igual", EQOp });
             return;
         }
         unreadCharacter();
-        setToken({"Igual", Assign});
+        setToken({ "Igual", Assign });
         return;
     }
     else if (this->currentChar == '+')
@@ -165,17 +169,17 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '+')
         {
             addToLexeme();
-            setToken({"Incremento", Increment});
+            setToken({ "Incremento", Increment });
             return;
         }
         else if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"PlusAssign", AddAssign});
+            setToken({ "PlusAssign", AddAssign });
             return;
         }
         unreadCharacter();
-        setToken({"Soma", Plus});
+        setToken({ "Soma", Plus });
         return;
     }
     else if (this->currentChar == '-')
@@ -185,30 +189,36 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '-')
         {
             addToLexeme();
-            setToken({"Decremento", Decrement});
+            setToken({ "Decremento", Decrement });
             return;
         }
         else if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"MinusAssign", LessAssign});
+            setToken({ "MinusAssign", LessAssign });
             return;
         }
         else if (this->currentChar == '>')
         {
             addToLexeme();
-            setToken({"Accessor", Accessor});
+            setToken({ "Accessor", Accessor });
             return;
         }
         unreadCharacter();
-        setToken({"Substração", Minus});
+        setToken({ "Substração", Minus });
         return;
     }
     else if (this->currentChar == '*')
     {
-        cout << "Pointer" << endl;
         addToLexeme();
-        setToken({"Multiplicação", Product});
+        readCharacter();
+        if (this->currentChar == '=')
+        {
+            addToLexeme();
+            setToken({ "MulAssign", MulAssign });
+            return;
+        }
+        setToken({ "Multiplicação", Product });
         return;
     }
     else if (this->currentChar == '/')
@@ -218,11 +228,11 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"DivisionAssign", DivAssign});
+            setToken({ "DivisionAssign", DivAssign });
             return;
         }
         unreadCharacter();
-        setToken({"Division", Division});
+        setToken({ "Division", Division });
         return;
     }
     else if (this->currentChar == '%')
@@ -232,84 +242,84 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"ModuleAssign", ModAssign});
+            setToken({ "ModuleAssign", ModAssign });
             return;
         }
         unreadCharacter();
         addToLexeme();
-        setToken({"Modulo", Module});
+        setToken({ "Modulo", Module });
         return;
     }
     else if (this->currentChar == '[')
     {
         addToLexeme();
-        setToken({"Operador", BracketOpen});
+        setToken({ "Operador", BracketOpen });
         return;
     }
     else if (this->currentChar == ']')
     {
         addToLexeme();
-        setToken({"Operador", BracketClose});
+        setToken({ "Operador", BracketClose });
         return;
     }
     else if (this->currentChar == '(')
     {
         addToLexeme();
-        setToken({"Operador", ParenthesisOpen});
+        setToken({ "Operador", ParenthesisOpen });
         return;
     }
     else if (this->currentChar == ')')
     {
         addToLexeme();
-        setToken({"Operador", ParenthesisClose});
+        setToken({ "Operador", ParenthesisClose });
         return;
     }
     else if (this->currentChar == '{')
     {
         addToLexeme();
-        setToken({"Operador", BraceOpen});
+        setToken({ "Operador", BraceOpen });
         return;
     }
     else if (this->currentChar == '}')
     {
         addToLexeme();
-        setToken({"Operador", BraceClose});
+        setToken({ "Operador", BraceClose });
         return;
     }
     else if (this->currentChar == ',')
     {
         addToLexeme();
-        setToken({"Operador", Comma});
+        setToken({ "Operador", Comma });
         return;
     }
     else if (this->currentChar == ';')
     {
         addToLexeme();
-        setToken({"Operador", SemiCollon});
+        setToken({ "Operador", SemiCollon });
         return;
     }
     else if (this->currentChar == ':')
     {
         addToLexeme();
-        setToken({"Operador", Collon});
+        setToken({ "Operador", Collon });
         return;
     }
     else if (this->currentChar == '~')
     {
         addToLexeme();
-        setToken({"Negação", Negate});
+        setToken({ "Negação", Negate });
         return;
     }
     else if (this->currentChar == '^')
     {
         addToLexeme();
-        setToken({"Potência", Power});
+        setToken({ "Potência", Power });
         return;
     }
     else if (this->currentChar == '.')
     {
         addToLexeme();
-        setToken({"Acessor", Accessor});
+        setToken({ "Acessor", Accessor });
         return;
     }
     else if (this->currentChar == '!')
@@ -319,11 +329,11 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"Diferente", NEOp});
+            setToken({ "Diferente", NEOp });
             return;
         }
         unreadCharacter();
-        setToken({"Not Lógido", LogicalNot});
+        setToken({ "Not Lógido", LogicalNot });
         return;
     }
     else if (this->currentChar == '&')
@@ -333,11 +343,11 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '&')
         {
             addToLexeme();
-            setToken({"LogicalAnd", LogicalAnd});
+            setToken({ "LogicalAnd", LogicalAnd });
             return;
         }
         unreadCharacter();
-        setToken({"And", AndOp});
+        setToken({ "And", AndOp });
         return;
     }
     else if (this->currentChar == '|')
@@ -347,11 +357,11 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '|')
         {
             addToLexeme();
-            setToken({"LogicalOr", LogicalOr});
+            setToken({ "LogicalOr", LogicalOr });
             return;
         }
         unreadCharacter();
-        setToken({"Or", OrOp});
+        setToken({ "Or", OrOp });
         return;
     }
 
@@ -362,11 +372,17 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"Maior Igual", GEOp});
+            setToken({ "Maior Igual", GEOp });
+            return;
+        }
+        else if (this->currentChar == '>')
+        {
+            addToLexeme();
+            setToken({"RightOp", RightOp});
             return;
         }
         unreadCharacter();
-        setToken({"Maior", Greater});
+        setToken({ "Maior", Greater });
         return;
     }
     else if (this->currentChar == '<')
@@ -376,11 +392,17 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '=')
         {
             addToLexeme();
-            setToken({"Menor Igual", LEOp});
+            setToken({ "Menor Igual", LEOp });
+            return;
+        }
+        else if (this->currentChar == '<')
+        {
+            addToLexeme();
+            setToken({"LeftOp", LeftOp});
             return;
         }
         unreadCharacter();
-        setToken({"Menor", Less});
+        setToken({ "Menor", Less });
         return;
     }
 }
@@ -414,8 +436,8 @@ void Lexic::analyzeDigitState()
     unreadCharacter();
 
     this->currentToken = {
-        "Constant",
-        Constant};
+            "Constant",
+            Constant };
     setToken(this->currentToken);
     state = State::Deffault;
 }
@@ -437,8 +459,8 @@ void Lexic::analyzeFloatingPointState()
 
     unreadCharacter();
     this->currentToken = {
-        "FloatingPointConstant",
-        Constant};
+            "FloatingPointConstant",
+            Constant };
     setToken(this->currentToken);
     this->state = State::Deffault;
 }
@@ -450,8 +472,8 @@ void Lexic::setToken(Token token)
     cout << "Token na linha " << this->line << " coluna " << this->column << endl
          << endl;
 
-    this->results.push_back({this->lexeme,
-                       token.types});
+    this->results.push_back({ this->lexeme,
+                              token.types });
 
     clearLexeme();
     readCharacter();
@@ -467,10 +489,10 @@ Token Lexic::getKeyword()
 {
 
     Token foundKeyword = {
-        "Identifier",
-        Identifier};
+            "Identifier",
+            Identifier };
 
-    for (const Token &keyword : keywords)
+    for (const Token& keyword : keywords)
     {
         if (keyword.value == this->lexeme)
         {
