@@ -112,17 +112,17 @@ void Lexic::analyze()
     {
         switch (this->state)
         {
-            case State::Deffault:
-                analyzeStartState();
-                break;
+        case State::Deffault:
+            analyzeStartState();
+            break;
 
-            case State::KeywordState:
-                analyzeStringState();
-                break;
+        case State::KeywordState:
+            analyzeStringState();
+            break;
 
-            case State::Digit:
-                analyzeDigitState();
-                break;
+        case State::Digit:
+            analyzeDigitState();
+            break;
         }
     }
 }
@@ -169,7 +169,7 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '+')
         {
             addToLexeme();
-            setToken({ "Incremento", Increment });
+            setToken({ "Incremento", IncOp});
             return;
         }
         else if (this->currentChar == '=')
@@ -189,7 +189,7 @@ void Lexic::analyzeStartState()
         if (this->currentChar == '-')
         {
             addToLexeme();
-            setToken({ "Decremento", Decrement });
+            setToken({ "Decremento", DecOp });
             return;
         }
         else if (this->currentChar == '=')
@@ -378,7 +378,7 @@ void Lexic::analyzeStartState()
         else if (this->currentChar == '>')
         {
             addToLexeme();
-            setToken({"RightOp", RightOp});
+            setToken({ "RightOp", RightOp });
             return;
         }
         unreadCharacter();
@@ -398,7 +398,7 @@ void Lexic::analyzeStartState()
         else if (this->currentChar == '<')
         {
             addToLexeme();
-            setToken({"LeftOp", LeftOp});
+            setToken({ "LeftOp", LeftOp });
             return;
         }
         unreadCharacter();
@@ -470,7 +470,7 @@ void Lexic::setToken(Token token)
     cout << "Token encontrado: " << this->lexeme << endl;
     cout << "Token tipo: " << token.types << endl;
     cout << "Token na linha " << this->line << " coluna " << this->column << endl
-         << endl;
+        << endl;
 
     this->results.push_back({ this->lexeme,
                               token.types });

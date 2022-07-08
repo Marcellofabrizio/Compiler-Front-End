@@ -33,7 +33,7 @@ void Syntatic::getToken()
         this->tk = this->tokenList[++this->currentTokenIndex].types;
     }
 
-    else
+    else 
     {
         this->tk = EndOfFile;
     }
@@ -1867,7 +1867,7 @@ bool Syntatic::iterationStatement()
     if (this->tk == For)
     {
         getToken();
-        if (this->tk == ParenthesisClose)
+        if (this->tk == ParenthesisOpen)
         {
             getToken();
             if (expressionStatement())
