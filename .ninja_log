@@ -1,0 +1,4 @@
+# ninja log v5
+0	326	1657392356384629091	CMakeFiles/Parser.dir/src/syntatic.cpp.o	f2a3123a981d9e1
+0	327	1657392356384629091	CMakeFiles/Parser.dir/src/lexic.cpp.o	a7e8333b49f54d5b
+327	335	1657392356392629134	libParser.a	aca4a0a0b2f7a39

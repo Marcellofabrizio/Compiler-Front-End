@@ -6,36 +6,6 @@
 
 #include "../include/lexic.h"
 
-Token keywords[100] = {
-        {"NULL", Null},
-        {"printf", Identifier},
-        {"scanf", Identifier},
-        {"ident", Identifier},
-        {"if", If},
-        {"else if", ElseIf},
-        {"else", Else},
-        {"while", While},
-        {"for", For},
-        {"break", Break},
-        {"continue", Continue},
-        {"return", Return},
-        {"try", Try},
-        {"except", Except},
-        {"int", Int},
-        {"float", Float},
-        {"short", Short},
-        {"long", Long},
-        {"signed", Signed},
-        {"unsigned", Unsigned},
-        {"void", Void},
-        {"char", Char},
-        {"const", Const},
-        {"struct", Struct},
-        {"double", Double},
-        {"switch", Switch},
-        {"case", Case},
-        {"default", Default} };
-
 Lexic::Lexic(string filename)
 {
 
@@ -112,17 +82,17 @@ void Lexic::analyze()
     {
         switch (this->state)
         {
-        case State::Deffault:
-            analyzeStartState();
-            break;
+            case State::Deffault:
+                analyzeStartState();
+                break;
 
-        case State::KeywordState:
-            analyzeStringState();
-            break;
+            case State::KeywordState:
+                analyzeStringState();
+                break;
 
-        case State::Digit:
-            analyzeDigitState();
-            break;
+            case State::Digit:
+                analyzeDigitState();
+                break;
         }
     }
 }
@@ -470,7 +440,7 @@ void Lexic::setToken(Token token)
     cout << "Token encontrado: " << this->lexeme << endl;
     cout << "Token tipo: " << token.types << endl;
     cout << "Token na linha " << this->line << " coluna " << this->column << endl
-        << endl;
+         << endl;
 
     this->results.push_back({ this->lexeme,
                               token.types });

@@ -33,7 +33,7 @@ void Syntatic::getToken()
         this->tk = this->tokenList[++this->currentTokenIndex].types;
     }
 
-    else 
+    else
     {
         this->tk = EndOfFile;
     }
@@ -225,21 +225,21 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-    if (this->tk == BraceOpen)
-    {
-        getToken();
-        if (expression())
-        {
-            if (this->tk == BracketClose)
-            {
-                getToken();
-                if (postFixExpressionR())
-                {
-                    return true;
-                }
-            }
-        }
-    }
+//    if (this->tk == BraceOpen)
+//    {
+//        getToken();
+//        if (expression())
+//        {
+//            if (this->tk == BracketClose)
+//            {
+//                getToken();
+//                if (postFixExpressionR())
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+//    }
 
     return true;
 }
@@ -945,6 +945,7 @@ bool Syntatic::initDeclaratorListR()
 {
     if (this->tk == Comma)
     {
+        getToken();
         if (initDeclarator())
         {
             if (initDeclaratorListR())
@@ -1330,6 +1331,15 @@ bool Syntatic::parameterListR()
             {
                 return true;
             }
+            else
+            {
+                return false;
+            }
+        }
+
+        else
+        {
+            return false;
         }
     }
     return true;
@@ -1572,13 +1582,14 @@ bool Syntatic::initializerList()
         }
     }
 
-    return true;
+    return false;
 }
 
 bool Syntatic::initializerListR()
 {
     if (this->tk == Comma)
     {
+        getToken();
         if (initializer())
         {
             if (initializerListR())
@@ -1691,10 +1702,10 @@ bool Syntatic::compoundStatementList()
             return true;
         }
 
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 bool Syntatic::compoundStatementBody()

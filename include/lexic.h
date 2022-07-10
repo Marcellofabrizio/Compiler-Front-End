@@ -45,6 +45,7 @@ public:
             {"if", If},
             {"else if", ElseIf},
             {"else", Else},
+            {"do", Do},
             {"while", While},
             {"for", For},
             {"break", Break},
@@ -61,8 +62,8 @@ public:
             {"void", Void},
             {"char", Char},
             {"const", Const},
-            {"Struct", Struct},
-            {"Double", Double},
+            {"struct", Struct},
+            {"double", Double},
             {"switch", Switch},
             {"case", Case},
             {"default", Default} };

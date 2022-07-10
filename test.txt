@@ -1,23 +1,33 @@
-int main()
+int main(int a, int b)
 {
+	int a;
+	int aa = 5;
+	int* aaa;
+	int* aaaa = 10;
 	a = -3;
 	a = 25;
-	a = a + 3;
-	a = a - 3;
-	a = a * 5;
-	a = a / 2;
-	a = a % 2;
+	a = a+3;
+	a = a-3;
+	a = a*5;
+	a = a/2;
+	a = a%2;
+	a+=3;
+	a-=3;
+	a*=2;
+	a/=2;
 
-	a += 3;
-	a -= 3;
-	a *= 2;
-	a /= 2;
+    for(i = 0; i < 10; i++)
+    {
+        z = function(a, b);
+    }
 
-	a = a & b;
-	a = a | b;
-	a = a ^ b;
-	a = a >> b;
-	a = a << b;
+    while(i < 10)
+    {
+        z = function(a, b);
+    }
 
-	return 0;
+    do {
+    function(a, b);
+    } while(i < 10);
+
 }
