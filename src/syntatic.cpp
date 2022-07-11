@@ -225,21 +225,21 @@ bool Syntatic::postFixExpressionR()
         }
     }
 
-//    if (this->tk == BraceOpen)
-//    {
-//        getToken();
-//        if (expression())
-//        {
-//            if (this->tk == BracketClose)
-//            {
-//                getToken();
-//                if (postFixExpressionR())
-//                {
-//                    return true;
-//                }
-//            }
-//        }
-//    }
+    //    if (this->tk == BraceOpen)
+    //    {
+    //        getToken();
+    //        if (expression())
+    //        {
+    //            if (this->tk == BracketClose)
+    //            {
+    //                getToken();
+    //                if (postFixExpressionR())
+    //                {
+    //                    return true;
+    //                }
+    //            }
+    //        }
+    //    }
 
     return true;
 }
@@ -1014,6 +1014,16 @@ bool Syntatic::typeSpecifier()
         getToken();
         return true;
     }
+    if (this->tk == Long)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == Unsigned)
+    {
+        getToken();
+        return true;
+    }
     if (structSprecifier())
     {
         return true;
@@ -1021,6 +1031,16 @@ bool Syntatic::typeSpecifier()
 
     return false;
 }
+
+//bool Syntatic::longTypeSpecifier()
+//{
+//
+//}
+//
+//bool Syntatic::unsignedTypeSpecifier()
+//{
+//
+//}
 
 bool Syntatic::specifierList()
 {

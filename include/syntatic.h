@@ -66,6 +66,8 @@ public:
     bool initDeclaratorListR();
     bool initDeclarator();
     bool typeSpecifier();
+    bool longTypeSpecifier();
+    bool unsignedTypeSpecifier();
     bool specifierList();
     bool structSprecifier();
     bool structGrammar();
