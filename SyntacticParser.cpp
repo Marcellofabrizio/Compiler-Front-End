@@ -1,19 +1,19 @@
 #include <iostream>
 #include "./include/lexic.h"
-#include "./include/syntatic.h"
+#include "./include/syntactic.h"
 
-#include "SyntaticParser.h"
+#include "SyntacticParser.h"
 
 using namespace std;
 
 int main(int argc, char const* argv[])
 {
 
-    Lexic* parser = new Lexic("/home/marcello/CLionProjects/SyntaticParser/test.txt");
+    Lexic* parser = new Lexic("/home/marcello/CLionProjects/SyntacticParser/test.txt");
     parser->analyze();
 
-    Syntatic* syntatic = new Syntatic(parser->results);
-    if (syntatic->translationUnit() > 0) {
+    Syntactic* syntactic = new Syntactic(parser->results);
+    if (syntactic->translationUnit() > 0) {
         cout << "Análise sintática realizada com sucesso" << endl;
     }
     else {

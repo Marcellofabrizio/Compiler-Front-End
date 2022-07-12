@@ -923,7 +923,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "SyntaticParser"
+			"value" : "SyntacticParser"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1236,6 +1236,42 @@
 			],
 			"type" : "FILEPATH",
 			"value" : "/usr/bin/sysctl"
+		},
+		{
+			"name" : "SyntacticParser_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"
+		},
+		{
+			"name" : "SyntacticParser_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "SyntacticParser_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/marcello/CLionProjects/SyntaticParser"
 		},
 		{
 			"name" : "SyntaticParser_BINARY_DIR",

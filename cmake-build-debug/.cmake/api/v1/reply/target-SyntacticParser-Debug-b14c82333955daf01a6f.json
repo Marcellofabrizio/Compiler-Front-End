@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "SyntaticParser"
+			"path" : "SyntacticParser"
 		}
 	],
 	"backtrace" : 1,
@@ -73,7 +73,7 @@
 			"id" : "Parser::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "SyntaticParser::@6890427a1f51a3e7e1df",
+	"id" : "SyntacticParser::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -94,8 +94,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "SyntaticParser",
-	"nameOnDisk" : "SyntaticParser",
+	"name" : "SyntacticParser",
+	"nameOnDisk" : "SyntacticParser",
 	"paths" : 
 	{
 		"build" : ".",
@@ -123,12 +123,12 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "SyntaticParser.cpp",
+			"path" : "SyntacticParser.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "SyntaticParser.h",
+			"path" : "SyntacticParser.h",
 			"sourceGroupIndex" : 1
 		}
 	],

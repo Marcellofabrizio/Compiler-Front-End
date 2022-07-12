@@ -4,27 +4,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/syntatic.h"
+#include "../include/syntactic.h"
 using namespace std;
 
-Syntatic::Syntatic(vector<Token> results)
+Syntactic::Syntactic(vector<Token> results)
 {
     this->tokenList = results;
     this->currentTokenIndex = -1;
 }
 
-int Syntatic::savePosition()
+int Syntactic::savePosition()
 {
     return this->currentTokenIndex;
 }
 
-void Syntatic::restorePosition(int pos)
+void Syntactic::restorePosition(int pos)
 {
     this->currentTokenIndex = pos - 1;
     getToken();
 }
 
-void Syntatic::getToken()
+void Syntactic::getToken()
 {
     // funcao para pegar o token
     int size = this->tokenList.size();
@@ -39,7 +39,7 @@ void Syntatic::getToken()
     }
 }
 
-bool Syntatic::translationUnit()
+bool Syntactic::translationUnit()
 {
     getToken();
     while (this->tk != EndOfFile)
@@ -53,7 +53,7 @@ bool Syntatic::translationUnit()
     return true;
 }
 
-bool Syntatic::externalDeclaration()
+bool Syntactic::externalDeclaration()
 {
     int position = savePosition();
     if (functionDeclaration())
@@ -71,7 +71,7 @@ bool Syntatic::externalDeclaration()
     return false;
 }
 
-bool Syntatic::functionDeclaration()
+bool Syntactic::functionDeclaration()
 {
     if (declarationSpecifiers())
     {
@@ -111,7 +111,7 @@ bool Syntatic::functionDeclaration()
     return false;
 }
 
-bool Syntatic::primaryExpression()
+bool Syntactic::primaryExpression()
 {
     if (this->tk == Identifier)
     {
@@ -140,7 +140,7 @@ bool Syntatic::primaryExpression()
     return false;
 }
 
-bool Syntatic::postFixExpression()
+bool Syntactic::postFixExpression()
 {
     if (primaryExpression())
     {
@@ -153,7 +153,7 @@ bool Syntatic::postFixExpression()
     return false;
 }
 
-bool Syntatic::postFixExpressionR()
+bool Syntactic::postFixExpressionR()
 {
 
     if (this->tk == ParenthesisOpen)
@@ -244,7 +244,7 @@ bool Syntatic::postFixExpressionR()
     return true;
 }
 
-bool Syntatic::argumentExpressionList()
+bool Syntactic::argumentExpressionList()
 {
     if (assignmentExpression())
     {
@@ -257,7 +257,7 @@ bool Syntatic::argumentExpressionList()
     return false;
 }
 
-bool Syntatic::argumentExpressionListR()
+bool Syntactic::argumentExpressionListR()
 {
     if (this->tk == Comma)
     {
@@ -274,7 +274,7 @@ bool Syntatic::argumentExpressionListR()
     return true;
 }
 
-bool Syntatic::unaryExpression()
+bool Syntactic::unaryExpression()
 {
     if (postFixExpression())
     {
@@ -310,7 +310,7 @@ bool Syntatic::unaryExpression()
     return false;
 }
 
-bool Syntatic::unaryOperator()
+bool Syntactic::unaryOperator()
 {
     if (this->tk == AndOp)
     {
@@ -346,7 +346,7 @@ bool Syntatic::unaryOperator()
     return false;
 }
 
-bool Syntatic::castExpression()
+bool Syntactic::castExpression()
 {
     if (unaryExpression())
     {
@@ -372,7 +372,7 @@ bool Syntatic::castExpression()
     return false;
 }
 
-bool Syntatic::multiplicativeExpression()
+bool Syntactic::multiplicativeExpression()
 {
     if (unaryExpression())
     {
@@ -385,7 +385,7 @@ bool Syntatic::multiplicativeExpression()
     return false;
 }
 
-bool Syntatic::multiplicativeExpressionR()
+bool Syntactic::multiplicativeExpressionR()
 {
 
     if (this->tk == Product)
@@ -427,7 +427,7 @@ bool Syntatic::multiplicativeExpressionR()
     return true;
 }
 
-bool Syntatic::additiveExpression()
+bool Syntactic::additiveExpression()
 {
     if (multiplicativeExpression())
     {
@@ -440,7 +440,7 @@ bool Syntatic::additiveExpression()
     return false;
 }
 
-bool Syntatic::additiveExpressionR()
+bool Syntactic::additiveExpressionR()
 {
     if (this->tk == Plus)
     {
@@ -469,7 +469,7 @@ bool Syntatic::additiveExpressionR()
     return true;
 }
 
-bool Syntatic::shiftExpression()
+bool Syntactic::shiftExpression()
 {
     if (additiveExpression())
     {
@@ -481,7 +481,7 @@ bool Syntatic::shiftExpression()
     return false;
 }
 
-bool Syntatic::shiftExpressionR()
+bool Syntactic::shiftExpressionR()
 {
     if (this->tk == LeftOp)
     {
@@ -508,7 +508,7 @@ bool Syntatic::shiftExpressionR()
     return true;
 }
 
-bool Syntatic::relationalExpression()
+bool Syntactic::relationalExpression()
 {
     if (shiftExpression())
     {
@@ -520,7 +520,7 @@ bool Syntatic::relationalExpression()
     return false;
 }
 
-bool Syntatic::relationalExpressionR()
+bool Syntactic::relationalExpressionR()
 {
     if (this->tk == Less)
     {
@@ -569,7 +569,7 @@ bool Syntatic::relationalExpressionR()
     return true;
 }
 
-bool Syntatic::equalityExpression()
+bool Syntactic::equalityExpression()
 {
     if (relationalExpression())
     {
@@ -581,7 +581,7 @@ bool Syntatic::equalityExpression()
     return false;
 }
 
-bool Syntatic::equalityExpressionR()
+bool Syntactic::equalityExpressionR()
 {
     if (this->tk == EQOp)
     {
@@ -608,7 +608,7 @@ bool Syntatic::equalityExpressionR()
     return true;
 }
 
-bool Syntatic::andExpression()
+bool Syntactic::andExpression()
 {
     if (equalityExpression())
     {
@@ -620,7 +620,7 @@ bool Syntatic::andExpression()
     return false;
 }
 
-bool Syntatic::andExpressionR()
+bool Syntactic::andExpressionR()
 {
     if (this->tk == AndOp)
     {
@@ -636,7 +636,7 @@ bool Syntatic::andExpressionR()
     return true;
 }
 
-bool Syntatic::exclusiveOrExpression()
+bool Syntactic::exclusiveOrExpression()
 {
     if (andExpression())
     {
@@ -648,7 +648,7 @@ bool Syntatic::exclusiveOrExpression()
     return false;
 }
 
-bool Syntatic::exclusiveOrExpressionR()
+bool Syntactic::exclusiveOrExpressionR()
 {
     if (this->tk == Power)
     {
@@ -664,7 +664,7 @@ bool Syntatic::exclusiveOrExpressionR()
     return true;
 }
 
-bool Syntatic::inclusiveOrExpression()
+bool Syntactic::inclusiveOrExpression()
 {
     if (exclusiveOrExpression())
     {
@@ -676,7 +676,7 @@ bool Syntatic::inclusiveOrExpression()
     return false;
 }
 
-bool Syntatic::inclusiveOrExpressionR()
+bool Syntactic::inclusiveOrExpressionR()
 {
     if (this->tk == OrOp)
     {
@@ -692,7 +692,7 @@ bool Syntatic::inclusiveOrExpressionR()
     return true;
 }
 
-bool Syntatic::logicalAndExpression()
+bool Syntactic::logicalAndExpression()
 {
     if (inclusiveOrExpression())
     {
@@ -704,7 +704,7 @@ bool Syntatic::logicalAndExpression()
     return false;
 }
 
-bool Syntatic::logicalAndExpressionR()
+bool Syntactic::logicalAndExpressionR()
 {
     if (this->tk == AndOp)
     {
@@ -720,7 +720,7 @@ bool Syntatic::logicalAndExpressionR()
     return true;
 }
 
-bool Syntatic::logicalOrExpression()
+bool Syntactic::logicalOrExpression()
 {
     if (logicalAndExpression())
     {
@@ -732,7 +732,7 @@ bool Syntatic::logicalOrExpression()
     return false;
 }
 
-bool Syntatic::logicalOrExpressionR()
+bool Syntactic::logicalOrExpressionR()
 {
     if (this->tk == OrOp)
     {
@@ -748,7 +748,7 @@ bool Syntatic::logicalOrExpressionR()
     return true;
 }
 
-bool Syntatic::conditionExpression()
+bool Syntactic::conditionExpression()
 {
     if (logicalOrExpression())
     {
@@ -772,7 +772,7 @@ bool Syntatic::conditionExpression()
     return false;
 }
 
-bool Syntatic::assignmentExpression()
+bool Syntactic::assignmentExpression()
 {
 
     int position = savePosition();
@@ -807,7 +807,7 @@ bool Syntatic::assignmentExpression()
     return false;
 }
 
-bool Syntatic::assignmentOperator()
+bool Syntactic::assignmentOperator()
 {
     if (this->tk == Assign)
     {
@@ -852,7 +852,7 @@ bool Syntatic::assignmentOperator()
     return false;
 }
 
-bool Syntatic::expression()
+bool Syntactic::expression()
 {
     if (assignmentExpression())
     {
@@ -864,7 +864,7 @@ bool Syntatic::expression()
     return false;
 }
 
-bool Syntatic::expressionR()
+bool Syntactic::expressionR()
 {
     if (this->tk == Comma)
     {
@@ -880,7 +880,7 @@ bool Syntatic::expressionR()
     return true;
 }
 
-bool Syntatic::constantExrpression()
+bool Syntactic::constantExrpression()
 {
     if (logicalOrExpression())
     {
@@ -890,7 +890,7 @@ bool Syntatic::constantExrpression()
     return false;
 }
 
-bool Syntatic::declaration()
+bool Syntactic::declaration()
 {
 
     if (declarationSpecifiers())
@@ -914,7 +914,7 @@ bool Syntatic::declaration()
     return false;
 }
 
-bool Syntatic::declarationSpecifiers()
+bool Syntactic::declarationSpecifiers()
 {
     if (typeSpecifier())
     {
@@ -928,7 +928,7 @@ bool Syntatic::declarationSpecifiers()
     return false;
 }
 
-bool Syntatic::initDeclaratorList()
+bool Syntactic::initDeclaratorList()
 {
     if (initDeclarator())
     {
@@ -941,7 +941,7 @@ bool Syntatic::initDeclaratorList()
     return false;
 }
 
-bool Syntatic::initDeclaratorListR()
+bool Syntactic::initDeclaratorListR()
 {
     if (this->tk == Comma)
     {
@@ -958,7 +958,7 @@ bool Syntatic::initDeclaratorListR()
     return true;
 }
 
-bool Syntatic::initDeclarator()
+bool Syntactic::initDeclarator()
 {
     if (declarator())
     {
@@ -977,7 +977,7 @@ bool Syntatic::initDeclarator()
     return false;
 }
 
-bool Syntatic::typeSpecifier()
+bool Syntactic::typeSpecifier()
 {
     if (this->tk == Void)
     {
@@ -1032,17 +1032,17 @@ bool Syntatic::typeSpecifier()
     return false;
 }
 
-//bool Syntatic::longTypeSpecifier()
+//bool Syntactic::longTypeSpecifier()
 //{
 //
 //}
 //
-//bool Syntatic::unsignedTypeSpecifier()
+//bool Syntactic::unsignedTypeSpecifier()
 //{
 //
 //}
 
-bool Syntatic::specifierList()
+bool Syntactic::specifierList()
 {
 
     if (typeSpecifier())
@@ -1058,7 +1058,7 @@ bool Syntatic::specifierList()
     return false;
 }
 
-bool Syntatic::structSprecifier()
+bool Syntactic::structSprecifier()
 {
     if (this->tk == Struct)
     {
@@ -1100,7 +1100,7 @@ bool Syntatic::structSprecifier()
     return false;
 }
 
-bool Syntatic::structDeclarationList()
+bool Syntactic::structDeclarationList()
 {
     if (structDeclaration())
     {
@@ -1113,7 +1113,7 @@ bool Syntatic::structDeclarationList()
     return false;
 }
 
-bool Syntatic::structDeclarationListR()
+bool Syntactic::structDeclarationListR()
 {
     if (structDeclaration())
     {
@@ -1126,7 +1126,7 @@ bool Syntatic::structDeclarationListR()
     return true;
 }
 
-bool Syntatic::structDeclaration()
+bool Syntactic::structDeclaration()
 {
     if (specifierList())
     {
@@ -1143,7 +1143,7 @@ bool Syntatic::structDeclaration()
     return false;
 }
 
-bool Syntatic::structDeclaratorList()
+bool Syntactic::structDeclaratorList()
 {
     if (structDeclarator())
     {
@@ -1156,7 +1156,7 @@ bool Syntatic::structDeclaratorList()
     return false;
 }
 
-bool Syntatic::structDeclaratorListR()
+bool Syntactic::structDeclaratorListR()
 {
     if (this->tk == Comma)
     {
@@ -1173,7 +1173,7 @@ bool Syntatic::structDeclaratorListR()
     return true;
 }
 
-bool Syntatic::structDeclarator()
+bool Syntactic::structDeclarator()
 {
     if (declarator())
     {
@@ -1201,7 +1201,7 @@ bool Syntatic::structDeclarator()
     return false;
 }
 
-bool Syntatic::declarator()
+bool Syntactic::declarator()
 {
     if (directDeclarator())
     {
@@ -1217,7 +1217,7 @@ bool Syntatic::declarator()
     return false;
 }
 
-bool Syntatic::directDeclarator()
+bool Syntactic::directDeclarator()
 {
     if (this->tk == Identifier)
     {
@@ -1245,7 +1245,7 @@ bool Syntatic::directDeclarator()
     return false;
 }
 
-bool Syntatic::directDeclaratorR()
+bool Syntactic::directDeclaratorR()
 {
     if (this->tk == BracketOpen)
     {
@@ -1296,7 +1296,7 @@ bool Syntatic::directDeclaratorR()
     return true;
 }
 
-bool Syntatic::pointer()
+bool Syntactic::pointer()
 {
     if (this->tk == Product)
     {
@@ -1310,7 +1310,7 @@ bool Syntatic::pointer()
     return false;
 }
 
-bool Syntatic::parameterTypeList()
+bool Syntactic::parameterTypeList()
 {
     if (parameterList())
     {
@@ -1328,7 +1328,7 @@ bool Syntatic::parameterTypeList()
     return false;
 }
 
-bool Syntatic::parameterList()
+bool Syntactic::parameterList()
 {
     if (parameterDeclaration())
     {
@@ -1340,7 +1340,7 @@ bool Syntatic::parameterList()
     return false;
 }
 
-bool Syntatic::parameterListR()
+bool Syntactic::parameterListR()
 {
     if (this->tk == Comma)
     {
@@ -1365,7 +1365,7 @@ bool Syntatic::parameterListR()
     return true;
 }
 
-bool Syntatic::parameterDeclaration()
+bool Syntactic::parameterDeclaration()
 {
     if (declarationSpecifiers())
     {
@@ -1382,7 +1382,7 @@ bool Syntatic::parameterDeclaration()
     return false;
 }
 
-bool Syntatic::identifierList()
+bool Syntactic::identifierList()
 {
     if (this->tk == Identifier)
     {
@@ -1395,7 +1395,7 @@ bool Syntatic::identifierList()
     return false;
 }
 
-bool Syntatic::identifierListR()
+bool Syntactic::identifierListR()
 {
     if (this->tk == Comma)
     {
@@ -1412,7 +1412,7 @@ bool Syntatic::identifierListR()
     return true;
 }
 
-bool Syntatic::typeName()
+bool Syntactic::typeName()
 {
     if (specifierList())
     {
@@ -1425,7 +1425,7 @@ bool Syntatic::typeName()
     return false;
 }
 
-bool Syntatic::abstractDeclarator()
+bool Syntactic::abstractDeclarator()
 {
     if (pointer())
     {
@@ -1445,7 +1445,7 @@ bool Syntatic::abstractDeclarator()
     return false;
 }
 
-bool Syntatic::directAbstractDeclarator()
+bool Syntactic::directAbstractDeclarator()
 {
     if (this->tk == ParenthesisOpen)
     {
@@ -1512,7 +1512,7 @@ bool Syntatic::directAbstractDeclarator()
     return false;
 }
 
-bool Syntatic::directAbstractDeclaratorR()
+bool Syntactic::directAbstractDeclaratorR()
 {
     if (this->tk == BracketOpen)
     {
@@ -1559,7 +1559,7 @@ bool Syntatic::directAbstractDeclaratorR()
     return true;
 }
 
-bool Syntatic::initializer()
+bool Syntactic::initializer()
 {
     if (assignmentExpression())
     {
@@ -1592,7 +1592,7 @@ bool Syntatic::initializer()
     return false;
 }
 
-bool Syntatic::initializerList()
+bool Syntactic::initializerList()
 {
     if (initializer())
     {
@@ -1605,7 +1605,7 @@ bool Syntatic::initializerList()
     return false;
 }
 
-bool Syntatic::initializerListR()
+bool Syntactic::initializerListR()
 {
     if (this->tk == Comma)
     {
@@ -1622,7 +1622,7 @@ bool Syntatic::initializerListR()
     return true;
 }
 
-bool Syntatic::statement()
+bool Syntactic::statement()
 {
 
     int position = savePosition();
@@ -1659,7 +1659,7 @@ bool Syntatic::statement()
     return false;
 }
 
-bool Syntatic::labeledStatement()
+bool Syntactic::labeledStatement()
 {
     if (this->tk == Case)
     {
@@ -1694,7 +1694,7 @@ bool Syntatic::labeledStatement()
     return false;
 }
 
-bool Syntatic::compoundStatement()
+bool Syntactic::compoundStatement()
 {
     if (this->tk == BraceOpen)
     {
@@ -1713,7 +1713,7 @@ bool Syntatic::compoundStatement()
     return false;
 }
 
-bool Syntatic::compoundStatementList()
+bool Syntactic::compoundStatementList()
 {
     if (compoundStatementBody())
     {
@@ -1728,7 +1728,7 @@ bool Syntatic::compoundStatementList()
     return false;
 }
 
-bool Syntatic::compoundStatementBody()
+bool Syntactic::compoundStatementBody()
 {
     if (declarationList())
     {
@@ -1750,7 +1750,7 @@ bool Syntatic::compoundStatementBody()
     return false;
 }
 
-bool Syntatic::declarationList()
+bool Syntactic::declarationList()
 {
     if (declaration())
     {
@@ -1765,7 +1765,7 @@ bool Syntatic::declarationList()
     return false;
 }
 
-bool Syntatic::statementList()
+bool Syntactic::statementList()
 {
     if (statement())
     {
@@ -1778,7 +1778,7 @@ bool Syntatic::statementList()
     return false;
 }
 
-bool Syntatic::expressionStatement()
+bool Syntactic::expressionStatement()
 {
     if (this->tk == SemiCollon)
     {
@@ -1796,7 +1796,7 @@ bool Syntatic::expressionStatement()
     return false;
 }
 
-bool Syntatic::selectionStatement()
+bool Syntactic::selectionStatement()
 {
     if (this->tk == If)
     {
@@ -1847,7 +1847,7 @@ bool Syntatic::selectionStatement()
     return false;
 }
 
-bool Syntatic::iterationStatement()
+bool Syntactic::iterationStatement()
 {
     if (this->tk == While)
     {
@@ -1931,7 +1931,7 @@ bool Syntatic::iterationStatement()
     return false;
 }
 
-bool Syntatic::jumpStatement()
+bool Syntactic::jumpStatement()
 {
     if (this->tk == Continue)
     {

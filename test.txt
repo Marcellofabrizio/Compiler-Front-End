@@ -1,9 +1,28 @@
-int main(int a, int b)
+int marcello = 2;
+int gregor = 2;
+
+float power(float a, int b)
+{
+   int i;
+   float result = 1.0;
+   for(i = 0; i < b; i++)
+   {
+        result *= a;
+   }
+
+    return result;
+}
+
+float euclidean_distance(float a, float b)
+{
+    return power(a, 2) + power(b, 2);
+}
+
+int main()
 {
 	int a;
 	int aa = 5;
-	int* aaa;
-	int* aaaa = 10;
+	int aaaaa[3];
 	a = -3;
 	a = 25;
 	a = a+3;
@@ -14,20 +33,57 @@ int main(int a, int b)
 	a+=3;
 	a-=3;
 	a*=2;
-	a/=2;
 
-    for(i = 0; i < 10; i++)
+	long int b;
+	long int bb = 5;
+	long int *bbb;
+	long int *bbbb = 10;
+	b = 25;
+
+	a = a&b;
+	a = a|b;
+	a = a^b;
+	a = a>>b;
+	a = a<<b;
+
+	double e;
+	double ee = 5.5;
+	double* eee;
+	double* eeee = 10.5;
+	double eeeee[3];
+	double* eeeeeee[3];
+	e = ~e;
+	e = 25.5;
+
+	for(i = 1; i < 5; i++)
     {
-        z = function(a, b);
+        if(a >> 2)
+        {
+            break;
+        }
+        else if(a == b)
+            continue;
+
+        a++;
     }
 
-    while(i < 10)
-    {
-        z = function(a, b);
-    }
+	long int b;
+	long long int c;
+	float d;
+	char e;
+	double f;
 
-    do {
-    function(a, b);
-    } while(i < 10);
+	while(result != 10)
+	{
+		main();
+		if(!valid)
+			break;
+
+		do
+		{
+			main();
+		} while(cont == 4);
+
+	}
 
 }

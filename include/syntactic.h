@@ -1,10 +1,10 @@
-#ifndef SYNTATIC_H
-#define SYNTATIC_H
+#ifndef SYNTACTIC_H
+#define SYNTACTIC_H
 
 #include <stack>
 #include "./token.hpp"
 
-class Syntatic
+class Syntactic
 {
 
 public:
@@ -13,7 +13,7 @@ public:
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
 
-    Syntatic(std::vector<Token> results);
+    Syntactic(std::vector<Token> results);
 
     int savePosition();
     void restorePosition(int pos);

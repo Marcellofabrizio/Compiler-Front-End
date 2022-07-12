@@ -1,14 +1,14 @@
-﻿# CMakeList.txt: projeto de CMake para SyntaticParser, incluir origem e definir
+﻿# CMakeList.txt: projeto de CMake para SyntacticParser, incluir origem e definir
 # lógica específica a um projeto aqui.
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("SyntaticParser")
+project ("SyntacticParser")
 
 include_directories(./include/)
 
-add_library(Parser "include/lexic.h" "include/syntatic.h" "include/token.hpp" "src/lexic.cpp" "src/syntatic.cpp")
+add_library(Parser "include/lexic.h" "include/syntactic.h" "include/token.hpp" "src/lexic.cpp" "src/syntactic.cpp")
 
-add_executable (SyntaticParser "SyntaticParser.cpp" "SyntaticParser.h" SyntaticParser.h)
+add_executable (SyntacticParser "SyntacticParser.cpp" "SyntacticParser.h" SyntacticParser.h)
 
-target_link_libraries(SyntaticParser PUBLIC Parser)
+target_link_libraries(SyntacticParser PUBLIC Parser)

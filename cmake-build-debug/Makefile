@@ -130,41 +130,41 @@ Parser/fast:
 .PHONY : Parser/fast
 
 #=============================================================================
-# Target rules for targets named SyntaticParser
+# Target rules for targets named SyntacticParser
 
 # Build rule for target.
-SyntaticParser: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SyntaticParser
-.PHONY : SyntaticParser
+SyntacticParser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SyntacticParser
+.PHONY : SyntacticParser
 
 # fast build rule for target.
-SyntaticParser/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/build
-.PHONY : SyntaticParser/fast
+SyntacticParser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntacticParser.dir/build.make CMakeFiles/SyntacticParser.dir/build
+.PHONY : SyntacticParser/fast
 
-SyntaticParser.o: SyntaticParser.cpp.o
-.PHONY : SyntaticParser.o
+SyntacticParser.o: SyntacticParser.cpp.o
+.PHONY : SyntacticParser.o
 
 # target to build an object file
-SyntaticParser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/SyntaticParser.cpp.o
-.PHONY : SyntaticParser.cpp.o
+SyntacticParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntacticParser.dir/build.make CMakeFiles/SyntacticParser.dir/SyntacticParser.cpp.o
+.PHONY : SyntacticParser.cpp.o
 
-SyntaticParser.i: SyntaticParser.cpp.i
-.PHONY : SyntaticParser.i
+SyntacticParser.i: SyntacticParser.cpp.i
+.PHONY : SyntacticParser.i
 
 # target to preprocess a source file
-SyntaticParser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/SyntaticParser.cpp.i
-.PHONY : SyntaticParser.cpp.i
+SyntacticParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntacticParser.dir/build.make CMakeFiles/SyntacticParser.dir/SyntacticParser.cpp.i
+.PHONY : SyntacticParser.cpp.i
 
-SyntaticParser.s: SyntaticParser.cpp.s
-.PHONY : SyntaticParser.s
+SyntacticParser.s: SyntacticParser.cpp.s
+.PHONY : SyntacticParser.s
 
 # target to generate assembly for a file
-SyntaticParser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntaticParser.dir/build.make CMakeFiles/SyntaticParser.dir/SyntaticParser.cpp.s
-.PHONY : SyntaticParser.cpp.s
+SyntacticParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SyntacticParser.dir/build.make CMakeFiles/SyntacticParser.dir/SyntacticParser.cpp.s
+.PHONY : SyntacticParser.cpp.s
 
 src/lexic.o: src/lexic.cpp.o
 .PHONY : src/lexic.o
@@ -190,29 +190,29 @@ src/lexic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexic.cpp.s
 .PHONY : src/lexic.cpp.s
 
-src/syntatic.o: src/syntatic.cpp.o
-.PHONY : src/syntatic.o
+src/syntactic.o: src/syntactic.cpp.o
+.PHONY : src/syntactic.o
 
 # target to build an object file
-src/syntatic.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntatic.cpp.o
-.PHONY : src/syntatic.cpp.o
+src/syntactic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntactic.cpp.o
+.PHONY : src/syntactic.cpp.o
 
-src/syntatic.i: src/syntatic.cpp.i
-.PHONY : src/syntatic.i
+src/syntactic.i: src/syntactic.cpp.i
+.PHONY : src/syntactic.i
 
 # target to preprocess a source file
-src/syntatic.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntatic.cpp.i
-.PHONY : src/syntatic.cpp.i
+src/syntactic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntactic.cpp.i
+.PHONY : src/syntactic.cpp.i
 
-src/syntatic.s: src/syntatic.cpp.s
-.PHONY : src/syntatic.s
+src/syntactic.s: src/syntactic.cpp.s
+.PHONY : src/syntactic.s
 
 # target to generate assembly for a file
-src/syntatic.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntatic.cpp.s
-.PHONY : src/syntatic.cpp.s
+src/syntactic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/syntactic.cpp.s
+.PHONY : src/syntactic.cpp.s
 
 # Help Target
 help:
@@ -223,16 +223,16 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Parser"
-	@echo "... SyntaticParser"
-	@echo "... SyntaticParser.o"
-	@echo "... SyntaticParser.i"
-	@echo "... SyntaticParser.s"
+	@echo "... SyntacticParser"
+	@echo "... SyntacticParser.o"
+	@echo "... SyntacticParser.i"
+	@echo "... SyntacticParser.s"
 	@echo "... src/lexic.o"
 	@echo "... src/lexic.i"
 	@echo "... src/lexic.s"
-	@echo "... src/syntatic.o"
-	@echo "... src/syntatic.i"
-	@echo "... src/syntatic.s"
+	@echo "... src/syntactic.o"
+	@echo "... src/syntactic.i"
+	@echo "... src/syntactic.s"
 .PHONY : help
 
 
