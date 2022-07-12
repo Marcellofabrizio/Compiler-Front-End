@@ -28,7 +28,7 @@
 					[
 						0
 					],
-					"name" : "SyntaticParser",
+					"name" : "SyntacticParser",
 					"targetIndexes" : 
 					[
 						0,
@@ -41,15 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Parser::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Parser-02544f65882eb688eed7.json",
+					"jsonFile" : "target-Parser-072a8aada2d1f345c129.json",
 					"name" : "Parser",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "SyntaticParser::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-SyntaticParser-004b654338670564b0d5.json",
-					"name" : "SyntaticParser",
+					"id" : "SyntacticParser::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-SyntacticParser-4252963a70557bb2612d.json",
+					"name" : "SyntacticParser",
 					"projectIndex" : 0
 				}
 			]

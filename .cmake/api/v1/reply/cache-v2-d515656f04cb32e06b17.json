@@ -831,7 +831,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "SyntaticParser"
+			"value" : "SyntacticParser"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1114,7 +1114,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "SyntaticParser_BINARY_DIR",
+			"name" : "SyntacticParser_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1126,7 +1126,7 @@
 			"value" : "/home/marcello/Repositories/LexicParser"
 		},
 		{
-			"name" : "SyntaticParser_IS_TOP_LEVEL",
+			"name" : "SyntacticParser_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1138,7 +1138,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "SyntaticParser_SOURCE_DIR",
+			"name" : "SyntacticParser_SOURCE_DIR",
 			"properties" : 
 			[
 				{
