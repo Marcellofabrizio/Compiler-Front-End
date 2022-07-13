@@ -8,150 +8,150 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Parser">
-				<Option output="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/libParser.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option output="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/libParser.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/marcello/CLionProjects/SyntaticParser/./include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/x86_64-unknown-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include-fixed"/>
+					<Add directory="/home/marcello/Repositories/C-Syntatic-Parser/./include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 Parser"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 Parser"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Parser/fast">
-				<Option output="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/libParser.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option output="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/libParser.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/marcello/CLionProjects/SyntaticParser/./include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/x86_64-unknown-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include-fixed"/>
+					<Add directory="/home/marcello/Repositories/C-Syntatic-Parser/./include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 Parser/fast"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 Parser/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="SyntacticParser">
-				<Option output="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/SyntacticParser" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option output="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/SyntacticParser" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/marcello/CLionProjects/SyntaticParser/./include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/x86_64-unknown-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include-fixed"/>
+					<Add directory="/home/marcello/Repositories/C-Syntatic-Parser/./include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 SyntacticParser"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 SyntacticParser"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="SyntacticParser/fast">
-				<Option output="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/SyntacticParser" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option output="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/SyntacticParser" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/marcello/CLionProjects/SyntaticParser/./include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/x86_64-unknown-linux-gnu"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/../../../../include/c++/11.3.0/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include-fixed"/>
+					<Add directory="/home/marcello/Repositories/C-Syntatic-Parser/./include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 SyntacticParser/fast"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 SyntacticParser/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug"/>
+				<Option working_dir="/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/marcello/CLionProjects/SyntaticParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/marcello/Repositories/C-Syntatic-Parser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/SyntacticParser.cpp">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/SyntacticParser.cpp">
 			<Option target="SyntacticParser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/SyntacticParser.h">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/SyntacticParser.h">
 			<Option target="SyntacticParser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/include/lexic.h">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/include/lexic.h">
 			<Option target="Parser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/include/syntactic.h">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/include/syntactic.h">
 			<Option target="Parser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/include/token.hpp">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/include/token.hpp">
 			<Option target="Parser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/src/lexic.cpp">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/src/lexic.cpp">
 			<Option target="Parser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/src/syntactic.cpp">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/src/syntactic.cpp">
 			<Option target="Parser"/>
 		</Unit>
-		<Unit filename="/home/marcello/CLionProjects/SyntaticParser/CMakeLists.txt">
+		<Unit filename="/home/marcello/Repositories/C-Syntatic-Parser/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

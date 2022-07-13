@@ -179,6 +179,8 @@ bool Syntactic::postFixExpressionR()
                 }
             }
         }
+
+        return false;
     }
 
     if (this->tk == Dot)
@@ -192,6 +194,8 @@ bool Syntactic::postFixExpressionR()
                 return true;
             }
         }
+
+        return false;
     }
 
     if (this->tk == Accessor)
@@ -205,6 +209,8 @@ bool Syntactic::postFixExpressionR()
                 return true;
             }
         }
+
+        return false;
     }
 
     if (this->tk == IncOp)
@@ -214,6 +220,8 @@ bool Syntactic::postFixExpressionR()
         {
             return true;
         }
+
+        return false;
     }
 
     if (this->tk == DecOp)
@@ -223,23 +231,27 @@ bool Syntactic::postFixExpressionR()
         {
             return true;
         }
+
+        return false;
     }
 
-    //    if (this->tk == BraceOpen)
-    //    {
-    //        getToken();
-    //        if (expression())
-    //        {
-    //            if (this->tk == BracketClose)
-    //            {
-    //                getToken();
-    //                if (postFixExpressionR())
-    //                {
-    //                    return true;
-    //                }
-    //            }
-    //        }
-    //    }
+    if (this->tk == BracketOpen)
+    {
+        getToken();
+        if (expression())
+        {
+            if (this->tk == BracketClose)
+            {
+                getToken();
+                if (postFixExpressionR())
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     return true;
 }
@@ -1699,6 +1711,12 @@ bool Syntactic::compoundStatement()
     if (this->tk == BraceOpen)
     {
         getToken();
+
+        if (this->tk == BraceClose)
+        {
+            getToken();
+            return true;
+        }
 
         if (compoundStatementList())
         {

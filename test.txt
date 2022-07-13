@@ -5,9 +5,24 @@ float power(float a, int b)
 {
    int i;
    float result = 1.0;
-   for(i = 0; i < b; i++)
+
+   for(a = 1, b = 1;;)
+   {
+        a++;
+   }
+
+   while(1)
    {
         result *= a;
+        a = ~a;
+        a = a&b;
+        a = a|b;
+        a = a^b;
+        a = a>>b;
+        a = a<<b;
+        unsigned int a = 1;
+
+        a[2] = 1;
    }
 
     return result;
@@ -16,75 +31,4 @@ float power(float a, int b)
 float euclidean_distance(float a, float b)
 {
     return power(a, 2) + power(b, 2);
-}
-
-int main()
-{
-	int a;
-	int *aa = 5;
-	int aaaaa[3];
-	a = -3;
-	a = 25;
-	a = a+3;
-	a = a-3;
-	a = a*5;
-	a = a/2;
-	a = a%2;
-	a+=3;
-	a-=3;
-	a*=2;
-
-    char aa = 'b';
-    int* b = 10;
-
-	long int b;
-	long int bb = 5;
-	long int *bbb;
-	long int *bbbb = 10;
-	b = 25;
-
-	a = a&b;
-	a = a|b;
-	a = a^b;
-	a = a>>b;
-	a = a<<b;
-
-	double e;
-	double ee = 5.5;
-	double* eeee = 10.5;
-	double eeeee[3];
-
-	e = ~e;
-	e = 25.5;
-
-	for(i = 1; i < 5; i++)
-    {
-        if(a >> 2)
-        {
-            break;
-        }
-        else if(a == b)
-            continue;
-
-        a++;
-    }
-
-	long int b;
-	long long int c;
-	float d;
-	char e;
-	double f;
-
-	while(result != 10)
-	{
-		main();
-		if(!valid)
-			break;
-	}
-
-	do
-	{
-		main();
-	} while(cont == 4);
-
 }
