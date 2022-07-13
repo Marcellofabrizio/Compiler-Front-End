@@ -2,6 +2,11 @@
 #define SYNTACTIC_H
 
 #include <stack>
+#include <vector>
+#include <string.h>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 #include "./token.hpp"
 
 class Syntactic
@@ -58,7 +63,6 @@ public:
     bool assignmentOperator();
     bool expression();
     bool expressionR();
-    bool expressionStatementBody();
     bool constantExrpression();
     bool declaration();
     bool declarationSpecifiers();
@@ -66,8 +70,6 @@ public:
     bool initDeclaratorListR();
     bool initDeclarator();
     bool typeSpecifier();
-    bool longTypeSpecifier();
-    bool unsignedTypeSpecifier();
     bool specifierList();
     bool structSprecifier();
     bool structGrammar();

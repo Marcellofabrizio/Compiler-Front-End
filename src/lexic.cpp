@@ -11,7 +11,7 @@ Lexic::Lexic(string filename)
 
     this->column = 0;
     this->line = 0;
-    this->state = State::Deffault;
+    this->state = State::DEF;
     this->lexeme = "";
     this->infile = ifstream(filename);
 
@@ -70,11 +70,6 @@ void Lexic::clearLexeme()
     this->lexeme = "";
 }
 
-bool Lexic::eofReached()
-{
-    return this->currentChar == -1;
-}
-
 void Lexic::analyze()
 {
     readCharacter();
@@ -82,8 +77,8 @@ void Lexic::analyze()
     {
         switch (this->state)
         {
-            case State::Deffault:
-                analyzeStartState();
+            case State::DEF:
+                analyzeDefaultState();
                 break;
 
             case State::KeywordState:
@@ -97,7 +92,7 @@ void Lexic::analyze()
     }
 }
 
-void Lexic::analyzeStartState()
+void Lexic::analyzeDefaultState()
 {
     if (this->currentChar == ' ' || this->currentChar == '\t' || this->currentChar == '\n' || this->currentChar == '\r')
     {
@@ -109,6 +104,12 @@ void Lexic::analyzeStartState()
     else if (isalpha(this->currentChar) || this->currentChar == '_')
     {
         addToLexeme();
+        readCharacter();
+        this->state = State::KeywordState;
+        return;
+    }
+    else if (this->currentChar == '\'' )
+    {
         readCharacter();
         this->state = State::KeywordState;
         return;
@@ -387,10 +388,23 @@ void Lexic::analyzeStringState()
         return;
     }
 
-    unreadCharacter();
-    this->currentToken = getKeyword();
-    setToken(this->currentToken);
-    this->state = State::Deffault;
+    if (this->currentChar == '\'')
+    {
+        this->currentToken = {
+                this->lexeme,
+                CharConstant
+        };
+        setToken(this->currentToken);
+        this->state = State::DEF;
+    }
+
+    else
+    {
+        unreadCharacter();
+        this->currentToken = getKeyword();
+        setToken(this->currentToken);
+        this->state = State::DEF;
+    }
     return;
 }
 
@@ -409,7 +423,7 @@ void Lexic::analyzeDigitState()
             "Constant",
             Constant };
     setToken(this->currentToken);
-    state = State::Deffault;
+    state = State::DEF;
 }
 
 void Lexic::analyzeFloatingPointState()
@@ -432,7 +446,7 @@ void Lexic::analyzeFloatingPointState()
             "FloatingPointConstant",
             Constant };
     setToken(this->currentToken);
-    this->state = State::Deffault;
+    this->state = State::DEF;
 }
 
 void Lexic::setToken(Token token)

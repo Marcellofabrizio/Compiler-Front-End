@@ -21,7 +21,7 @@ float euclidean_distance(float a, float b)
 int main()
 {
 	int a;
-	int aa = 5;
+	int *aa = 5;
 	int aaaaa[3];
 	a = -3;
 	a = 25;
@@ -33,6 +33,9 @@ int main()
 	a+=3;
 	a-=3;
 	a*=2;
+
+    char aa = 'b';
+    int* b = 10;
 
 	long int b;
 	long int bb = 5;
@@ -48,10 +51,9 @@ int main()
 
 	double e;
 	double ee = 5.5;
-	double* eee;
 	double* eeee = 10.5;
 	double eeeee[3];
-	double* eeeeeee[3];
+
 	e = ~e;
 	e = 25.5;
 
@@ -78,12 +80,11 @@ int main()
 		main();
 		if(!valid)
 			break;
-
-		do
-		{
-			main();
-		} while(cont == 4);
-
 	}
+
+	do
+	{
+		main();
+	} while(cont == 4);
 
 }

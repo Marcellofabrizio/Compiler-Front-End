@@ -7,17 +7,15 @@ typedef enum
 {
     LexicalError = -1,
     EndOfFile = 0,
-    Keyword,
     Identifier,
     Constant,
+    CharConstant,
     Plus,             // +
     Minus,            // -
     Product,          // *
     Division,         // /
     Power,            // ˆ
-    Increment,        // ++
     IncOp,            // ++
-    Decrement,        // --
     DecOp,            // --
     Module,           // %
     LeftOp,           // <<
@@ -26,7 +24,6 @@ typedef enum
     NEOp,             // !=
     Less,             // <
     Greater,          // >
-    LessOrEqual,      // <=
     LEOp,             // <=
     GEOp,             // >=
     Negate,           // ~
@@ -69,7 +66,6 @@ typedef enum
     Void,             // void
     Null,             // null
     Const,            // const
-    Pointer,          // pointer
     Accessor,         // -> / .
     Underscore,       // _
     Dot,              // .

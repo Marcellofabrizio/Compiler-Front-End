@@ -14,7 +14,7 @@ using namespace std;
 
 typedef enum
 {
-    Deffault = 0,
+    DEF = 0,
     Digit,
     KeywordState,
     FloatingPoint,
@@ -77,7 +77,7 @@ public:
     void addToLexeme();
     void clearLexeme();
     void analyze();
-    void analyzeStartState();
+    void analyzeDefaultState();
     void analyzeStringState();
     void analyzeDigitState();
     void analyzeFloatingPointState();

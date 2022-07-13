@@ -1,9 +1,3 @@
-#include <vector>
-#include <string.h>
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "../include/syntactic.h"
 using namespace std;
 
@@ -120,6 +114,12 @@ bool Syntactic::primaryExpression()
     }
 
     else if (this->tk == Constant)
+    {
+        getToken();
+        return true;
+    }
+
+    else if (this->tk == CharConstant)
     {
         getToken();
         return true;

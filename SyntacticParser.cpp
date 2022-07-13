@@ -8,8 +8,15 @@ using namespace std;
 
 int main(int argc, char const* argv[])
 {
+    if (argc < 2) {
+        cout << "Arquivo de entrada não encontrado" << endl;
+        cout << "Forneça o caminho para um arquivo de entrada" << endl;
+        return 0;
+    }
 
-    Lexic* parser = new Lexic("/home/marcello/CLionProjects/SyntacticParser/test.txt");
+    string inFilePath = argv[1];
+
+    Lexic* parser = new Lexic(inFilePath);
     parser->analyze();
 
     Syntactic* syntactic = new Syntactic(parser->results);
