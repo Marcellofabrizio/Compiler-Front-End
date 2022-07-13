@@ -5,38 +5,18 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
+      <config projectName="SyntacticParser" targetName="untitled" />
       <config projectName="SyntacticParser" targetName="SyntacticParser" />
       <config projectName="SyntacticParser" targetName="Parser" />
     </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Default" ENABLED="true" GENERATION_DIR="." />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8abe5d4b-46ff-4f3a-aec2-87d930c8a9ed" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/query/cache-v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/query/cmakeFiles-v1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/query/codemodel-v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/query/toolchains-v1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/cache-v2-b1a54eb1e6b706395eae.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/cmakeFiles-v1-097b4d4aa90f28c50af8.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/codemodel-v2-fe1a5a3a64782d75de7d.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/directory-.-f5ebdc15457944623624.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/index-2022-07-11T23-27-06-0151.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/target-Parser-02544f65882eb688eed7.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/target-SyntaticParser-004b654338670564b0d5.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cmake/api/v1/reply/toolchains-v1-8ae3a32a9fc9b818bdf9.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ninja_deps" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ninja_log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2022-07-12T01-02-07-0650.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/lexic.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/syntactic.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/token.hpp" beforeDir="false" />
-    </list>
+    <list default="true" id="fce23eda-8133-4928-86d6-eacc722b7ad3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,37 +25,47 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Default" />
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/syntactic.cpp" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectApplicationVersion">
-    <option name="ide" value="CLion" />
-    <option name="majorVersion" value="2022" />
-    <option name="minorVersion" value="1.3" />
-  </component>
-  <component name="ProjectId" id="2BOu9wom3BfLusrTJ6HF9puhi0y" />
+  <component name="ProjectId" id="2BSELp0xcVLVuxdMdDpGovlrwv8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/marcello/Repositories/LexicParser&quot;
+    &quot;last_opened_file_path&quot;: &quot;/home/marcello/Repositories/LexicParser&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration name="BuildAll" type="CMakeRunConfiguration" factoryName="Application" folderName="build" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Default" EXPLICIT_BUILD_TARGET_NAME="all">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake Application.SyntacticParser">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SyntacticParser" RUN_TARGET_NAME="SyntaticParser" EXPLICIT_BUILD_TARGET_NAME="all">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Parser" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SyntacticParser" TARGET_NAME="Parser" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SyntacticParser" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$PROJECT_DIR$/test.txt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SyntacticParser" TARGET_NAME="SyntacticParser" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SyntacticParser" RUN_TARGET_NAME="SyntacticParser">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -85,39 +75,59 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="CMake Application.Build All" />
+      <item itemvalue="CMake Application.Parser" />
+      <item itemvalue="CMake Application.SyntacticParser" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8abe5d4b-46ff-4f3a-aec2-87d930c8a9ed" name="Changes" comment="" />
-      <created>1656789305580</created>
+      <changelist id="fce23eda-8133-4928-86d6-eacc722b7ad3" name="Changes" comment="" />
+      <created>1656857258059</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1656789305580</updated>
-      <workItem from="1656789307362" duration="171000" />
-      <workItem from="1656806768123" duration="174000" />
-      <workItem from="1656813841659" duration="400000" />
-      <workItem from="1656857084103" duration="31000" />
-      <workItem from="1657392030226" duration="366000" />
-      <workItem from="1657582026099" duration="3042000" />
-      <workItem from="1657666299951" duration="69000" />
-      <workItem from="1657666398511" duration="294000" />
-      <workItem from="1657666737366" duration="792000" />
+      <updated>1656857258059</updated>
+      <workItem from="1656857259342" duration="7326000" />
+      <workItem from="1656891036031" duration="606000" />
+      <workItem from="1657226632351" duration="10769000" />
+      <workItem from="1657392006703" duration="8693000" />
+      <workItem from="1657581522655" duration="479000" />
+      <workItem from="1657582008995" duration="16000" />
+      <workItem from="1657584725168" duration="3186000" />
+      <workItem from="1657665965603" duration="332000" />
+      <workItem from="1657666414777" duration="7327000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/syntactic.cpp</url>
+          <line>1579</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/syntactic.cpp</url>
+          <line>1870</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/SyntacticParser.cpp</url>
+          <line>19</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/lexic.cpp</url>
+          <line>390</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
