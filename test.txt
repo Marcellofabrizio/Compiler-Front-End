@@ -1,14 +1,6 @@
 int b = 22;
+char b = 22;
 
-int marcello = 2;
-int gregor = 2;
-
-char a = 1;
-int array[3];
-int vector = array[1];
-
-int main() {
-    int array[3];
-    int m = 1;
-    int j = 1;
+int main(char b) {
+    int c = 10;
 }

@@ -21,7 +21,7 @@ bool Semantic::checkIdentifierDeclaration(string identifier)
 {
     for(TableEntry tableEntry : this->symbolsTable)
     {
-        if(tableEntry.token.value.compare(identifier) == 0)
+        if(tableEntry.tokenOccurence.token.value.compare(identifier) == 0)
         {
             return true;
         }

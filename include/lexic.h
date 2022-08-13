@@ -35,7 +35,7 @@ public:
     Token currentToken;
     Token result;
 
-    std::vector<Token> results;
+    std::vector<TokenOccurence> results;
 
     Token keywords[100] = {
             {"NULL", Null},

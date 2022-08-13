@@ -16,10 +16,10 @@ class Syntactic
 public:
     int currentTokenIndex = 0;
     int tk;
-    std::vector<Token> tokenList;
+    std::vector<TokenOccurence> tokenList;
     std::stack<int> tokenStack;
 
-    Syntactic(std::vector<Token> results, Semantic *semantic);
+    Syntactic(std::vector<TokenOccurence> results, Semantic *semantic);
 
     Semantic *semanticParser;
 
@@ -68,11 +68,12 @@ public:
     bool expressionR();
     bool constantExrpression();
     bool declaration();
-    bool declarationSpecifiers();
+    bool declaration(string type);
+    bool declarationSpecifiers(string &type);
     bool initDeclaratorList();
     bool initDeclaratorListR();
     bool initDeclarator();
-    bool typeSpecifier();
+    bool typeSpecifier(string &type);
     bool specifierList();
     bool structSprecifier();
     bool structGrammar();
@@ -111,6 +112,15 @@ public:
     bool jumpStatement();
     bool structDeclaratorList();
     bool structDeclaratorListR();
+
+    bool declarator(string type);
+    bool directDeclarator(string type);
+
+    bool initDeclarator(string type);
+
+    bool initDeclaratorListR(string type);
+
+    bool initDeclaratorList(string type);
 };
 
 #endif

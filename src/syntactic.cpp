@@ -1,7 +1,7 @@
 #include "../include/syntactic.h"
 using namespace std;
 
-Syntactic::Syntactic(vector<Token> results, Semantic *semantic)
+Syntactic::Syntactic(vector<TokenOccurence> results, Semantic *semantic)
 {
     this->semanticParser = semantic;
     this->tokenList = results;
@@ -25,7 +25,7 @@ void Syntactic::getToken()
     int size = this->tokenList.size();
     if (this->currentTokenIndex < size)
     {
-        this->tk = this->tokenList[++this->currentTokenIndex].types;
+        this->tk = this->tokenList[++this->currentTokenIndex].token.types;
     }
 
     else
@@ -69,9 +69,10 @@ bool Syntactic::externalDeclaration()
 
 bool Syntactic::functionDeclaration()
 {
-    if (declarationSpecifiers())
+    string type;
+    if (declarationSpecifiers(type))
     {
-        if (declarator())
+        if (declarator(type))
         {
             if (declarationList())
             {
@@ -906,8 +907,8 @@ bool Syntactic::constantExrpression()
 
 bool Syntactic::declaration()
 {
-
-    if (declarationSpecifiers())
+    string type;
+    if (declarationSpecifiers(type))
     {
         if (this->tk == SemiCollon)
         {
@@ -915,7 +916,7 @@ bool Syntactic::declaration()
             return true;
         }
 
-        else if (initDeclaratorList())
+        else if (initDeclaratorList(type))
         {
             if (this->tk == SemiCollon)
             {
@@ -928,11 +929,13 @@ bool Syntactic::declaration()
     return false;
 }
 
-bool Syntactic::declarationSpecifiers()
+bool Syntactic::declarationSpecifiers(string &type)
 {
-    if (typeSpecifier())
+    string typeR;
+    if (typeSpecifier(typeR))
     {
-        if (declarationSpecifiers())
+        type = typeR;
+        if (declarationSpecifiers(type))
         {
             return true;
         }
@@ -942,11 +945,12 @@ bool Syntactic::declarationSpecifiers()
     return false;
 }
 
-bool Syntactic::initDeclaratorList()
+bool Syntactic::initDeclaratorList(string type)
 {
-    if (initDeclarator())
+    string typeR;
+    if (initDeclarator(type))
     {
-        if (initDeclaratorListR())
+        if (initDeclaratorListR(type))
         {
             return true;
         }
@@ -955,14 +959,31 @@ bool Syntactic::initDeclaratorList()
     return false;
 }
 
-bool Syntactic::initDeclaratorListR()
+bool Syntactic::initDeclaratorList()
+{
+    string typeR;
+    if (initDeclarator(typeR))
+    {
+        if (initDeclaratorListR(typeR))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool Syntactic::initDeclaratorListR(string type)
 {
     if (this->tk == Comma)
     {
         getToken();
-        if (initDeclarator())
+        string typeR;
+        if (initDeclarator(typeR))
         {
-            if (initDeclaratorListR())
+            type = typeR;
+            if (initDeclaratorListR(type))
             {
                 return true;
             }
@@ -972,9 +993,27 @@ bool Syntactic::initDeclaratorListR()
     return true;
 }
 
-bool Syntactic::initDeclarator()
+bool Syntactic::initDeclaratorListR()
 {
-    if (declarator())
+    if (this->tk == Comma)
+    {
+        getToken();
+        string typeR;
+        if (initDeclarator(typeR))
+        {
+            if (initDeclaratorListR(typeR))
+            {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Syntactic::initDeclarator(string type)
+{
+    if (declarator(type))
     {
         if (this->tk == Assign)
         {
@@ -991,50 +1030,59 @@ bool Syntactic::initDeclarator()
     return false;
 }
 
-bool Syntactic::typeSpecifier()
+bool Syntactic::typeSpecifier(string &type)
 {
     if (this->tk == Void)
     {
+        type = "Void";
         getToken();
         return true;
     }
     if (this->tk == Char)
     {
+        type = "Char";
         getToken();
         return true;
     }
     if (this->tk == Short)
     {
+        type = "Short";
         getToken();
         return true;
     }
     if (this->tk == Int)
     {
+        type = "Int";
         getToken();
         return true;
     }
     if (this->tk == Long)
     {
+        type = "Long";
         getToken();
         return true;
     }
     if (this->tk == Float)
     {
+        type = "Float";
         getToken();
         return true;
     }
     if (this->tk == Double)
     {
+        type = "Double";
         getToken();
         return true;
     }
     if (this->tk == Long)
     {
+        type = "Long";
         getToken();
         return true;
     }
     if (this->tk == Unsigned)
     {
+        type = "Unsigned";
         getToken();
         return true;
     }
@@ -1048,8 +1096,8 @@ bool Syntactic::typeSpecifier()
 
 bool Syntactic::specifierList()
 {
-
-    if (typeSpecifier())
+    string type;
+    if (typeSpecifier(type))
     {
         if (specifierList())
         {
@@ -1221,6 +1269,23 @@ bool Syntactic::declarator()
     return false;
 }
 
+bool Syntactic::declarator(string type)
+{
+    if (directDeclarator(type))
+    {
+        return true;
+    }
+    if (pointer())
+    {
+        if (directDeclarator())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool Syntactic::directDeclarator()
 {
     if (this->tk == Identifier)
@@ -1228,6 +1293,39 @@ bool Syntactic::directDeclarator()
         this->semanticParser->insertToken(
                 {
                         this->tokenList[this->currentTokenIndex]
+                });
+        getToken();
+        if (directDeclaratorR())
+        {
+            return true;
+        }
+    }
+    if (this->tk == ParenthesisOpen)
+    {
+        getToken();
+        if (declarator())
+        {
+            if (this->tk == ParenthesisClose)
+            {
+                getToken();
+                if (directDeclaratorR())
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool Syntactic::directDeclarator(string type)
+{
+    if (this->tk == Identifier)
+    {
+        this->semanticParser->insertToken(
+                {
+                        this->tokenList[this->currentTokenIndex],
+                        type
                 });
         getToken();
         if (directDeclaratorR())
@@ -1375,7 +1473,8 @@ bool Syntactic::parameterListR()
 
 bool Syntactic::parameterDeclaration()
 {
-    if (declarationSpecifiers())
+    string type;
+    if (declarationSpecifiers(type))
     {
         if (declarator())
         {

@@ -90,4 +90,10 @@ typedef struct
     TokenType types;
 } Token;
 
+typedef struct
+{
+    Token token;
+    int declarationLine;
+} TokenOccurence;
+
 #endif

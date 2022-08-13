@@ -16,11 +16,11 @@ int main(int argc, char const* argv[])
 
     string inFilePath = argv[1];
 
-    Lexic* parser = new Lexic(inFilePath);
-    parser->analyze();
+    Lexic* lexic = new Lexic(inFilePath);
+    lexic->analyze();
 
     Semantic semantic;
-    Syntactic* syntactic = new Syntactic(parser->results, &semantic);
+    Syntactic* syntactic = new Syntactic(lexic->results, &semantic);
     if (syntactic->translationUnit() > 0) {
         cout << "Análise sintática realizada com sucesso" << endl;
     }

@@ -15,8 +15,8 @@ using namespace std;
 class TableEntry
 {
 public:
-    Token token;
-//    int declarationLine;
+    TokenOccurence tokenOccurence;
+    string type;
 };
 
 class Semantic

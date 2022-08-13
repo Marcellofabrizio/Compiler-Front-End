@@ -456,8 +456,19 @@ void Lexic::setToken(Token token)
     cout << "Token na linha " << this->line << " coluna " << this->column << endl
          << endl;
 
-    this->results.push_back({ this->lexeme,
-                              token.types });
+    TokenOccurence occurence;
+    occurence.token =
+            {this->lexeme,
+             token.types
+    };
+
+    occurence.declarationLine = NULL;
+
+    if(token.types == Identifier) {
+        occurence.declarationLine = line;
+    }
+
+    this->results.push_back(occurence);
 
     clearLexeme();
     readCharacter();
