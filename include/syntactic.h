@@ -103,6 +103,7 @@ public:
     bool compoundStatementList();
     bool compoundStatementBody();
     bool declarationList();
+    bool declarationList(string type);
     bool declarationListR();
     bool statementList();
     bool statementListR();

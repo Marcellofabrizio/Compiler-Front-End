@@ -5,7 +5,9 @@
 #include <string>
 #include "../include/semanticV1.h"
 
-Semantic::Semantic() {}
+Semantic::Semantic(Logger &logger) {
+    this->logger = logger;
+}
 
 void Semantic::clearTable()
 {
@@ -14,16 +16,23 @@ void Semantic::clearTable()
 
 void Semantic::insertToken(TableEntry tableEntry)
 {
-    this->symbolsTable.push_back(tableEntry);
+    if(!identifierInTable(tableEntry)) {
+        this->symbolsTable.push_back(tableEntry);
+    }
 }
 
-bool Semantic::checkIdentifierDeclaration(string identifier)
+bool Semantic::identifierInTable(TableEntry tableEntry)
 {
-    for(TableEntry tableEntry : this->symbolsTable)
+    for(TableEntry existingEntry : this->symbolsTable)
     {
-        if(tableEntry.tokenOccurence.token.value.compare(identifier) == 0)
+        if(tableEntry.tokenOccurence.token.value.compare(existingEntry.tokenOccurence.token.value) == 0)
         {
-            return true;
+            if(tableEntry.type.compare(existingEntry.type) == 0) {
+                string var = existingEntry.tokenOccurence.token.value;
+                int line = existingEntry.tokenOccurence.declarationLine;
+                this->logger.error("Variável " + var + " já declarada na linha " + to_string(line));
+                return true;
+            }
         }
     }
 

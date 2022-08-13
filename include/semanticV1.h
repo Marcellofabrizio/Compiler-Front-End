@@ -24,12 +24,12 @@ class Semantic
 
 public:
     list<TableEntry> symbolsTable;
-//    Logger logger;
-    Semantic();
+    Logger logger;
+    Semantic(Logger &logger);
 
     void clearTable();
     void insertToken(TableEntry tableEntry);
-    bool checkIdentifierDeclaration(string identifier);
+    bool identifierInTable(TableEntry tableEntry);
 
 };
 

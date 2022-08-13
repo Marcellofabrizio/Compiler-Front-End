@@ -1,5 +1,5 @@
-int b = 22;
-char b = 22;
+int b, c = 22;
+int b;
 
 int main(char b) {
     int c = 10;

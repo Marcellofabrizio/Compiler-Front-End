@@ -74,7 +74,7 @@ bool Syntactic::functionDeclaration()
     {
         if (declarator(type))
         {
-            if (declarationList())
+            if (declarationList(type))
             {
                 if (compoundStatement())
                 {
@@ -89,9 +89,9 @@ bool Syntactic::functionDeclaration()
         }
     }
 
-    if (declarator())
+    if (declarator(type))
     {
-        if (declarationList())
+        if (declarationList(type))
         {
             if (compoundStatement())
             {
@@ -929,12 +929,33 @@ bool Syntactic::declaration()
     return false;
 }
 
+bool Syntactic::declaration(string type)
+{
+    if (declarationSpecifiers(type))
+    {
+        if (this->tk == SemiCollon)
+        {
+            getToken();
+            return true;
+        }
+
+        else if (initDeclaratorList(type))
+        {
+            if (this->tk == SemiCollon)
+            {
+                getToken();
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool Syntactic::declarationSpecifiers(string &type)
 {
-    string typeR;
-    if (typeSpecifier(typeR))
+    if (typeSpecifier(type))
     {
-        type = typeR;
         if (declarationSpecifiers(type))
         {
             return true;
@@ -980,7 +1001,7 @@ bool Syntactic::initDeclaratorListR(string type)
     {
         getToken();
         string typeR;
-        if (initDeclarator(typeR))
+        if (initDeclarator(type))
         {
             type = typeR;
             if (initDeclaratorListR(type))
@@ -1843,12 +1864,12 @@ bool Syntactic::compoundStatementList()
 
 bool Syntactic::compoundStatementBody()
 {
-    if (declarationList())
+    if (declarationList(std::string()))
     {
         return true;
     }
 
-    if (declarationList())
+    if (declarationList(std::string()))
     {
         if (statementList()) {
             return true;
@@ -1857,6 +1878,21 @@ bool Syntactic::compoundStatementBody()
 
     else if (statementList())
     {
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntactic::declarationList(string type)
+{
+    if (declaration(type))
+    {
+        if (declarationList(type))
+        {
+            return true;
+        }
+
         return true;
     }
 
@@ -1877,6 +1913,7 @@ bool Syntactic::declarationList()
 
     return false;
 }
+
 
 bool Syntactic::statementList()
 {
