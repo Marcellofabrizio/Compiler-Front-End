@@ -1,8 +1,9 @@
 #include "../include/syntactic.h"
 using namespace std;
 
-Syntactic::Syntactic(vector<Token> results)
+Syntactic::Syntactic(vector<Token> results, Semantic *semantic)
 {
+    this->semanticParser = semantic;
     this->tokenList = results;
     this->currentTokenIndex = -1;
 }
@@ -56,6 +57,7 @@ bool Syntactic::externalDeclaration()
     }
     else {
         restorePosition(position);
+        this->semanticParser->symbolsTable.pop_back();
         if (declaration())
         {
             return true;
@@ -1044,16 +1046,6 @@ bool Syntactic::typeSpecifier()
     return false;
 }
 
-//bool Syntactic::longTypeSpecifier()
-//{
-//
-//}
-//
-//bool Syntactic::unsignedTypeSpecifier()
-//{
-//
-//}
-
 bool Syntactic::specifierList()
 {
 
@@ -1233,6 +1225,10 @@ bool Syntactic::directDeclarator()
 {
     if (this->tk == Identifier)
     {
+        this->semanticParser->insertToken(
+                {
+                        this->tokenList[this->currentTokenIndex]
+                });
         getToken();
         if (directDeclaratorR())
         {

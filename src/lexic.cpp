@@ -473,7 +473,7 @@ Token Lexic::getKeyword()
 {
 
     Token foundKeyword = {
-            "Identifier",
+            lexeme,
             Identifier };
 
     for (const Token& keyword : keywords)

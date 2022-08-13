@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include "./semanticV1.h"
 #include "./token.hpp"
 
 class Syntactic
@@ -18,7 +19,9 @@ public:
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
 
-    Syntactic(std::vector<Token> results);
+    Syntactic(std::vector<Token> results, Semantic *semantic);
+
+    Semantic *semanticParser;
 
     int savePosition();
     void restorePosition(int pos);

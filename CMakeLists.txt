@@ -7,7 +7,7 @@ project ("SyntacticParser")
 
 include_directories(./include/)
 
-add_library(Parser "include/lexic.h" "include/syntactic.h" "include/token.hpp" "src/lexic.cpp" "src/syntactic.cpp")
+add_library(Parser "include/lexic.h" "include/syntactic.h" "include/token.hpp" "src/lexic.cpp" "src/syntactic.cpp" include/semanticV1.h src/semanticV1.cpp include/logger.h)
 
 add_executable (SyntacticParser "SyntacticParser.cpp" "SyntacticParser.h" SyntacticParser.h)
 
