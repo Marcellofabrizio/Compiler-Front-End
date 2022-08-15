@@ -39,7 +39,8 @@ bool Semantic::identifierInTable(TableEntry tableEntry)
             if(tableEntry.type.compare(existingEntry.type) == 0) {
                 string var = existingEntry.tokenOccurence.token.value;
                 int line = existingEntry.tokenOccurence.declarationLine;
-                this->logger.error("Variável " + var + " já declarada na linha " + to_string(line));
+                int occurencLine = tableEntry.tokenOccurence.declarationLine;
+                this->logger.error("Erro na linha " + to_string(occurencLine) + ", variável " + var + " já declarada na linha " + to_string(line));
                 return true;
             }
         }
@@ -54,7 +55,8 @@ bool Semantic::checkOverridingDeclarations()
         if (tableEntry.alreadyDeclared) {
             string var = tableEntry.tokenOccurence.token.value;
             int line = tableEntry.declarationLine;
-            this->logger.error("Variável " + var + " já declarada na linha " + to_string(line));
+            int occurencLine = tableEntry.tokenOccurence.declarationLine;
+            this->logger.error("Erro na linha " + to_string(occurencLine) + ", variável " + var + " já declarada na linha " + to_string(line));
         }
     }
     return false;
