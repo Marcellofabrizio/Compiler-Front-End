@@ -17,14 +17,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce23eda-8133-4928-86d6-eacc722b7ad3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/logger.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SyntacticParser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/SyntacticParser.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/semanticV1.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/semanticV1.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/syntactic.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/syntactic.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/semanticV1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/semanticV1.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/syntactic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/syntactic.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,19 +48,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/marcello/CLionProjects/SyntaticParser&quot;,
-    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "/home/marcello/CLionProjects/SyntaticParser",
+    "nodejs_package_manager_path": "npm",
+    "structure.view.defaults.are.configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -82,11 +79,6 @@
       </method>
     </configuration>
     <configuration name="SyntacticParser" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$PROJECT_DIR$/test.txt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SyntacticParser" TARGET_NAME="SyntacticParser" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SyntacticParser" RUN_TARGET_NAME="SyntacticParser">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -117,6 +109,7 @@
       <workItem from="1657680457185" duration="411000" />
       <workItem from="1657746786264" duration="2679000" />
       <workItem from="1660413653979" duration="10922000" />
+      <workItem from="1660502051859" duration="9345000" />
     </task>
     <servers />
   </component>
@@ -150,9 +143,19 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/SyntacticParser.cpp</url>
+          <line>25</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/semanticV1.cpp</url>
-          <line>18</line>
-          <option name="timeStamp" value="23" />
+          <line>24</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/semanticV1.cpp</url>
+          <line>53</line>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

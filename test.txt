@@ -1,6 +1,9 @@
+int c = 10;
+int d = 10;
+int a = 10;
+int j = 10;
+char b = 10;
+int a;
 int b, c = 22;
 int b;
-
-int main(char b) {
-    int c = 10;
-}
+int a;

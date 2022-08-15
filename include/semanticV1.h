@@ -17,6 +17,9 @@ class TableEntry
 public:
     TokenOccurence tokenOccurence;
     string type;
+    int scope = 0;
+    int declarationLine = NULL;
+    bool alreadyDeclared = false;
 };
 
 class Semantic
@@ -30,6 +33,7 @@ public:
     void clearTable();
     void insertToken(TableEntry tableEntry);
     bool identifierInTable(TableEntry tableEntry);
+    bool checkOverridingDeclarations();
 
 };
 

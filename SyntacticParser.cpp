@@ -24,6 +24,7 @@ int main(int argc, char const* argv[])
     Syntactic *syntactic = new Syntactic(lexic->results, semantic);
     if (syntactic->translationUnit() > 0) {
         logger.log("Análise sintática realizada com sucesso");
+        semantic->checkOverridingDeclarations();
     }
     else {
         logger.error("Erro durante análise sintática");
