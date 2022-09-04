@@ -25,6 +25,7 @@ void Syntactic::getToken()
     if (this->currentTokenIndex < size)
     {
         this->tk = this->tokenList[++this->currentTokenIndex].types;
+        this->lexeme = this->tokenList[++this->currentTokenIndex].value;
     }
 
     else
@@ -248,6 +249,33 @@ bool Syntactic::postFixExpressionR()
                     return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
+bool Syntactic::postFixExpressionR(string p_c)
+{
+    if (this->tk == IncOp)
+    {
+        getToken();
+        if (postFixExpressionR())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    if (this->tk == DecOp)
+    {
+        getToken();
+        if (postFixExpressionR())
+        {
+            return true;
         }
 
         return false;
@@ -784,6 +812,22 @@ bool Syntactic::conditionExpression()
     return false;
 }
 
+bool Syntactic::assignmentExpression(string ass_c)
+{
+
+    if(this->tk == Identifier)
+    {
+        string id = this->lexeme;
+        getToken();
+        if(this->tk == Assign)
+        {
+
+        }
+    }
+
+    return false;
+}
+
 bool Syntactic::assignmentExpression()
 {
 
@@ -876,7 +920,38 @@ bool Syntactic::expression()
     return false;
 }
 
+bool Syntactic::expression(string e_c)
+{
+    string aExp_c, eR_h, eR_s;
+    if (assignmentExpression(aExp_c))
+    {
+        eR_h = aExp_c;
+        if (expressionR(eR_h, eR_s))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool Syntactic::expressionR()
+{
+    if (this->tk == Comma)
+    {
+        getToken();
+        if (assignmentExpression())
+        {
+            if (expressionR())
+            {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntactic::expressionR(string eR_h, string eR_s)
 {
     if (this->tk == Comma)
     {
@@ -1043,16 +1118,6 @@ bool Syntactic::typeSpecifier()
 
     return false;
 }
-
-//bool Syntactic::longTypeSpecifier()
-//{
-//
-//}
-//
-//bool Syntactic::unsignedTypeSpecifier()
-//{
-//
-//}
 
 bool Syntactic::specifierList()
 {
@@ -1814,6 +1879,25 @@ bool Syntactic::expressionStatement()
     return false;
 }
 
+bool Syntactic::expressionStatement(string exp_c)
+{
+    string exp_s;
+    if (this->tk == SemiCollon)
+    {
+        getToken();
+        return true;
+    }
+    if (expression(exp_s))
+    {
+        if (this->tk == SemiCollon)
+        {
+            getToken();
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Syntactic::selectionStatement()
 {
     if (this->tk == If)
@@ -1916,6 +2000,8 @@ bool Syntactic::iterationStatement()
     if (this->tk == For)
     {
         getToken();
+        string labelStart, labelEnd;
+        string init_c, cond_c, inc_c, stmt_c;
         if (this->tk == ParenthesisOpen)
         {
             getToken();

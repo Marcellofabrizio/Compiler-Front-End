@@ -1,5 +1,9 @@
-#ifndef SYNTACTIC_H
-#define SYNTACTIC_H
+//
+// Created by marcello on 9/3/22.
+//
+
+#ifndef SYNTACTICPARSER_SYNTACTIC2_H
+#define SYNTACTICPARSER_SYNTACTIC2_H
 
 #include <stack>
 #include <vector>
@@ -8,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./token.hpp"
+
+using namespace std;
 
 class Syntactic
 {
@@ -118,4 +124,5 @@ public:
     bool assignmentExpression(string ass_c);
 };
 
-#endif
+
+#endif //SYNTACTICPARSER_SYNTACTIC2_H
