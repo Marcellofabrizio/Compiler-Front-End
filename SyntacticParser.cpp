@@ -20,7 +20,8 @@ int main(int argc, char const* argv[])
     parser->analyze();
 
     Syntactic* syntactic = new Syntactic(parser->results);
-    if (syntactic->translationUnit() > 0) {
+    syntactic->getToken();
+    if (syntactic->iterationStatement() > 0) {
         cout << "Análise sintática realizada com sucesso" << endl;
     }
     else {

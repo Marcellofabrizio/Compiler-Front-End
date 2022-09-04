@@ -1,4 +1,5 @@
 #include "../include/syntactic.h"
+#include "string.h"
 using namespace std;
 
 Syntactic::Syntactic(vector<Token> results)
@@ -24,7 +25,9 @@ void Syntactic::getToken()
     int size = this->tokenList.size();
     if (this->currentTokenIndex < size)
     {
-        this->tk = this->tokenList[++this->currentTokenIndex].types;
+        ++this->currentTokenIndex;
+        this->tk = this->tokenList[this->currentTokenIndex].types;
+        this->lexeme = this->tokenList[this->currentTokenIndex].value;
     }
 
     else
@@ -140,12 +143,65 @@ bool Syntactic::primaryExpression()
     return false;
 }
 
+bool Syntactic::primaryExpression(string &primeExpCode)
+{
+    if (this->tk == Identifier)
+    {
+        primeExpCode = this->lexeme;
+        getToken();
+        return true;
+    }
+
+    else if (this->tk == Constant)
+    {
+        primeExpCode = this->lexeme;
+        getToken();
+        return true;
+    }
+
+    else if (this->tk == CharConstant)
+    {
+        getToken();
+        return true;
+    }
+
+    else if (this->tk == ParenthesisOpen)
+    {
+        getToken();
+        if (expression())
+        {
+            if (this->tk == ParenthesisClose)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool Syntactic::postFixExpression()
 {
     if (primaryExpression())
     {
         if (postFixExpressionR())
         {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Syntactic::postFixExpression(string &postFixExpCode)
+{
+    string primeExpCode, primeExpRCode;
+    if (primaryExpression(primeExpCode))
+    {
+        postFixExpCode.append(primeExpCode);
+        if (postFixExpressionR(primeExpRCode))
+        {
+            postFixExpCode.append(primeExpRCode);
             return true;
         }
     }
@@ -256,6 +312,51 @@ bool Syntactic::postFixExpressionR()
     return true;
 }
 
+bool Syntactic::postFixExpressionR(string &postFixRCode)
+{
+    if (this->tk == IncOp)
+    {
+        getToken();
+        if (postFixExpressionR())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    if (this->tk == DecOp)
+    {
+        getToken();
+        if (postFixExpressionR())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    if (this->tk == BracketOpen)
+    {
+        getToken();
+        if (expression())
+        {
+            if (this->tk == BracketClose)
+            {
+                getToken();
+                if (postFixExpressionR())
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
 bool Syntactic::argumentExpressionList()
 {
     if (assignmentExpression())
@@ -314,6 +415,38 @@ bool Syntactic::unaryExpression()
     if (unaryOperator())
     {
         if (unaryExpression())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Syntactic::unaryExpression(string &unaryCode)
+{
+    string postFixExpCode, unaryCode2;
+    if (postFixExpression(postFixExpCode))
+    {
+        unaryCode.append(postFixExpCode);
+        return true;
+    }
+
+    if (this->tk == IncOp)
+    {
+        unaryCode.append("++");
+        getToken();
+        if (unaryExpression(unaryCode2))
+        {
+            return true;
+        }
+    }
+
+    if (this->tk == DecOp)
+    {
+        unaryCode.append("--");
+        getToken();
+        if (unaryExpression(unaryCode2))
         {
             return true;
         }
@@ -632,6 +765,18 @@ bool Syntactic::andExpression()
     return false;
 }
 
+bool Syntactic::andExpression(string &andExpCode)
+{
+    if (equalityExpression())
+    {
+        if (andExpressionR())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Syntactic::andExpressionR()
 {
     if (this->tk == AndOp)
@@ -660,7 +805,36 @@ bool Syntactic::exclusiveOrExpression()
     return false;
 }
 
+bool Syntactic::exclusiveOrExpression(string &excOrCode)
+{
+    string andExpCode, excOrCodeR;
+    if (andExpression(andExpCode))
+    {
+        if (exclusiveOrExpressionR(excOrCodeR))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Syntactic::exclusiveOrExpressionR()
+{
+    if (this->tk == Power)
+    {
+        getToken();
+        if (andExpression())
+        {
+            if (exclusiveOrExpressionR())
+            {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntactic::exclusiveOrExpressionR(string &excOrCodeR)
 {
     if (this->tk == Power)
     {
@@ -688,6 +862,19 @@ bool Syntactic::inclusiveOrExpression()
     return false;
 }
 
+bool Syntactic::inclusiveOrExpression(string &incOrExpCode)
+{
+    string excOrCode, inclOrCode;
+    if (exclusiveOrExpression(excOrCode))
+    {
+        if (inclusiveOrExpressionR(inclOrCode))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Syntactic::inclusiveOrExpressionR()
 {
     if (this->tk == OrOp)
@@ -702,6 +889,35 @@ bool Syntactic::inclusiveOrExpressionR()
         }
     }
     return true;
+}
+
+bool Syntactic::inclusiveOrExpressionR(string incOrExpRCode)
+{
+    if (this->tk == OrOp)
+    {
+        getToken();
+        if (exclusiveOrExpression())
+        {
+            if (inclusiveOrExpressionR())
+            {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntactic::logicalAndExpression(string &logicalCode)
+{
+    string incOrExpCode;
+    if (inclusiveOrExpression(incOrExpCode))
+    {
+        if (logicalAndExpressionR())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Syntactic::logicalAndExpression()
@@ -744,7 +960,38 @@ bool Syntactic::logicalOrExpression()
     return false;
 }
 
+bool Syntactic::logicalOrExpression(string &logicalCode)
+{
+    string logicalCode2, logicalOrCode;
+    if (logicalAndExpression(logicalCode2))
+    {
+        logicalCode.append(logicalCode2);
+        if (logicalOrExpressionR(logicalOrCode))
+        {
+            logicalCode.append(logicalOrCode);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Syntactic::logicalOrExpressionR()
+{
+    if (this->tk == OrOp)
+    {
+        getToken();
+        if (logicalAndExpression())
+        {
+            if (logicalOrExpressionR())
+            {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntactic::logicalOrExpressionR(string &logicalCodeR)
 {
     if (this->tk == OrOp)
     {
@@ -819,6 +1066,43 @@ bool Syntactic::assignmentExpression()
     return false;
 }
 
+bool Syntactic::assignmentExpression(string &asgmtExpCode)
+{
+
+    int position = savePosition();
+    string unaryCode, asgmtOppCode;
+    string logicalCode;
+    if (unaryExpression(unaryCode))
+    {
+        if (assignmentOperator(asgmtOppCode))
+        {
+            int assPosition = savePosition();
+
+            if (assignmentExpression(asgmtExpCode))
+            {
+                asgmtExpCode.append("\tvalor-l " + unaryCode + "\tpush " + asgmtExpCode + "\n\t" + asgmtOppCode);
+                return true;
+            }
+
+            else {
+                restorePosition(assPosition);
+
+                if (logicalOrExpression(logicalCode)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    restorePosition(position);
+    if (logicalOrExpression(logicalCode)) {
+        asgmtExpCode.append(unaryCode);
+        return true;
+    }
+
+    return false;
+}
+
 bool Syntactic::assignmentOperator()
 {
     if (this->tk == Assign)
@@ -864,6 +1148,53 @@ bool Syntactic::assignmentOperator()
     return false;
 }
 
+bool Syntactic::assignmentOperator(string &asgmtCode)
+{
+    if (this->tk == Assign)
+    {
+        asgmtCode = "=";
+        getToken();
+        return true;
+    }
+    if (this->tk == MulAssign)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == DivAssign)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == ModAssign)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == AddAssign)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == LessAssign)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == LeftAssign)
+    {
+        getToken();
+        return true;
+    }
+    if (this->tk == RightAssign)
+    {
+        getToken();
+        return true;
+    }
+    return false;
+}
+
+
 bool Syntactic::expression()
 {
     if (assignmentExpression())
@@ -876,7 +1207,38 @@ bool Syntactic::expression()
     return false;
 }
 
+bool Syntactic::expression(string &expCode)
+{
+    string asgmtCode;
+    if (assignmentExpression(asgmtCode))
+    {
+        if (expressionR(asgmtCode))
+        {
+            expCode.append(asgmtCode);
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool Syntactic::expressionR()
+{
+    if (this->tk == Comma)
+    {
+        getToken();
+        if (assignmentExpression())
+        {
+            if (expressionR())
+            {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool Syntactic::expressionR(string &expRCode)
 {
     if (this->tk == Comma)
     {
@@ -1671,6 +2033,43 @@ bool Syntactic::statement()
     return false;
 }
 
+bool Syntactic::statement(string &stmtCode)
+{
+
+    int position = savePosition();
+    if (labeledStatement())
+    {
+        return true;
+    }
+    restorePosition(position);
+    if (compoundStatement())
+    {
+        return true;
+    }
+    restorePosition(position);
+    if (expressionStatement())
+    {
+        return true;
+    }
+    restorePosition(position);
+    if (selectionStatement())
+    {
+        return true;
+    }
+    restorePosition(position);
+    if (iterationStatement())
+    {
+        return true;
+    }
+    restorePosition(position);
+    if (jumpStatement())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool Syntactic::labeledStatement()
 {
     if (this->tk == Case)
@@ -1814,6 +2213,26 @@ bool Syntactic::expressionStatement()
     return false;
 }
 
+bool Syntactic::expressionStatement(string &expCode)
+{
+    string expCode2;
+    if (this->tk == SemiCollon)
+    {
+        getToken();
+        return true;
+    }
+    if (expression(expCode2))
+    {
+        expCode = expCode2;
+        if (this->tk == SemiCollon)
+        {
+            getToken();
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Syntactic::selectionStatement()
 {
     if (this->tk == If)
@@ -1867,6 +2286,7 @@ bool Syntactic::selectionStatement()
 
 bool Syntactic::iterationStatement()
 {
+    string iterationCode, initCode, condCode, exprCode, stmtCode;
     if (this->tk == While)
     {
         getToken();
@@ -1919,25 +2339,30 @@ bool Syntactic::iterationStatement()
         if (this->tk == ParenthesisOpen)
         {
             getToken();
-            if (expressionStatement())
+            if (expressionStatement(initCode))
             {
-                if (expressionStatement())
+                iterationCode.append(initCode);
+                if (expressionStatement(condCode))
                 {
+                    iterationCode.append(condCode);
                     if (this->tk == ParenthesisClose)
                     {
                         getToken();
-                        if (statement())
+                        if (statement(stmtCode))
                         {
+                            // imprime código resultado
                             return true;
                         }
                     }
-                    if (expression())
+                    if (expression(exprCode))
                     {
+                        iterationCode.append(exprCode);
                         if (this->tk == ParenthesisClose)
                         {
                             getToken();
-                            if (statement())
+                            if (statement(stmtCode))
                             {
+                                // imprime código resultado
                                 return true;
                             }
                         }

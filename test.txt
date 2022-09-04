@@ -1,34 +1,4 @@
-int marcello = 2;
-int gregor = 2;
-
-float power(float a, int b)
+for(i = 0; i > 1; i++)
 {
-   int i;
-   float result = 1.0;
-
-   for(a = 1, b = 1;;)
-   {
-        a++;
-   }
-
-   while(1)
-   {
-        result *= a;
-        a = ~a;
-        a = a&b;
-        a = a|b;
-        a = a^b;
-        a = a>>b;
-        a = a<<b;
-        unsigned int a = 1;
-
-        a[2] = 1;
-   }
-
-    return result;
-}
-
-float euclidean_distance(float a, float b)
-{
-    return power(a, 2) + power(b, 2);
+    a++;
 }

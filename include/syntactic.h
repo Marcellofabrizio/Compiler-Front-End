@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./token.hpp"
+using namespace std;
 
 class Syntactic
 {
@@ -15,6 +16,7 @@ class Syntactic
 public:
     int currentTokenIndex = 0;
     int tk;
+    std::string lexeme;
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
 
@@ -108,6 +110,42 @@ public:
     bool jumpStatement();
     bool structDeclaratorList();
     bool structDeclaratorListR();
+
+    bool expressionStatement(std::string &expCode);
+
+    bool statement(std::string &stmtCode);
+
+    bool expression(std::string &expCode);
+
+    bool primaryExpression(std::string &primeExpCode);
+
+    bool postFixExpressionR(std::string &postFixRCode);
+
+    bool postFixExpression(string &postFixExpCode);
+
+    bool assignmentOperator(std::string &asgmtCode);
+
+    bool assignmentExpression(std::string &asgmtExpCode);
+
+    bool unaryExpression(std::string &unaryCode);
+
+    bool expressionR(string &expRCode);
+
+    bool logicalAndExpression(string &logicalCode);
+
+    bool inclusiveOrExpression(string &incOrExpCode);
+
+    bool inclusiveOrExpressionR(string incOrExpRCode);
+
+    bool logicalOrExpression(string &logicalCode);
+
+    bool logicalOrExpressionR(string &logicalCodeR);
+
+    bool exclusiveOrExpression(string &excOrCode);
+
+    bool exclusiveOrExpressionR(string &excOrCodeR);
+
+    bool andExpression(string &andExpCode);
 };
 
 #endif
