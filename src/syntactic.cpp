@@ -832,6 +832,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
+            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -857,6 +858,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression())
         {
+            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -1427,7 +1429,7 @@ bool Syntactic::expressionR(string &expRCode)
     if (this->tk == Comma)
     {
         getToken();
-        if (assignmentExpression())
+        if (assignmentExpression(expRCode))
         {
             if (expressionR())
             {
