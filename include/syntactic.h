@@ -146,6 +146,20 @@ public:
     bool exclusiveOrExpressionR(string &excOrCodeR);
 
     bool andExpression(string &andExpCode);
+
+    bool equalityExpression(string &code);
+
+    bool relationalExpression(string &code);
+
+    bool shiftExpression(string &code);
+
+    bool additiveExpression(string &code);
+
+    bool multiplicativeExpression(string &code);
+
+    bool multiplicativeExpressionR(string &code);
+
+    bool relationalExpressionR(string &code);
 };
 
 #endif
