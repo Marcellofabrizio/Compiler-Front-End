@@ -833,7 +833,11 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
+<<<<<<< HEAD
             code.append("\n\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
+=======
+            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
+>>>>>>> fb97dcdf9eed8837b7d3
             if (relationalExpressionR())
             {
                 return true;
