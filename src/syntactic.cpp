@@ -317,6 +317,7 @@ bool Syntactic::postFixExpressionR(string &postFixRCode)
 {
     if (this->tk == IncOp)
     {
+        postFixRCode = "++";
         getToken();
         if (postFixExpressionR())
         {
@@ -832,6 +833,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
+            code.append("\n\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -857,6 +859,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression())
         {
+            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -1254,7 +1257,7 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
 {
 
     int position = savePosition();
-    string unaryCode, asgmtOppCode;
+    string unaryCode, asgmtOppCode, asgmtExpCode2;
     string logicalCode;
     if (unaryExpression(unaryCode))
     {
@@ -1262,9 +1265,9 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
         {
             int assPosition = savePosition();
 
-            if (assignmentExpression(asgmtExpCode))
+            if (assignmentExpression(asgmtExpCode2))
             {
-                asgmtExpCode.append("\tvalor-l " + unaryCode + "\n\tpush " + asgmtExpCode + "\n\t" + asgmtOppCode);
+                asgmtExpCode.append("\n\tvalor-l " + unaryCode + "\n\tpush " + asgmtExpCode2 + "\n\t" + asgmtOppCode);
                 return true;
             }
 
@@ -1427,7 +1430,7 @@ bool Syntactic::expressionR(string &expRCode)
     if (this->tk == Comma)
     {
         getToken();
-        if (assignmentExpression())
+        if (assignmentExpression(expRCode))
         {
             if (expressionR())
             {
