@@ -650,12 +650,13 @@ bool Syntactic::additiveExpression()
 
 bool Syntactic::additiveExpression(string &code)
 {
-    string multExpCode;
+    string multExpCode, additiveExpCode;
     if (multiplicativeExpression(multExpCode))
     {
         code.append(multExpCode);
-        if (additiveExpressionR())
+        if (additiveExpressionR(additiveExpCode))
         {
+            code.append(additiveExpCode);
             return true;
         }
     }
@@ -671,6 +672,38 @@ bool Syntactic::additiveExpressionR()
         getToken();
         if (multiplicativeExpression())
         {
+            if (additiveExpressionR())
+            {
+                return true;
+            }
+        }
+    }
+
+    else if (this->tk == Minus)
+    {
+        getToken();
+        if (multiplicativeExpression())
+        {
+            if (additiveExpressionR())
+            {
+                return true;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Syntactic::additiveExpressionR(string &code)
+{
+    string addOpCode, multOpCode;
+    if (this->tk == Plus)
+    {
+        addOpCode = ("\n\t+");
+        getToken();
+        if (multiplicativeExpression(multOpCode))
+        {
+            code.append("\n\tpush " + multOpCode + addOpCode);
             if (additiveExpressionR())
             {
                 return true;
@@ -833,11 +866,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
-<<<<<<< HEAD
             code.append("\n\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
-=======
-            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
->>>>>>> fb97dcdf9eed8837b7d3
             if (relationalExpressionR())
             {
                 return true;
@@ -2224,40 +2253,21 @@ bool Syntactic::statement()
     return false;
 }
 
-bool Syntactic::statement(string &stmtCode)
+bool Syntactic::statement(string &code)
 {
-
+    string stmtCode;
     int position = savePosition();
-    if (labeledStatement())
+    if (compoundStatement(stmtCode))
     {
+        code.append(stmtCode);
         return true;
     }
     restorePosition(position);
-    if (compoundStatement())
+    if (expressionStatement(stmtCode))
     {
+        code.append(stmtCode);
         return true;
     }
-    restorePosition(position);
-    if (expressionStatement())
-    {
-        return true;
-    }
-    restorePosition(position);
-    if (selectionStatement())
-    {
-        return true;
-    }
-    restorePosition(position);
-    if (iterationStatement())
-    {
-        return true;
-    }
-    restorePosition(position);
-    if (jumpStatement())
-    {
-        return true;
-    }
-
     return false;
 }
 
@@ -2358,6 +2368,75 @@ bool Syntactic::compoundStatementBody()
     return false;
 }
 
+bool Syntactic::compoundStatement(string &code)
+{
+    string compoundCode;
+    if (this->tk == BraceOpen)
+    {
+        getToken();
+
+        if (this->tk == BraceClose)
+        {
+            getToken();
+            return true;
+        }
+
+        if (compoundStatementList(compoundCode))
+        {
+            code.append(compoundCode);
+            if (this->tk == BraceClose)
+            {
+
+                getToken();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Syntactic::compoundStatementList(string &code)
+{
+    string compoundCode, compundListCode;
+    if (compoundStatementBody(compoundCode))
+    {
+        code.append(compoundCode);
+        if (compoundStatementList(compundListCode))
+        {
+            code.append(compundListCode);
+            return true;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntactic::compoundStatementBody(string &code)
+{
+    string stmtCode;
+//    if (declarationList())
+//    {
+//        return true;
+//    }
+//
+//    if (declarationList())
+//    {
+//        if (statementList()) {
+//            return true;
+//        }
+//    }
+
+    if (statementList(stmtCode))
+    {
+        code.append(stmtCode);
+        return true;
+    }
+
+    return false;
+}
+
 bool Syntactic::declarationList()
 {
     if (declaration())
@@ -2381,6 +2460,23 @@ bool Syntactic::statementList()
         {
             return true;
         }
+        return true;
+    }
+    return false;
+}
+
+bool Syntactic::statementList(string &code)
+{
+    string stmtCode, stmtListCode;
+    if (statement(stmtCode))
+    {
+        code.append(stmtCode);
+        if (statementList(stmtListCode))
+        {
+            code.append(stmtListCode);
+            return true;
+        }
+        code.append(stmtListCode);
         return true;
     }
     return false;
@@ -2538,13 +2634,14 @@ bool Syntactic::iterationStatement()
                 {
                     iterationCode.append(condCode);
                     iterationCode.append("\n\tgofalse END\n");
-                    cout << iterationCode << endl;
                     if (this->tk == ParenthesisClose)
                     {
                         getToken();
                         if (statement(stmtCode))
                         {
                             // imprime código resultado
+                            iterationCode.append(stmtCode);
+                            cout << iterationCode << endl;
                             return true;
                         }
                     }
@@ -2557,6 +2654,10 @@ bool Syntactic::iterationStatement()
                             if (statement(stmtCode))
                             {
                                 // imprime código resultado
+                                iterationCode.append("\n"+stmtCode);
+                                iterationCode.append("\n\tgoto INIT");
+                                iterationCode.append("\nEND:");
+                                cout << iterationCode << endl;
                                 return true;
                             }
                         }

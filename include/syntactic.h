@@ -160,6 +160,16 @@ public:
     bool multiplicativeExpressionR(string &code);
 
     bool relationalExpressionR(string &code);
+
+    bool additiveExpressionR(string &code);
+
+    bool compoundStatementBody(string &code);
+
+    bool compoundStatementList(string &code);
+
+    bool compoundStatement(string &code);
+
+    bool statementList(string &code);
 };
 
 #endif
