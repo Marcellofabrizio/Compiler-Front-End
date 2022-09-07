@@ -1372,7 +1372,7 @@ bool Syntactic::assignmentOperator(string &asgmtCode)
 {
     if (this->tk == Assign)
     {
-        asgmtCode = "=";
+        asgmtCode = "= \n\tpop";
         getToken();
         return true;
     }
