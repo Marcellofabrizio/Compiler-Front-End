@@ -2629,11 +2629,13 @@ bool Syntactic::iterationStatement()
             if (expressionStatement(initCode))
             {
                 iterationCode.append(initCode);
-                iterationCode.append("\nINIT:\n");
+                iterationCode.append("\nINIT:");
                 if (expressionStatement(condCode))
                 {
                     iterationCode.append(condCode);
-                    iterationCode.append("\n\tgofalse END\n");
+                    if(condCode != "") {
+                        iterationCode.append("\n\tgofalse END");
+                    }
                     if (this->tk == ParenthesisClose)
                     {
                         getToken();
@@ -2641,13 +2643,14 @@ bool Syntactic::iterationStatement()
                         {
                             // imprime código resultado
                             iterationCode.append(stmtCode);
+                            iterationCode.append("\n\tgoto INIT");
+                            iterationCode.append("\nEND:");
                             cout << iterationCode << endl;
                             return true;
                         }
                     }
                     if (expression(exprCode))
                     {
-                        iterationCode.append(exprCode);
                         if (this->tk == ParenthesisClose)
                         {
                             getToken();
@@ -2655,6 +2658,7 @@ bool Syntactic::iterationStatement()
                             {
                                 // imprime código resultado
                                 iterationCode.append("\n"+stmtCode);
+                                iterationCode.append("\n"+exprCode);
                                 iterationCode.append("\n\tgoto INIT");
                                 iterationCode.append("\nEND:");
                                 cout << iterationCode << endl;
