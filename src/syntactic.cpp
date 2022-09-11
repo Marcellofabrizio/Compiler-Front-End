@@ -143,18 +143,20 @@ bool Syntactic::primaryExpression()
     return false;
 }
 
-bool Syntactic::primaryExpression(string &primeExpCode)
+bool Syntactic::primaryExpression(string &primeExpCode, bool isAssignment = false)
 {
     if (this->tk == Identifier)
     {
-        primeExpCode = this->lexeme;
+        primeExpCode.append(isAssignment ? "valor-l " : "valor-r ");
+        primeExpCode.append(this->lexeme);
         getToken();
         return true;
     }
 
     else if (this->tk == Constant)
     {
-        primeExpCode = this->lexeme;
+        primeExpCode.append("push ");
+        primeExpCode.append(this->lexeme);
         getToken();
         return true;
     }
@@ -194,10 +196,10 @@ bool Syntactic::postFixExpression()
     return false;
 }
 
-bool Syntactic::postFixExpression(string &postFixExpCode)
+bool Syntactic::postFixExpression(string &postFixExpCode, bool isAssignment = false)
 {
     string primeExpCode, primeExpRCode;
-    if (primaryExpression(primeExpCode))
+    if (primaryExpression(primeExpCode, isAssignment))
     {
         postFixExpCode.append(primeExpCode);
         if (postFixExpressionR(primeExpRCode))
@@ -426,10 +428,10 @@ bool Syntactic::unaryExpression()
     return false;
 }
 
-bool Syntactic::unaryExpression(string &unaryCode)
+bool Syntactic::unaryExpression(string &unaryCode, bool isAssignment = false)
 {
     string postFixExpCode, unaryCode2;
-    if (postFixExpression(postFixExpCode))
+    if (postFixExpression(postFixExpCode, isAssignment))
     {
         unaryCode.append(postFixExpCode);
         return true;
@@ -534,10 +536,10 @@ bool Syntactic::multiplicativeExpression()
     return false;
 }
 
-bool Syntactic::multiplicativeExpression(string &code)
+bool Syntactic::multiplicativeExpression(string &code, bool isAssignment = false)
 {
     string unaryExpCode, multiplicativeExpCode;
-    if (unaryExpression(unaryExpCode))
+    if (unaryExpression(unaryExpCode, isAssignment))
     {
         code.append(unaryExpCode);
         if (multiplicativeExpressionR(multiplicativeExpCode))
@@ -701,9 +703,9 @@ bool Syntactic::additiveExpressionR(string &code)
     {
         addOpCode = ("\n\t+");
         getToken();
-        if (multiplicativeExpression(multOpCode))
+        if (multiplicativeExpression(multOpCode, true))
         {
-            code.append("\n\tpush " + multOpCode + addOpCode);
+            code.append("\n\t" + multOpCode + addOpCode);
             if (additiveExpressionR())
             {
                 return true;
@@ -866,7 +868,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
-            code.append("\n\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
+            code.append("\n\t" + code + "\n\t" + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -879,7 +881,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
-            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
+            code.append("\t" + code + "\n\t" + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -892,7 +894,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression())
         {
-            code.append("\tvalor-r " + code + "\n\tpush " + expCode + "\n\t" + relationCode);
+            code.append("\t" + code + "\n\t" + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -1292,7 +1294,7 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
     int position = savePosition();
     string unaryCode, asgmtOppCode, asgmtExpCode2;
     string logicalCode;
-    if (unaryExpression(unaryCode))
+    if (unaryExpression(unaryCode, true))
     {
         if (assignmentOperator(asgmtOppCode))
         {
@@ -1300,7 +1302,7 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
 
             if (assignmentExpression(asgmtExpCode2))
             {
-                asgmtExpCode.append("\n\tvalor-l " + unaryCode + "\n\tpush " + asgmtExpCode2 + "\n\t" + asgmtOppCode);
+                asgmtExpCode.append("\n\t" + unaryCode + "\n\t" + asgmtExpCode2 + "\n\t" + asgmtOppCode);
                 return true;
             }
 

@@ -117,17 +117,17 @@ public:
 
     bool expression(std::string &expCode);
 
-    bool primaryExpression(std::string &primeExpCode);
+    bool primaryExpression(std::string &primeExpCode,  bool isAssignment);
 
     bool postFixExpressionR(std::string &postFixRCode);
 
-    bool postFixExpression(string &postFixExpCode);
+    bool postFixExpression(string &postFixExpCode, bool isAssignment);
 
     bool assignmentOperator(std::string &asgmtCode);
 
     bool assignmentExpression(std::string &asgmtExpCode);
 
-    bool unaryExpression(std::string &unaryCode);
+    bool unaryExpression(std::string &unaryCode, bool isAssignment);
 
     bool expressionR(string &expRCode);
 
@@ -155,7 +155,7 @@ public:
 
     bool additiveExpression(string &code);
 
-    bool multiplicativeExpression(string &code);
+    bool multiplicativeExpression(string &code, bool isAssignment);
 
     bool multiplicativeExpressionR(string &code);
 
@@ -170,6 +170,7 @@ public:
     bool compoundStatement(string &code);
 
     bool statementList(string &code);
+
 };
 
 #endif
