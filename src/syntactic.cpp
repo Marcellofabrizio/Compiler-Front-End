@@ -868,7 +868,7 @@ bool Syntactic::relationalExpressionR(string &code)
         getToken();
         if (shiftExpression(expCode))
         {
-            code.append("\n\t" + code + "\n\t" + expCode + "\n\t" + relationCode);
+            code.append("\n\t" + expCode + "\n\t" + relationCode);
             if (relationalExpressionR())
             {
                 return true;
@@ -2634,7 +2634,7 @@ bool Syntactic::iterationStatement()
                 iterationCode.append("\nINIT:");
                 if (expressionStatement(condCode))
                 {
-                    iterationCode.append(condCode);
+                    iterationCode.append("\n\t"+ condCode);
                     if(condCode != "") {
                         iterationCode.append("\n\tgofalse END");
                     }
