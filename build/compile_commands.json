@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/marcello/Repositories/LexicParser/build",
+  "command": "/usr/bin/g++  -I/home/marcello/Repositories/LexicParser/./include -g -o CMakeFiles/Parser.dir/src/lexic.cpp.o -c /home/marcello/Repositories/LexicParser/src/lexic.cpp",
+  "file": "/home/marcello/Repositories/LexicParser/src/lexic.cpp"
+},
+{
+  "directory": "/home/marcello/Repositories/LexicParser/build",
+  "command": "/usr/bin/g++  -I/home/marcello/Repositories/LexicParser/./include -g -o CMakeFiles/Parser.dir/src/syntactic.cpp.o -c /home/marcello/Repositories/LexicParser/src/syntactic.cpp",
+  "file": "/home/marcello/Repositories/LexicParser/src/syntactic.cpp"
+},
+{
+  "directory": "/home/marcello/Repositories/LexicParser/build",
+  "command": "/usr/bin/g++  -I/home/marcello/Repositories/LexicParser/./include -g -o CMakeFiles/SyntacticParser.dir/SyntacticParser.cpp.o -c /home/marcello/Repositories/LexicParser/SyntacticParser.cpp",
+  "file": "/home/marcello/Repositories/LexicParser/SyntacticParser.cpp"
+}
+]

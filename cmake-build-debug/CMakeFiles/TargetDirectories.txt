@@ -1,0 +1,4 @@
+/home/marcello/Repositories/LexicParser/cmake-build-debug/CMakeFiles/Parser.dir
+/home/marcello/Repositories/LexicParser/cmake-build-debug/CMakeFiles/SyntacticParser.dir
+/home/marcello/Repositories/LexicParser/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/marcello/Repositories/LexicParser/cmake-build-debug/CMakeFiles/rebuild_cache.dir

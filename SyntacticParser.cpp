@@ -21,7 +21,7 @@ int main(int argc, char const* argv[])
 
     Syntactic* syntactic = new Syntactic(parser->results);
     syntactic->getToken();
-    if (syntactic->iterationStatement() > 0) {
+    if (syntactic->selectionStatement() > 0) {
         cout << "Análise sintática realizada com sucesso" << endl;
     }
     else {

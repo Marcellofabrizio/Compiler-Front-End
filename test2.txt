@@ -1,0 +1,20 @@
+switch(a) {
+    case 1:
+        expression
+    case 2
+        expression
+    default:
+        expression
+}
+
+Code = [
+    codigo 1
+    codigo 2
+    codigo 3
+]
+
+Test = [
+    teste 1
+    teste 2
+    teste 3
+]

@@ -1,0 +1,4 @@
+/app/extra/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/marcello/Repositories/LexicParser -B /home/marcello/Repositories/LexicParser/cmake-build-debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/marcello/Repositories/LexicParser/cmake-build-debug

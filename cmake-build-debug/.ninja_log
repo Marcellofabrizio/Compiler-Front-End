@@ -1,0 +1,14 @@
+# ninja log v5
+0	182	1656857304333883627	CMakeFiles/untitled.dir/main.cpp.o	3d8009c67846a7c4
+399	441	1656859252400299607	SyntaticParser	732c8d8709d1cf50
+0	31	1656865280020365676	build.ninja	f4a8930a2029e4ae
+1	361	1656858820693564058	CMakeFiles/lexic.dir/src/lexic.cpp.o	74d0973d10b2aee2
+0	399	1656859252356298945	CMakeFiles/SyntaticParser.dir/src/syntatic.cpp.o	1ab2c992e5efcd7d
+1	395	1656858820729564649	CMakeFiles/syntatic.dir/src/syntatic.cpp.o	1dd6990d7374ddf1
+183	220	1656857304369884270	untitled	70eda2c3eb1be2d8
+0	300	1656858063466787286	CMakeFiles/SyntaticParser.dir/main.cpp.o	a5e53dbe85409925
+0	364	1656859252324298465	CMakeFiles/SyntaticParser.dir/src/lexic.cpp.o	e3a9cd791f4ce30c
+1	315	1656865288044545515	CMakeFiles/SyntaticParser.dir/main.cpp.o	a5e53dbe85409925
+1	362	1656865288092546589	CMakeFiles/SyntaticParser.dir/src/lexic.cpp.o	e3a9cd791f4ce30c
+1	399	1656865288128547395	CMakeFiles/SyntaticParser.dir/src/syntatic.cpp.o	1ab2c992e5efcd7d
+399	448	1656865288176548474	SyntaticParser	732c8d8709d1cf50

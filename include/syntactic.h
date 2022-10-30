@@ -14,8 +14,10 @@ class Syntactic
 {
 
 public:
-    int currentTokenIndex = 0;
     int tk;
+    int currentTokenIndex = 0;
+    int globalLabelIndex = 1;
+    int globalTempsIndex = 1;
     std::string lexeme;
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
@@ -25,6 +27,8 @@ public:
     int savePosition();
     void restorePosition(int pos);
     void getToken();
+    std::string getTemp();
+    std::string newLabel(std::string label = NULL);
 
     bool translationUnit();
     bool externalDeclaration();

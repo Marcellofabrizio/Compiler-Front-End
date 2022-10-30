@@ -36,6 +36,21 @@ void Syntactic::getToken()
     }
 }
 
+string Syntactic::newLabel(string label)
+{
+    if(label.empty())
+    {
+        return "L " + globalLabelIndex++;
+    } else {
+        return "L " + label;
+    }
+}
+
+string Syntactic::getTemp()
+{
+    return "T"+ to_string(globalTempsIndex++);
+}
+
 bool Syntactic::translationUnit()
 {
     getToken();
@@ -147,7 +162,6 @@ bool Syntactic::primaryExpression(string &primeExpCode, bool isAssignment = fals
 {
     if (this->tk == Identifier)
     {
-        primeExpCode.append(isAssignment ? "valor-l " : "valor-r ");
         primeExpCode.append(this->lexeme);
         getToken();
         return true;
@@ -2259,6 +2273,10 @@ bool Syntactic::statement(string &code)
 {
     string stmtCode;
     int position = savePosition();
+    if (labeledStatement())
+    {
+        return true;
+    }
     if (compoundStatement(stmtCode))
     {
         code.append(stmtCode);
@@ -2280,6 +2298,7 @@ bool Syntactic::labeledStatement()
         getToken();
         if (logicalOrExpression())
         {
+            // aqui cria o codigo
             if (this->tk == Collon)
             {
                 getToken();
@@ -2524,6 +2543,8 @@ bool Syntactic::expressionStatement(string &expCode)
 
 bool Syntactic::selectionStatement()
 {
+    string switchStatementCode, expressionCode;
+
     if (this->tk == If)
     {
         getToken();
@@ -2557,11 +2578,13 @@ bool Syntactic::selectionStatement()
         if (this->tk == ParenthesisOpen)
         {
             getToken();
-            if (expression())
+            if (expression(expressionCode))
             {
+                // Geral variável para valor da expressão
                 if (this->tk == ParenthesisClose)
                 {
                     getToken();
+                    // Aqui vai passar a variável com valor da expressão
                     if (statement())
                     {
                         return true;

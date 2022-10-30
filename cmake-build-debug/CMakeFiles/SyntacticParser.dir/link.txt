@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/SyntacticParser.dir/SyntacticParser.cpp.o -o SyntacticParser  libParser.a 
