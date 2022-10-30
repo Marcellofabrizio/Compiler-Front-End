@@ -2,10 +2,13 @@
 #include "string.h"
 using namespace std;
 
+
+
 Syntactic::Syntactic(vector<Token> results)
 {
     this->tokenList = results;
     this->currentTokenIndex = -1;
+
 }
 
 int Syntactic::savePosition()
@@ -162,7 +165,9 @@ bool Syntactic::primaryExpression(string &primeExpCode, bool isAssignment = fals
 {
     if (this->tk == Identifier)
     {
-        primeExpCode.append(this->lexeme);
+        string temp=getTemp();
+        tempStack.push(temp);
+        primeExpCode.append(temp + ":=" + this->lexeme);
         getToken();
         return true;
     }
@@ -2580,6 +2585,8 @@ bool Syntactic::selectionStatement()
             getToken();
             if (expression(expressionCode))
             {
+                string expressionTemp  = tempStack.top();
+                tempStack.pop();
                 // Geral variável para valor da expressão
                 if (this->tk == ParenthesisClose)
                 {

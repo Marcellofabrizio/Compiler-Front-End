@@ -21,6 +21,7 @@ public:
     std::string lexeme;
     std::vector<Token> tokenList;
     std::stack<int> tokenStack;
+    std::stack<std::string> tempStack;
 
     Syntactic(std::vector<Token> results);
 
@@ -174,6 +175,12 @@ public:
     bool compoundStatement(string &code);
 
     bool statementList(string &code);
+
+    bool switchStatement();
+
+    bool caseStatementList(string &expressionCode, string &caseListCode, string &caseListTest);
+
+    bool caseStatement(string &caseTest, string &caseCode);
 
 };
 
