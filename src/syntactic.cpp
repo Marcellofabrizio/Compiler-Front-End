@@ -174,8 +174,9 @@ bool Syntactic::primaryExpression(string &primeExpCode, bool isAssignment = fals
 
     else if (this->tk == Constant)
     {
-        primeExpCode.append("push ");
-        primeExpCode.append(this->lexeme);
+        string temp=getTemp();
+        tempStack.push(temp);
+        primeExpCode.append(temp + ":=" + this->lexeme);
         getToken();
         return true;
     }
@@ -1462,6 +1463,19 @@ bool Syntactic::expression(string &expCode)
     return false;
 }
 
+bool Syntactic::expression(string &expCode, string &place)
+{
+    string asgmtCode;
+    if (assignmentExpression(asgmtCode))
+    {
+        if (expressionR(asgmtCode))
+        {
+            expCode.append(asgmtCode);
+            return true;
+        }
+    }
+    return false;
+}
 
 bool Syntactic::expressionR()
 {
@@ -2261,11 +2275,6 @@ bool Syntactic::statement()
         return true;
     }
     restorePosition(position);
-    if (iterationStatement())
-    {
-        return true;
-    }
-    restorePosition(position);
     if (jumpStatement())
     {
         return true;
@@ -2276,13 +2285,19 @@ bool Syntactic::statement()
 
 bool Syntactic::statement(string &code)
 {
-    string stmtCode;
+
+}
+
+bool Syntactic::statement(string &code, string &place)
+{
+    string stmtCode, caseBlocCode;
     int position = savePosition();
-    if (labeledStatement())
+    if (labeledStatement(caseBlocCode, place))
     {
+        code.append(caseBlocCode);
         return true;
     }
-    if (compoundStatement(stmtCode))
+    if (compoundStatement(stmtCode, place))
     {
         code.append(stmtCode);
         return true;
@@ -2298,17 +2313,31 @@ bool Syntactic::statement(string &code)
 
 bool Syntactic::labeledStatement()
 {
+
+}
+
+bool Syntactic::labeledStatement(string &code, string &switchPlace)
+{
     if (this->tk == Case)
     {
+        string expCode, expPlace;
+        string label = newLabel("next");
         getToken();
-        if (logicalOrExpression())
+        if (expression(expCode, expPlace))
         {
-            // aqui cria o codigo
+            string expressionPlace  = tempStack.top();
+            tempStack.pop();
+            code += "\n"+expCode;
+            code += "\nif " + switchPlace + " == " + expressionPlace;
+            code += "gofalse " + label;
             if (this->tk == Collon)
             {
+                string statementCode, statementPlace;
                 getToken();
-                if (statement())
+                if (statement(statementCode, statementPlace))
                 {
+                    code += statementCode;
+                    code += label + ":";
                     return true;
                 }
             }
@@ -2442,18 +2471,6 @@ bool Syntactic::compoundStatementList(string &code)
 bool Syntactic::compoundStatementBody(string &code)
 {
     string stmtCode;
-//    if (declarationList())
-//    {
-//        return true;
-//    }
-//
-//    if (declarationList())
-//    {
-//        if (statementList()) {
-//            return true;
-//        }
-//    }
-
     if (statementList(stmtCode))
     {
         code.append(stmtCode);
@@ -2462,6 +2479,64 @@ bool Syntactic::compoundStatementBody(string &code)
 
     return false;
 }
+
+bool Syntactic::compoundStatement(string &code, string &place)
+{
+    string compoundCode;
+    if (this->tk == BraceOpen)
+    {
+        getToken();
+
+        if (this->tk == BraceClose)
+        {
+            getToken();
+            return true;
+        }
+
+        if (compoundStatementList(compoundCode, place))
+        {
+            code.append(compoundCode);
+            if (this->tk == BraceClose)
+            {
+
+                getToken();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Syntactic::compoundStatementBody(string &code, string &place)
+{
+    string stmtCode;
+    if (statementList(stmtCode, place))
+    {
+        code.append(stmtCode);
+        return true;
+    }
+
+    return false;
+}
+
+bool Syntactic::compoundStatementList(string &code, string &place)
+{
+    string compoundCode, compundListCode;
+    if (compoundStatementBody(compoundCode, place))
+    {
+        code.append(compoundCode);
+        if (compoundStatementList(compundListCode, place))
+        {
+            code.append(compundListCode);
+            return true;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 
 bool Syntactic::declarationList()
 {
@@ -2493,11 +2568,28 @@ bool Syntactic::statementList()
 
 bool Syntactic::statementList(string &code)
 {
-    string stmtCode, stmtListCode;
-    if (statement(stmtCode))
+    string stmtCode, stmtListCode, stmtPlace;
+    if (statement(stmtCode, stmtPlace))
     {
         code.append(stmtCode);
         if (statementList(stmtListCode))
+        {
+            code.append(stmtListCode);
+            return true;
+        }
+        code.append(stmtListCode);
+        return true;
+    }
+    return false;
+}
+
+bool Syntactic::statementList(string &code, string &place)
+{
+    string stmtCode, stmtListCode, stmtPlace;
+    if (statement(stmtCode, place))
+    {
+        code.append(stmtCode);
+        if (statementList(stmtListCode, place))
         {
             code.append(stmtListCode);
             return true;
@@ -2548,7 +2640,7 @@ bool Syntactic::expressionStatement(string &expCode)
 
 bool Syntactic::selectionStatement()
 {
-    string switchStatementCode, expressionCode;
+    string switchStatementCode;
 
     if (this->tk == If)
     {
@@ -2579,124 +2671,23 @@ bool Syntactic::selectionStatement()
     }
     if (this->tk == Switch)
     {
+        string expressionCode, expressionPlace, stmtCode, stmtPlace;
         getToken();
         if (this->tk == ParenthesisOpen)
         {
             getToken();
             if (expression(expressionCode))
             {
-                string expressionTemp  = tempStack.top();
+                expressionPlace  = tempStack.top();
                 tempStack.pop();
-                // Geral variável para valor da expressão
+
                 if (this->tk == ParenthesisClose)
                 {
                     getToken();
                     // Aqui vai passar a variável com valor da expressão
-                    if (statement())
+                    if (statement(stmtCode, expressionPlace))
                     {
                         return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
-
-bool Syntactic::iterationStatement()
-{
-    string iterationCode, initCode, condCode, exprCode, stmtCode;
-    if (this->tk == While)
-    {
-        getToken();
-        if (this->tk == ParenthesisOpen)
-        {
-            getToken();
-            if (expression())
-            {
-                if (this->tk == ParenthesisClose)
-                {
-                    getToken();
-                    if (statement())
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    if (this->tk == Do)
-    {
-        getToken();
-        if (statement())
-        {
-            if (this->tk == While)
-            {
-                getToken();
-                if (this->tk == ParenthesisOpen)
-                {
-                    getToken();
-                    if (expression())
-                    {
-                        if (this->tk == ParenthesisClose)
-                        {
-                            getToken();
-                            if (this->tk == SemiCollon)
-                            {
-                                getToken();
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    if (this->tk == For)
-    {
-        getToken();
-        if (this->tk == ParenthesisOpen)
-        {
-            getToken();
-            if (expressionStatement(initCode))
-            {
-                iterationCode.append(initCode);
-                iterationCode.append("\nINIT:");
-                if (expressionStatement(condCode))
-                {
-                    iterationCode.append("\n\t"+ condCode);
-                    if(condCode != "") {
-                        iterationCode.append("\n\tgofalse END");
-                    }
-                    if (this->tk == ParenthesisClose)
-                    {
-                        getToken();
-                        if (statement(stmtCode))
-                        {
-                            // imprime código resultado
-                            iterationCode.append(stmtCode);
-                            iterationCode.append("\n\tgoto INIT");
-                            iterationCode.append("\nEND:");
-                            cout << iterationCode << endl;
-                            return true;
-                        }
-                    }
-                    if (expression(exprCode))
-                    {
-                        if (this->tk == ParenthesisClose)
-                        {
-                            getToken();
-                            if (statement(stmtCode))
-                            {
-                                // imprime código resultado
-                                iterationCode.append("\n"+stmtCode);
-                                iterationCode.append("\n"+exprCode);
-                                iterationCode.append("\n\tgoto INIT");
-                                iterationCode.append("\nEND:");
-                                cout << iterationCode << endl;
-                                return true;
-                            }
-                        }
                     }
                 }
             }

@@ -18,18 +18,18 @@ public:
     int currentTokenIndex = 0;
     int globalLabelIndex = 1;
     int globalTempsIndex = 1;
-    std::string lexeme;
-    std::vector<Token> tokenList;
-    std::stack<int> tokenStack;
-    std::stack<std::string> tempStack;
+    string lexeme;
+    vector<Token> tokenList;
+    stack<int> tokenStack;
+    stack<string> tempStack;
 
-    Syntactic(std::vector<Token> results);
+    Syntactic(vector<Token> results);
 
     int savePosition();
     void restorePosition(int pos);
     void getToken();
-    std::string getTemp();
-    std::string newLabel(std::string label = NULL);
+    string getTemp();
+    string newLabel(string label = NULL);
 
     bool translationUnit();
     bool externalDeclaration();
@@ -116,23 +116,25 @@ public:
     bool structDeclaratorList();
     bool structDeclaratorListR();
 
-    bool expressionStatement(std::string &expCode);
+    bool expressionStatement(string &expCode);
 
-    bool statement(std::string &stmtCode);
+    bool statement(string &code);
 
-    bool expression(std::string &expCode);
+    bool statement(string &code, string &place);
 
-    bool primaryExpression(std::string &primeExpCode,  bool isAssignment);
+    bool expression(string &expCode);
 
-    bool postFixExpressionR(std::string &postFixRCode);
+    bool primaryExpression(string &primeExpCode,  bool isAssignment);
+
+    bool postFixExpressionR(string &postFixRCode);
 
     bool postFixExpression(string &postFixExpCode, bool isAssignment);
 
-    bool assignmentOperator(std::string &asgmtCode);
+    bool assignmentOperator(string &asgmtCode);
 
-    bool assignmentExpression(std::string &asgmtExpCode);
+    bool assignmentExpression(string &asgmtExpCode);
 
-    bool unaryExpression(std::string &unaryCode, bool isAssignment);
+    bool unaryExpression(string &unaryCode, bool isAssignment);
 
     bool expressionR(string &expRCode);
 
@@ -182,6 +184,17 @@ public:
 
     bool caseStatement(string &caseTest, string &caseCode);
 
+    bool labeledStatement(string &code, string &place);
+
+    bool expression(string &code, string &place);
+
+    bool compoundStatement(string &code, string &place);
+
+    bool compoundStatementBody(string &code, string &place);
+
+    bool compoundStatementList(string &code, string &place);
+
+    bool statementList(string &code, string &place);
 };
 
 #endif
