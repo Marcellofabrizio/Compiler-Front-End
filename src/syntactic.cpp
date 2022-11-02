@@ -43,9 +43,9 @@ string Syntactic::newLabel(string label)
 {
     if(label.empty())
     {
-        return "L " + globalLabelIndex++;
+        return "L_" + globalLabelIndex++;
     } else {
-        return "L " + label;
+        return "L_" + label;
     }
 }
 
@@ -161,22 +161,21 @@ bool Syntactic::primaryExpression()
     return false;
 }
 
-bool Syntactic::primaryExpression(string &primeExpCode, bool isAssignment = false)
+bool Syntactic::primaryExpression(string &place, bool isAssignment = false)
 {
     if (this->tk == Identifier)
     {
-        string temp=getTemp();
-        tempStack.push(temp);
-        primeExpCode.append(temp + ":=" + this->lexeme);
+        tempStack.push(this->lexeme);
         getToken();
         return true;
     }
 
     else if (this->tk == Constant)
     {
-        string temp=getTemp();
+        string temp = getTemp();
         tempStack.push(temp);
-        primeExpCode.append(temp + ":=" + this->lexeme);
+        temp.append(" := " + this->lexeme);
+        place.append(temp);
         getToken();
         return true;
     }
@@ -218,10 +217,10 @@ bool Syntactic::postFixExpression()
 
 bool Syntactic::postFixExpression(string &postFixExpCode, bool isAssignment = false)
 {
-    string primeExpCode, primeExpRCode;
-    if (primaryExpression(primeExpCode, isAssignment))
+    string primeExpPlace, primeExpRCode;
+    if (primaryExpression(primeExpPlace, isAssignment))
     {
-        postFixExpCode.append(primeExpCode);
+        postFixExpCode.append(primeExpPlace);
         if (postFixExpressionR(primeExpRCode))
         {
             postFixExpCode.append(primeExpRCode);
@@ -337,29 +336,6 @@ bool Syntactic::postFixExpressionR()
 
 bool Syntactic::postFixExpressionR(string &postFixRCode)
 {
-    if (this->tk == IncOp)
-    {
-        postFixRCode = "++";
-        getToken();
-        if (postFixExpressionR())
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    if (this->tk == DecOp)
-    {
-        getToken();
-        if (postFixExpressionR())
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     if (this->tk == BracketOpen)
     {
         getToken();
@@ -721,11 +697,17 @@ bool Syntactic::additiveExpressionR(string &code)
     string addOpCode, multOpCode;
     if (this->tk == Plus)
     {
-        addOpCode = ("\n\t+");
         getToken();
         if (multiplicativeExpression(multOpCode, true))
         {
-            code.append("\n\t" + multOpCode + addOpCode);
+            code.append(multOpCode);
+            string opR = tempStack.top();
+            tempStack.pop();
+            string opL = tempStack.top();
+            tempStack.pop();
+            string atrib = getTemp();
+            tempStack.push(atrib);
+            code.append("\n\t" + atrib + " := " + opL + " + " + opR);
             if (additiveExpressionR())
             {
                 return true;
@@ -1316,13 +1298,18 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
     string logicalCode;
     if (unaryExpression(unaryCode, true))
     {
+        string unaryPlace = tempStack.top();
+        tempStack.pop();
         if (assignmentOperator(asgmtOppCode))
         {
             int assPosition = savePosition();
 
             if (assignmentExpression(asgmtExpCode2))
             {
-                asgmtExpCode.append("\n\t" + unaryCode + "\n\t" + asgmtExpCode2 + "\n\t" + asgmtOppCode);
+                asgmtExpCode.append("\n\t" + asgmtExpCode2);
+                string asgmtPlace = tempStack.top();
+                tempStack.pop();
+                asgmtExpCode.append("\n\t" + unaryPlace + " := " + asgmtPlace);
                 return true;
             }
 
@@ -1394,7 +1381,6 @@ bool Syntactic::assignmentOperator(string &asgmtCode)
 {
     if (this->tk == Assign)
     {
-        asgmtCode = "= \n\tpop";
         getToken();
         return true;
     }
@@ -2327,9 +2313,9 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         {
             string expressionPlace  = tempStack.top();
             tempStack.pop();
-            code += "\n"+expCode;
-            code += "\nif " + switchPlace + " == " + expressionPlace;
-            code += "gofalse " + label;
+            code += "\n\t"+expCode;
+            code += "\n\tif " + switchPlace + " == " + expressionPlace;
+            code += " gofalse " + label;
             if (this->tk == Collon)
             {
                 string statementCode, statementPlace;
@@ -2337,7 +2323,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
                 if (statement(statementCode, statementPlace))
                 {
                     code += statementCode;
-                    code += label + ":";
+                    code += "\n" + label + ":";
                     return true;
                 }
             }
@@ -2640,8 +2626,8 @@ bool Syntactic::expressionStatement(string &expCode)
 
 bool Syntactic::selectionStatement()
 {
-    string switchStatementCode;
-
+    string switchStatementCode, labelInit;
+    labelInit = newLabel("INIT");
     if (this->tk == If)
     {
         getToken();
@@ -2687,6 +2673,9 @@ bool Syntactic::selectionStatement()
                     // Aqui vai passar a variável com valor da expressão
                     if (statement(stmtCode, expressionPlace))
                     {
+                        switchStatementCode.append(labelInit + ":");
+                        switchStatementCode.append(stmtCode);
+                        cout << switchStatementCode << endl;
                         return true;
                     }
                 }
