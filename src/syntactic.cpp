@@ -166,6 +166,7 @@ bool Syntactic::primaryExpression(string &place, bool isAssignment = false)
     if (this->tk == Identifier)
     {
         tempStack.push(this->lexeme);
+        place.append(this->lexeme);
         getToken();
         return true;
     }
@@ -174,8 +175,7 @@ bool Syntactic::primaryExpression(string &place, bool isAssignment = false)
     {
         string temp = getTemp();
         tempStack.push(temp);
-        temp.append(" := " + this->lexeme);
-        place.append(temp);
+        place.append(this->lexeme);
         getToken();
         return true;
     }
@@ -540,6 +540,7 @@ bool Syntactic::multiplicativeExpression(string &code, bool isAssignment = false
         code.append(unaryExpCode);
         if (multiplicativeExpressionR(multiplicativeExpCode))
         {
+            code.append(multiplicativeExpCode);
             return true;
         }
     }
@@ -700,15 +701,15 @@ bool Syntactic::additiveExpressionR(string &code)
         getToken();
         if (multiplicativeExpression(multOpCode, true))
         {
-            code.append(multOpCode);
-            string opR = tempStack.top();
-            tempStack.pop();
-            string opL = tempStack.top();
-            tempStack.pop();
-            string atrib = getTemp();
-            tempStack.push(atrib);
-            code.append("\n\t" + atrib + " := " + opL + " + " + opR);
-            if (additiveExpressionR())
+//            code.append("\n\t" + multOpCode);
+//            string opR = tempStack.top();
+//            tempStack.pop();
+//            string opL = tempStack.top();
+//            tempStack.pop();
+//            string atrib = getTemp();
+//            tempStack.push(atrib);
+            code.append(" + " + multOpCode);
+            if (additiveExpressionR(code))
             {
                 return true;
             }
@@ -1296,20 +1297,18 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
     int position = savePosition();
     string unaryCode, asgmtOppCode, asgmtExpCode2;
     string logicalCode;
+    string asgmtExpCodeTmp = asgmtExpCode;
     if (unaryExpression(unaryCode, true))
     {
-        string unaryPlace = tempStack.top();
-        tempStack.pop();
+        asgmtExpCode.append("\n\t" + unaryCode);
         if (assignmentOperator(asgmtOppCode))
         {
+            asgmtExpCode.append(asgmtOppCode);
             int assPosition = savePosition();
 
             if (assignmentExpression(asgmtExpCode2))
             {
-                asgmtExpCode.append("\n\t" + asgmtExpCode2);
-                string asgmtPlace = tempStack.top();
-                tempStack.pop();
-                asgmtExpCode.append("\n\t" + unaryPlace + " := " + asgmtPlace);
+                asgmtExpCode.append(asgmtExpCode2);
                 return true;
             }
 
@@ -1324,6 +1323,7 @@ bool Syntactic::assignmentExpression(string &asgmtExpCode)
     }
 
     restorePosition(position);
+    asgmtExpCode = asgmtExpCodeTmp;
     if (logicalOrExpression(logicalCode)) {
         asgmtExpCode.append(logicalCode);
         return true;
@@ -1381,6 +1381,7 @@ bool Syntactic::assignmentOperator(string &asgmtCode)
 {
     if (this->tk == Assign)
     {
+        asgmtCode.append(" := ");
         getToken();
         return true;
     }
@@ -2307,7 +2308,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
     if (this->tk == Case)
     {
         string expCode, expPlace;
-        string label = newLabel("next");
+        string label = newLabel("NEXT");
         getToken();
         if (expression(expCode, expPlace))
         {
