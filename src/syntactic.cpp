@@ -173,8 +173,6 @@ bool Syntactic::primaryExpression(string &place, bool isAssignment = false)
 
     else if (this->tk == Constant)
     {
-        string temp = getTemp();
-        tempStack.push(temp);
         place.append(this->lexeme);
         getToken();
         return true;
@@ -2312,10 +2310,9 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         getToken();
         if (expression(expCode, expPlace))
         {
-            string expressionPlace  = tempStack.top();
-            tempStack.pop();
-            code += "\n\t"+expCode;
-            code += "\n\tif " + switchPlace + " == " + expressionPlace;
+            string expTemp = getTemp();
+            code += "\n\t" + expTemp + " := " + expCode;
+            code += "\n\tif " + switchPlace + " == " + expTemp;
             code += " gofalse " + label;
             if (this->tk == Collon)
             {
