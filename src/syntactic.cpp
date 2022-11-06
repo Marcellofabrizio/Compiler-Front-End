@@ -2,7 +2,19 @@
 #include "string.h"
 using namespace std;
 
+SwitchProd::SwitchProd()
+{
+    this->code = "";
+    this->label = "";
+    this->testCode = "";
+}
 
+SwitchProd::SwitchProd(string label, string code, string testCode)
+{
+    this->code = code;
+    this->label = label;
+    this->testCode = testCode;
+}
 
 Syntactic::Syntactic(vector<Token> results)
 {
@@ -173,6 +185,8 @@ bool Syntactic::primaryExpression(string &place, bool isAssignment = false)
 
     else if (this->tk == Constant)
     {
+        string temp = getTemp();
+        tempStack.push(temp);
         place.append(this->lexeme);
         getToken();
         return true;
@@ -2307,13 +2321,16 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
     {
         string expCode, expPlace;
         string label = newLabel("NEXT");
+        SwitchProd prod = SwitchProd(label, "", "");
         getToken();
+
+        this->switchMap[label] = prod;
+
         if (expression(expCode, expPlace))
         {
             string expTemp = getTemp();
             code += "\n\t" + expTemp + " := " + expCode;
             code += "\n\tif " + switchPlace + " == " + expTemp;
-            code += " gofalse " + label;
             if (this->tk == Collon)
             {
                 string statementCode, statementPlace;

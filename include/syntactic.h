@@ -7,8 +7,20 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <map>
 #include "./token.hpp"
 using namespace std;
+
+class SwitchProd
+{
+public:
+    string label;
+    string code;
+    string testCode;
+
+    SwitchProd();
+    SwitchProd(string label, string code, string testCode);
+};
 
 class Syntactic
 {
@@ -22,6 +34,7 @@ public:
     vector<Token> tokenList;
     stack<int> tokenStack;
     stack<string> tempStack;
+    map<string, SwitchProd> switchMap;
 
     Syntactic(vector<Token> results);
 
