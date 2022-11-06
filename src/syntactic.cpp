@@ -51,11 +51,25 @@ void Syntactic::getToken()
     }
 }
 
+void Syntactic::printSwitchMap()
+{
+
+    string caseStmtCode, testCode, endLabel;
+    endLabel = this->switchLabelStack.top() ;
+    for(auto const& prod : this->switchMap)
+    {
+        caseStmtCode += prod.second.code;
+        testCode += prod.second.testCode +  "\n";
+    }
+    cout << testCode << "\n\tgoto " + endLabel;
+    cout << caseStmtCode << "\n" + endLabel + ":\n";
+}
+
 string Syntactic::newLabel(string label)
 {
     if(label.empty())
     {
-        return "L_" + globalLabelIndex++;
+        return "L_" + to_string(globalLabelIndex++);
     } else {
         return "L_" + label;
     }
@@ -185,8 +199,6 @@ bool Syntactic::primaryExpression(string &place, bool isAssignment = false)
 
     else if (this->tk == Constant)
     {
-        string temp = getTemp();
-        tempStack.push(temp);
         place.append(this->lexeme);
         getToken();
         return true;
@@ -2287,11 +2299,11 @@ bool Syntactic::statement(string &code)
 
 }
 
-bool Syntactic::statement(string &code, string &place)
+bool Syntactic::statement(string &code, string &place, string &switchLabel)
 {
     string stmtCode, caseBlocCode;
     int position = savePosition();
-    if (labeledStatement(caseBlocCode, place))
+    if (labeledStatement(caseBlocCode, place, switchLabel))
     {
         code.append(caseBlocCode);
         return true;
@@ -2307,6 +2319,19 @@ bool Syntactic::statement(string &code, string &place)
         code.append(stmtCode);
         return true;
     }
+    restorePosition(position);
+    if (this->tk == Break)
+    {
+        getToken();
+        if (this->tk == SemiCollon)
+        {
+            string endLabel = this->switchLabelStack.top();
+            code.append("\n\tgoto " + endLabel);
+            getToken();
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -2315,12 +2340,13 @@ bool Syntactic::labeledStatement()
 
 }
 
-bool Syntactic::labeledStatement(string &code, string &switchPlace)
+bool Syntactic::labeledStatement(string &code, string &switchPlace, string &switchLabel)
 {
     if (this->tk == Case)
     {
         string expCode, expPlace;
         string label = newLabel("");
+        switchLabel = label;
         SwitchProd prod = SwitchProd(label, "", "");
         getToken();
 
@@ -2333,16 +2359,14 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
             testCode += "\n\tif " + switchPlace + " == " + expTemp;
             testCode += " goto " + label;
             this->switchMap[label].testCode = testCode;
-            code += testCode;
             if (this->tk == Collon)
             {
                 string statementCode, statementPlace;
                 getToken();
-                if (statement(statementCode, statementPlace))
+                if (statement(statementCode, statementPlace, label))
                 {
                     this->switchMap[label].code += "\n" + label + ":";
                     this->switchMap[label].code += statementCode;
-                    code += "\n" + label + ":";
                     code += statementCode;
                     return true;
                 }
@@ -2353,12 +2377,19 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
     else if (this->tk == Default)
     {
         getToken();
-
+        string label = newLabel("DEFAULT");
+        string testCode = "\n\tgoto " + label;
+        this->switchMap[label].testCode = testCode;
         if (this->tk == Collon)
         {
+            string statementCode, statementPlace;
             getToken();
-            if (statement())
+            if (statement(statementCode, statementPlace, label))
             {
+                this->switchMap[label].code += "\n" + label + ":";
+                this->switchMap[label].code += statementCode;
+                code += "\n" + label + ":";
+                code += statementCode;
                 return true;
             }
         }
@@ -2574,8 +2605,8 @@ bool Syntactic::statementList()
 
 bool Syntactic::statementList(string &code)
 {
-    string stmtCode, stmtListCode, stmtPlace;
-    if (statement(stmtCode, stmtPlace))
+    string stmtCode, stmtListCode, stmtPlace, switchLabel;
+    if (statement(stmtCode, stmtPlace, switchLabel))
     {
         code.append(stmtCode);
         if (statementList(stmtListCode))
@@ -2591,10 +2622,11 @@ bool Syntactic::statementList(string &code)
 
 bool Syntactic::statementList(string &code, string &place)
 {
-    string stmtCode, stmtListCode, stmtPlace;
-    if (statement(stmtCode, place))
+    string stmtCode, stmtListCode, stmtPlace, switchLabel;
+    if (statement(stmtCode, place, switchLabel))
     {
         code.append(stmtCode);
+//        this->switchMap[switchLabel].code += "oi";
         if (statementList(stmtListCode, place))
         {
             code.append(stmtListCode);
@@ -2677,7 +2709,9 @@ bool Syntactic::selectionStatement()
     }
     if (this->tk == Switch)
     {
-        string expressionCode, expressionPlace, stmtCode, stmtPlace;
+        string expressionCode, expressionPlace, stmtCode, stmtPlace, switchLabel, endLabel;
+        endLabel = newLabel("END");
+        this->switchLabelStack.push(endLabel);
         getToken();
         if (this->tk == ParenthesisOpen)
         {
@@ -2690,12 +2724,10 @@ bool Syntactic::selectionStatement()
                 if (this->tk == ParenthesisClose)
                 {
                     getToken();
-                    // Aqui vai passar a variável com valor da expressão
-                    if (statement(stmtCode, expressionPlace))
+                    if (statement(stmtCode, expressionPlace, switchLabel))
                     {
-                        switchStatementCode.append(labelInit + ":");
-                        switchStatementCode.append(stmtCode);
-                        cout << switchStatementCode << endl;
+                        printSwitchMap();
+                        this->switchLabelStack.pop();
                         return true;
                     }
                 }

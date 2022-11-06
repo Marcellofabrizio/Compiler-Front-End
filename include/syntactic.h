@@ -34,6 +34,7 @@ public:
     vector<Token> tokenList;
     stack<int> tokenStack;
     stack<string> tempStack;
+    stack<string> switchLabelStack;
     map<string, SwitchProd> switchMap;
 
     Syntactic(vector<Token> results);
@@ -41,6 +42,7 @@ public:
     int savePosition();
     void restorePosition(int pos);
     void getToken();
+    void printSwitchMap();
     string getTemp();
     string newLabel(string label = NULL);
 
@@ -133,7 +135,7 @@ public:
 
     bool statement(string &code);
 
-    bool statement(string &code, string &place);
+    bool statement(string &code, string &place, string &label);
 
     bool expression(string &expCode);
 
@@ -197,7 +199,7 @@ public:
 
     bool caseStatement(string &caseTest, string &caseCode);
 
-    bool labeledStatement(string &code, string &place);
+    bool labeledStatement(string &code, string &place, string &switchLabel);
 
     bool expression(string &code, string &place);
 
