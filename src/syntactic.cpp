@@ -2320,7 +2320,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
     if (this->tk == Case)
     {
         string expCode, expPlace;
-        string label = newLabel("NEXT");
+        string label = newLabel("");
         SwitchProd prod = SwitchProd(label, "", "");
         getToken();
 
@@ -2329,16 +2329,21 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         if (expression(expCode, expPlace))
         {
             string expTemp = getTemp();
-            code += "\n\t" + expTemp + " := " + expCode;
-            code += "\n\tif " + switchPlace + " == " + expTemp;
+            string testCode = "\n\t" + expTemp + " := " + expCode;
+            testCode += "\n\tif " + switchPlace + " == " + expTemp;
+            testCode += " goto " + label;
+            this->switchMap[label].testCode = testCode;
+            code += testCode;
             if (this->tk == Collon)
             {
                 string statementCode, statementPlace;
                 getToken();
                 if (statement(statementCode, statementPlace))
                 {
-                    code += statementCode;
+                    this->switchMap[label].code += "\n" + label + ":";
+                    this->switchMap[label].code += statementCode;
                     code += "\n" + label + ":";
+                    code += statementCode;
                     return true;
                 }
             }
