@@ -2299,11 +2299,11 @@ bool Syntactic::statement(string &code)
 
 }
 
-bool Syntactic::statement(string &code, string &place, string &switchLabel)
+bool Syntactic::statement(string &code, string &place)
 {
     string stmtCode, caseBlocCode;
     int position = savePosition();
-    if (labeledStatement(caseBlocCode, place, switchLabel))
+    if (labeledStatement(caseBlocCode, place))
     {
         code.append(caseBlocCode);
         return true;
@@ -2326,7 +2326,7 @@ bool Syntactic::statement(string &code, string &place, string &switchLabel)
         if (this->tk == SemiCollon)
         {
             string endLabel = this->switchLabelStack.top();
-            code.append("\n\tgoto " + endLabel);
+            this->switchMap[this->currCaseLabel].code.append("\n\tgoto " + endLabel);
             getToken();
             return true;
         }
@@ -2340,13 +2340,13 @@ bool Syntactic::labeledStatement()
 
 }
 
-bool Syntactic::labeledStatement(string &code, string &switchPlace, string &switchLabel)
+bool Syntactic::labeledStatement(string &code, string &switchPlace)
 {
     if (this->tk == Case)
     {
         string expCode, expPlace;
         string label = newLabel("");
-        switchLabel = label;
+        this->currCaseLabel = label;
         SwitchProd prod = SwitchProd(label, "", "");
         getToken();
 
@@ -2363,10 +2363,10 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace, string &swit
             {
                 string statementCode, statementPlace;
                 getToken();
-                if (statement(statementCode, statementPlace, label))
+                if (statement(statementCode, statementPlace))
                 {
                     this->switchMap[label].code += "\n" + label + ":";
-                    this->switchMap[label].code += statementCode;
+//                    this->switchMap[label].code += statementCode;
                     code += statementCode;
                     return true;
                 }
@@ -2384,7 +2384,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace, string &swit
         {
             string statementCode, statementPlace;
             getToken();
-            if (statement(statementCode, statementPlace, label))
+            if (statement(statementCode, statementPlace))
             {
                 this->switchMap[label].code += "\n" + label + ":";
                 this->switchMap[label].code += statementCode;
@@ -2606,7 +2606,7 @@ bool Syntactic::statementList()
 bool Syntactic::statementList(string &code)
 {
     string stmtCode, stmtListCode, stmtPlace, switchLabel;
-    if (statement(stmtCode, stmtPlace, switchLabel))
+    if (statement(stmtCode, stmtPlace))
     {
         code.append(stmtCode);
         if (statementList(stmtListCode))
@@ -2623,10 +2623,10 @@ bool Syntactic::statementList(string &code)
 bool Syntactic::statementList(string &code, string &place)
 {
     string stmtCode, stmtListCode, stmtPlace, switchLabel;
-    if (statement(stmtCode, place, switchLabel))
+    if (statement(stmtCode, place))
     {
         code.append(stmtCode);
-//        this->switchMap[switchLabel].code += "oi";
+        this->switchMap[this->currCaseLabel].code.append(stmtCode);
         if (statementList(stmtListCode, place))
         {
             code.append(stmtListCode);
@@ -2669,6 +2669,7 @@ bool Syntactic::expressionStatement(string &expCode)
         expCode = expCode2;
         if (this->tk == SemiCollon)
         {
+//            this->switchMap[this->currCaseLabel].code.append(expCode);
             getToken();
             return true;
         }
@@ -2724,7 +2725,7 @@ bool Syntactic::selectionStatement()
                 if (this->tk == ParenthesisClose)
                 {
                     getToken();
-                    if (statement(stmtCode, expressionPlace, switchLabel))
+                    if (statement(stmtCode, expressionPlace))
                     {
                         printSwitchMap();
                         this->switchLabelStack.pop();
