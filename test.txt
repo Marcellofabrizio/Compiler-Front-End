@@ -1,6 +1,14 @@
+int main(){
 switch(a) {
     case 1:
-        a = 6 + 2 + 3;
+        a = 12;
+        a = 8;
+        break;
     case 2:
         a = 4 + b;
+        break;
+    default:
+        a = d;
+        break;
+}
 }

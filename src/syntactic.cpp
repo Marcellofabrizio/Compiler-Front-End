@@ -2296,7 +2296,7 @@ bool Syntactic::statement()
 
 bool Syntactic::statement(string &code)
 {
-    return false;
+
 }
 
 bool Syntactic::statement(string &code, string &place)
@@ -2709,7 +2709,7 @@ bool Syntactic::selectionStatement()
     if (this->tk == Switch)
     {
         string expressionCode, expressionPlace, stmtCode, stmtPlace, switchLabel, endLabel;
-        endLabel = newLabel("END");
+        endLabel = newLabel("");
         this->switchLabelStack.push(endLabel);
         getToken();
         if (this->tk == ParenthesisOpen)
