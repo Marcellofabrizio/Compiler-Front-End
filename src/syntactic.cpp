@@ -2296,7 +2296,7 @@ bool Syntactic::statement()
 
 bool Syntactic::statement(string &code)
 {
-
+    return false;
 }
 
 bool Syntactic::statement(string &code, string &place)
@@ -2337,7 +2337,7 @@ bool Syntactic::statement(string &code, string &place)
 
 bool Syntactic::labeledStatement()
 {
-
+    return false;
 }
 
 bool Syntactic::labeledStatement(string &code, string &switchPlace)
@@ -2366,7 +2366,6 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
                 if (statement(statementCode, statementPlace))
                 {
                     this->switchMap[label].code += "\n" + label + ":";
-//                    this->switchMap[label].code += statementCode;
                     code += statementCode;
                     return true;
                 }
@@ -2378,6 +2377,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
     {
         getToken();
         string label = newLabel("DEFAULT");
+        this->currCaseLabel = label;
         string testCode = "\n\tgoto " + label;
         this->switchMap[label].testCode = testCode;
         if (this->tk == Collon)
@@ -2387,8 +2387,6 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
             if (statement(statementCode, statementPlace))
             {
                 this->switchMap[label].code += "\n" + label + ":";
-                this->switchMap[label].code += statementCode;
-                code += "\n" + label + ":";
                 code += statementCode;
                 return true;
             }
