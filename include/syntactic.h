@@ -43,7 +43,7 @@ public:
     int savePosition();
     void restorePosition(int pos);
     void getToken();
-    void printSwitchMap();
+    string printSwitchMap();
     string getTemp();
     string newLabel(string label = NULL);
 
@@ -126,7 +126,7 @@ public:
     bool statementList();
     bool statementListR();
     bool expressionStatement();
-    bool selectionStatement();
+//    bool selectionStatement();
     bool iterationStatement();
     bool jumpStatement();
     bool structDeclaratorList();
@@ -211,6 +211,8 @@ public:
     bool compoundStatementList(string &code, string &place);
 
     bool statementList(string &code, string &place);
+
+    bool selectionStatement(string &code);
 };
 
 #endif

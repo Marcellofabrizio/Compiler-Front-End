@@ -8,6 +8,7 @@ switch(a) {
         a = 4 + b;
         break;
     default:
+        d = b + 10;
         a = d;
         break;
 }
