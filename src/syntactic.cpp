@@ -56,10 +56,10 @@ string Syntactic::printSwitchMap()
 
     string caseStmtCode, testCode, endLabel, code;
     endLabel = this->switchLabelStack.top() ;
-    for(auto const& prod : this->switchMap)
+    for(auto const label : this->caseLabels)
     {
-        caseStmtCode += prod.second.code;
-        testCode += prod.second.testCode +  "\n";
+        caseStmtCode += this->switchMap[label].code;
+        testCode += this->switchMap[label].testCode +  "\n";
     }
     code = testCode + "\n\tgoto " + endLabel;
     code += caseStmtCode + "\n" + endLabel + ":\n";
@@ -2357,6 +2357,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         getToken();
 
         this->switchMap[label] = prod;
+        this->caseLabels.push_back(label);
 
         if (expression(expCode, expPlace))
         {
@@ -2384,6 +2385,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         getToken();
         string label = newLabel("DEFAULT");
         this->currCaseLabel = label;
+        this->caseLabels.push_back(label);
         string testCode = "\n\tgoto " + label;
         this->switchMap[label].testCode = testCode;
         if (this->tk == Collon)

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <map>
+#include <unordered_map>
 #include "./token.hpp"
 using namespace std;
 
@@ -32,6 +33,8 @@ public:
     int globalTempsIndex = 1;
     string lexeme;
     vector<Token> tokenList;
+    vector<string> caseLabels;
+    vector<SwitchProd> switchProds;
     stack<int> tokenStack;
     stack<string> tempStack;
     stack<string> switchLabelStack;
