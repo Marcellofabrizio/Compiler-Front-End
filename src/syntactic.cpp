@@ -7,6 +7,7 @@ SwitchProd::SwitchProd()
     this->code = "";
     this->label = "";
     this->testCode = "";
+    this->context = 0;
 }
 
 SwitchProd::SwitchProd(string label, string code, string testCode)
@@ -14,6 +15,7 @@ SwitchProd::SwitchProd(string label, string code, string testCode)
     this->code = code;
     this->label = label;
     this->testCode = testCode;
+    this->context = 0;
 }
 
 Syntactic::Syntactic(vector<Token> results)
@@ -58,6 +60,11 @@ string Syntactic::printSwitchMap()
     endLabel = this->switchLabelStack.top() ;
     for(auto const label : this->caseLabels)
     {
+        int context = this->switchMap[label].context;
+
+        if(context != this->globalSwitchContext)
+            continue;
+
         caseStmtCode += this->switchMap[label].code;
         testCode += this->switchMap[label].testCode +  "\n";
     }
@@ -2354,6 +2361,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         string label = newLabel("");
         this->currCaseLabel = label;
         SwitchProd prod = SwitchProd(label, "", "");
+        prod.context = this->globalSwitchContext;
         getToken();
 
         this->switchMap[label] = prod;
@@ -2720,6 +2728,7 @@ bool Syntactic::selectionStatement(string &code)
     }
     if (this->tk == Switch)
     {
+        this->globalSwitchContext++;
         string expressionCode, expressionPlace, stmtCode, stmtPlace, switchLabel, endLabel;
         endLabel = newLabel("");
         this->switchLabelStack.push(endLabel);
@@ -2738,7 +2747,9 @@ bool Syntactic::selectionStatement(string &code)
                     if (statement(stmtCode, expressionPlace))
                     {
                         cout << printSwitchMap() << endl;
+                        code += printSwitchMap();
                         this->switchLabelStack.pop();
+                        this->globalSwitchContext--;
                         return true;
                     }
                 }

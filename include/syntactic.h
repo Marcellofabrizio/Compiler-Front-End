@@ -15,6 +15,7 @@ using namespace std;
 class SwitchProd
 {
 public:
+    int context;
     string label;
     string code;
     string testCode;
@@ -31,6 +32,7 @@ public:
     int currentTokenIndex = 0;
     int globalLabelIndex = 1;
     int globalTempsIndex = 1;
+    int globalSwitchContext = 0;
     string lexeme;
     vector<Token> tokenList;
     vector<string> caseLabels;
