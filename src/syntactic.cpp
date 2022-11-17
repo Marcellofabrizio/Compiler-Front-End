@@ -2615,6 +2615,7 @@ bool Syntactic::statementList()
             code.append(stmtListCode);
             return true;
         }
+        cout << code << endl;
         code.append(stmtListCode);
         return true;
     }
@@ -2746,7 +2747,7 @@ bool Syntactic::selectionStatement(string &code)
                     getToken();
                     if (statement(stmtCode, expressionPlace))
                     {
-                        cout << printSwitchMap() << endl;
+//                        cout << printSwitchMap() << endl;
                         code += printSwitchMap();
                         this->switchLabelStack.pop();
                         this->globalSwitchContext--;
