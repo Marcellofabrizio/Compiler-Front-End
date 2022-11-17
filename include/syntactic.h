@@ -19,6 +19,7 @@ public:
     string label;
     string code;
     string testCode;
+    SwitchProd* parentProd;
 
     SwitchProd();
     SwitchProd(string label, string code, string testCode);

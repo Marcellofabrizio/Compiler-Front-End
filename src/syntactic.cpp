@@ -2454,6 +2454,9 @@ bool Syntactic::compoundStatementList()
 
 bool Syntactic::compoundStatementBody()
 {
+
+    string code;
+
     if (declarationList())
     {
         return true;
@@ -2466,8 +2469,9 @@ bool Syntactic::compoundStatementBody()
         }
     }
 
-    else if (statementList())
+    else if (statementList(code))
     {
+        cout << code << endl;
         return true;
     }
 
@@ -2615,7 +2619,6 @@ bool Syntactic::statementList()
             code.append(stmtListCode);
             return true;
         }
-        cout << code << endl;
         code.append(stmtListCode);
         return true;
     }
@@ -2633,6 +2636,7 @@ bool Syntactic::statementList(string &code)
             code.append(stmtListCode);
             return true;
         }
+//        cout << code << endl;
         code.append(stmtListCode);
         return true;
     }
@@ -2730,6 +2734,14 @@ bool Syntactic::selectionStatement(string &code)
     if (this->tk == Switch)
     {
         this->globalSwitchContext++;
+
+        string parentCase;
+
+        if(this->currCaseLabel != "")
+        {
+            parentCase = this->currCaseLabel;
+        }
+
         string expressionCode, expressionPlace, stmtCode, stmtPlace, switchLabel, endLabel;
         endLabel = newLabel("");
         this->switchLabelStack.push(endLabel);
@@ -2749,6 +2761,7 @@ bool Syntactic::selectionStatement(string &code)
                     {
 //                        cout << printSwitchMap() << endl;
                         code += printSwitchMap();
+                        this->switchMap[parentCase].code += code;
                         this->switchLabelStack.pop();
                         this->globalSwitchContext--;
                         return true;
