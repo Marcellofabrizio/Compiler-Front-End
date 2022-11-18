@@ -3,28 +3,25 @@ int main(){
 int a = 2;
 
 switch(a) {
-    case 1:
-        a = 12;
-        a = 8;
+    case 80:
+        a = 55;
+        h = 90;
         break;
-    case 2:
-        d = 0;
-        switch(a) {
-            case 80:
-                a = 55;
-                h = 90;
-                break;
-            case 22:
-                switch(j) {
-                    case 11:
-                        x = 0;
-                        break;
-                }
-        }
-        i = 88;
+
+    default:
+        u = 0;
         break;
-    case 7:
-        a = 7;
+
+    case 22:
+        j = 20;
+        x = 55;
+}
+
+switch(b) {
+    case 80:
+        a = 55;
+        h = 90;
         break;
 }
+
 }

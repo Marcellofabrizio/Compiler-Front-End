@@ -56,19 +56,25 @@ void Syntactic::getToken()
 string Syntactic::printSwitchMap()
 {
 
-    string caseStmtCode, testCode, endLabel, code;
+    string caseStmtCode, testCode, endLabel, code, defaultTestCode;
     endLabel = this->switchLabelStack.top() ;
     for(auto const label : this->caseLabels)
     {
-        int context = this->switchMap[label].context;
+        string context = this->switchMap[label].switchContext;
 
-        if(context != this->globalSwitchContext)
+        if(context != this->switchContextStack.top())
             continue;
 
+        if(label.find("DEFAULT") != string::npos)
+        {
+            defaultTestCode += this->switchMap[label].testCode +  "\n";
+        } else {
+            testCode += this->switchMap[label].testCode +  "\n";
+        }
+
         caseStmtCode += this->switchMap[label].code;
-        testCode += this->switchMap[label].testCode +  "\n";
     }
-    code = testCode + "\n\tgoto " + endLabel;
+    code = testCode + defaultTestCode + "\n\tgoto " + endLabel;
     code += caseStmtCode + "\n" + endLabel + ":\n";
     return code;
 }
@@ -2376,6 +2382,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         this->currCaseLabel = label;
         SwitchProd prod = SwitchProd(label, "", "");
         prod.context = this->globalSwitchContext;
+        prod.switchContext = this->switchContextStack.top();
         getToken();
 
         this->switchMap[label] = prod;
@@ -2410,6 +2417,7 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
         this->currCaseLabel = label;
         SwitchProd prod = SwitchProd(label, "", "");
         prod.context = this->globalSwitchContext;
+        prod.switchContext = this->switchContextStack.top();
         prod.testCode = "\n\tgoto " + label;
 
         this->switchMap[label] = prod;
@@ -2753,7 +2761,8 @@ bool Syntactic::selectionStatement(string &code)
     if (this->tk == Switch)
     {
         this->globalSwitchContext++;
-
+        this->switchContext = newLabel("SWITCH");
+        this->switchContextStack.push(this->switchContext);
         string parentCase;
 
         if(this->currCaseLabel != "")
@@ -2782,6 +2791,7 @@ bool Syntactic::selectionStatement(string &code)
                         this->switchMap[this->currCaseLabel].code += code;
                         this->currCaseLabel = parentCase;
                         this->switchLabelStack.pop();
+                        this->switchContextStack.pop();
                         this->globalSwitchContext--;
                         return true;
                     }

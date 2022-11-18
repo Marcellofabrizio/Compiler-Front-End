@@ -19,6 +19,7 @@ public:
     string label;
     string code;
     string testCode;
+    string switchContext;
     SwitchProd* parentProd;
 
     SwitchProd();
@@ -41,8 +42,10 @@ public:
     stack<int> tokenStack;
     stack<string> tempStack;
     stack<string> switchLabelStack;
+    stack<string> switchContextStack;
     string currCaseLabel;
     string parentCaseLabel;
+    string switchContext;
     map<string, SwitchProd> switchMap;
 
     Syntactic(vector<Token> results);
