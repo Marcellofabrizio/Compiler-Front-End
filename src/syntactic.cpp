@@ -2406,10 +2406,15 @@ bool Syntactic::labeledStatement(string &code, string &switchPlace)
     {
         getToken();
         string label = newLabel("DEFAULT");
+
         this->currCaseLabel = label;
+        SwitchProd prod = SwitchProd(label, "", "");
+        prod.context = this->globalSwitchContext;
+        prod.testCode = "\n\tgoto " + label;
+
+        this->switchMap[label] = prod;
         this->caseLabels.push_back(label);
-        string testCode = "\n\tgoto " + label;
-        this->switchMap[label].testCode = testCode;
+
         if (this->tk == Collon)
         {
             string statementCode, statementPlace;
