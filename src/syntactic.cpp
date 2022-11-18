@@ -78,9 +78,9 @@ string Syntactic::newLabel(string label)
     if(label.empty())
     {
         return "L_" + to_string(globalLabelIndex++);
-    } else {
-        return "L_" + label;
     }
+
+    return "L_" + label + "_" + to_string(globalLabelIndex++);
 }
 
 string Syntactic::getTemp()
@@ -2338,7 +2338,21 @@ bool Syntactic::statement(string &code, string &place)
         getToken();
         if (this->tk == SemiCollon)
         {
-            string endLabel = this->switchLabelStack.top();
+            stack<string> copyStack = this->switchLabelStack;
+            int contextCount = this->globalSwitchContext;
+            string endLabel;
+
+            if(this->globalSwitchContext > 1) {
+                while(contextCount != 1)
+                {
+                    endLabel = copyStack.top();
+                    copyStack.pop();
+                    contextCount--;
+                }
+            } else {
+                endLabel = copyStack.top();
+            }
+
             this->switchMap[this->currCaseLabel].code.append("\n\tgoto " + endLabel);
             getToken();
             return true;
@@ -2759,9 +2773,9 @@ bool Syntactic::selectionStatement(string &code)
                     getToken();
                     if (statement(stmtCode, expressionPlace))
                     {
-//                        cout << printSwitchMap() << endl;
                         code += printSwitchMap();
-                        this->switchMap[parentCase].code += code;
+                        this->switchMap[this->currCaseLabel].code += code;
+                        this->currCaseLabel = parentCase;
                         this->switchLabelStack.pop();
                         this->globalSwitchContext--;
                         return true;

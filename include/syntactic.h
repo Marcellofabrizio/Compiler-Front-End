@@ -42,6 +42,7 @@ public:
     stack<string> tempStack;
     stack<string> switchLabelStack;
     string currCaseLabel;
+    string parentCaseLabel;
     map<string, SwitchProd> switchMap;
 
     Syntactic(vector<Token> results);
